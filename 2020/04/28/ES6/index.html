@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="JS,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="let、const、varlet的用法类似于var，但是let只在代码块内有效，所以我们一般在代码块内用let替代var。而用const声明常量。 声明方式 | 变量提升 | 暂时性死区 | 重复声明 | 初始值 | 作用域—|—|—|—|—|—|—var | 允许 | 不存在 | 允许 | 不需要 | 除块级let | 不允许 | 存在 | 不允许 | 不需要 | 块级const | 不允许 |">
+<meta name="keywords" content="JS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ES6">
+<meta property="og:url" content="http://yoursite.com/2020/04/28/ES6/index.html">
+<meta property="og:site_name" content="Jerry&#39;s Blog">
+<meta property="og:description" content="let、const、varlet的用法类似于var，但是let只在代码块内有效，所以我们一般在代码块内用let替代var。而用const声明常量。 声明方式 | 变量提升 | 暂时性死区 | 重复声明 | 初始值 | 作用域—|—|—|—|—|—|—var | 允许 | 不存在 | 允许 | 不需要 | 除块级let | 不允许 | 存在 | 不允许 | 不需要 | 块级const | 不允许 |">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-06-30T12:13:34.594Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ES6">
+<meta name="twitter:description" content="let、const、varlet的用法类似于var，但是let只在代码块内有效，所以我们一般在代码块内用let替代var。而用const声明常量。 声明方式 | 变量提升 | 暂时性死区 | 重复声明 | 初始值 | 作用域—|—|—|—|—|—|—var | 允许 | 不存在 | 允许 | 不需要 | 除块级let | 不允许 | 存在 | 不允许 | 不需要 | 块级const | 不允许 |">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/04/28/ES6/">
+
+
+
+
+
+  <title>ES6 | Jerry's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jerry's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/28/ES6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerry">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerry's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ES6</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-28T17:26:51+08:00">
+                2020-04-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="let、const、var"><a href="#let、const、var" class="headerlink" title="let、const、var"></a>let、const、var</h3><p><code>let</code>的用法类似于<code>var</code>，但是<code>let</code>只在代码块内有效，所以我们一般在代码块内用<code>let</code>替代<code>var</code>。而用<code>const</code>声明常量。</p>
+<p>声明方式 | 变量提升 | 暂时性死区 | 重复声明 | 初始值 | 作用域<br>—|—|—|—|—|—|—<br>var | 允许 | 不存在 | 允许 | 不需要 | 除块级<br>let | 不允许 | 存在 | 不允许 | 不需要 | 块级<br>const | 不允许 | 存在 | 不允许 | 不需要 | 块级</p>
+<h4 id="变量提升"><a href="#变量提升" class="headerlink" title="变量提升"></a>变量提升</h4><p>变量可在声明之前使用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 变量提升</span><br><span class="line">console.log(a); //undefined</span><br><span class="line">var a = 1;</span><br><span class="line"></span><br><span class="line">console.log(b); //ReferenceError: b is not defined</span><br><span class="line">let b = 1;</span><br><span class="line"></span><br><span class="line">console.log(c); //ReferenceError: c is not defined</span><br><span class="line">const c = 1;</span><br></pre></td></tr></table></figure>
+
+<p>var 命令经常会发生变量提升现象，按照一般逻辑，变量应该在声明之后使用才对。为了纠正这个现象，ES6 规定 let 和 const 命令不发生变量提升，使用 let 和 const 命令声明变量之前，该变量是不可用的。主要是为了减少运行时错误，防止变量声明前就使用这个变量，从而导致意料之外的行为。</p>
+<h4 id="暂时性死区"><a href="#暂时性死区" class="headerlink" title="暂时性死区"></a>暂时性死区</h4><p>如果在代码块中存在 <code>let</code> 或 <code>const</code> 命令，这个区块对这些命令声明的变量，从一开始就形成了封闭作用域。凡是在声明之前就使用这些变量，就会报错。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var tmp = 123;</span><br><span class="line"></span><br><span class="line">if (true) &#123;</span><br><span class="line">	tmp = &apos;abc&apos;;//报错，ReferenceError: tmp is not defined</span><br><span class="line">	let tmp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这段代码的原意是在 <code>if</code> 内定义外部的 <code>tmp</code> 为 ‘abc’。</p>
+<p>但现实是，存在全局变量 <code>tmp</code> ，但是块级作用域内 <code>let</code> 又声明了一个 <code>tmp</code>变量，导致后者被绑定在这个块级作用域中，所以在 <code>let</code> 声明变量前，对 <code>tmp</code> 赋值就报错了。</p>
+<h4 id="重复声明"><a href="#重复声明" class="headerlink" title="重复声明"></a>重复声明</h4><p>指在相同作用域内，重复声明同一个变量。</p>
+<p><code>let</code> 和 <code>const</code> 命令声明的变量不允许重复声明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">function func()&#123;</span><br><span class="line">    let a = 10;</span><br><span class="line">    const PI = 3.1415;</span><br><span class="line">    </span><br><span class="line">    var a = 1;// 报错，Uncaught SyntaxError: Identifier &apos;a&apos; has already been declared</span><br><span class="line">    var PI = 3;// 报错，Uncaught SyntaxError: Identifier &apos;PI&apos; has already been declared</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  // 当调用func()时报错，Uncaught SyntaxError: Identifier &apos;a&apos; has already been declared</span><br><span class="line">  function func()&#123;</span><br><span class="line">    let a = 10;</span><br><span class="line">    const PI = 3.1415;</span><br><span class="line">    </span><br><span class="line">    let a = 1;// 报错，Uncaught SyntaxError: Identifier &apos;a&apos; has already been declared</span><br><span class="line">    const PI = 3;// 报错，Uncaught SyntaxError: Identifier &apos;PI&apos; has already been declared</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>var 是允许重复定义的，而这又会给我们带来什么麻烦呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var i = 10;</span><br><span class="line">for(var i = 0;i &lt; 5;i++)&#123;</span><br><span class="line">  console.log(i);</span><br><span class="line">&#125;</span><br><span class="line">console.log(i);// 输出 5</span><br></pre></td></tr></table></figure>
+
+<p>对于学习过静态（类型）语言的人知道，这段代码要是替换成 c 语言或其他静态语言，输出的结果应该是 10。然而对于 javascript 来说，这段代码的输出结果是 5。因为 <code>var</code> 命令没有块级作用域，所以 <code>for</code> 循环括号内的变量 <code>i</code> 会覆盖外层 <code>i</code>，而且 <code>var</code> 允许重复声明，所以这段代码中 <code>i</code> 被声明了两次,<code>i</code> 的最终结果就被 <code>for</code> 循环的 <code>i</code> 给覆盖了。</p>
+<h4 id="初始值"><a href="#初始值" class="headerlink" title="初始值"></a>初始值</h4><p>由于 <code>const</code> 声明的是只读的常量，一旦声明，就必须立即初始化，声明之后值不能改变。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const PI = 3.1415;</span><br><span class="line">PI = 3;// 报错，Uncaught TypeError: Assignment to constant variable.</span><br></pre></td></tr></table></figure>
+
+<h4 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h4><p>在 ES5 中只有全局作用域和函数作用域，没有块级作用域，这带来很多不合理的场景。</p>
+<p>第一种场景，内层变量可能会覆盖外层变量。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var tmp = new Date();//处于全局作用域</span><br><span class="line"></span><br><span class="line">function f() &#123;</span><br><span class="line">  console.log(tmp);//处于函数作用域</span><br><span class="line">  if (false) &#123;</span><br><span class="line">    var tmp = &apos;hello world&apos;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">f(); // undefined</span><br></pre></td></tr></table></figure>
+
+<p>上面代码的原意是，<code>if</code>代码块的外部使用外层的<code>tmp</code>变量，内部使用内层的<code>tmp</code>变量。<br>然而现实是在这段代码中，<code>function</code> 内部的2个 <code>tmp</code> 变量处在同一函数作用域，由于变量提升，导致函数作用域中的 <code>tmp</code> 覆盖全局作用域中的 <code>tmp</code>，所以，f()输出结果为<code>undefined</code>。</p>
+<p>第二种场景，用来计数的循环变量泄露为全局变量（前面在重复声明中提到的）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var i = 10;</span><br><span class="line">for(var i = 0;i &lt; 5;i++)&#123;</span><br><span class="line">  console.log(i);</span><br><span class="line">&#125;</span><br><span class="line">console.log(i);// 输出 5</span><br></pre></td></tr></table></figure>
+
+<p>上面代码中，变量i只用来控制循环，但是循环结束后，它并没有消失，泄露成了全局变量。</p>
+<h3 id="箭头函数"><a href="#箭头函数" class="headerlink" title="箭头函数"></a><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Functions/Arrow_functions" target="_blank" rel="noopener">箭头函数</a></h3><p>箭头函数只能替换函数表达式，而直接使用<code>function</code>声明的函数是不能使用箭头函数替换的。</p>
+<p>箭头函数中的this，就是声明函数时所处上下文中的this，它不会被其他方式所改变</p>
+<h3 id="模板字符串"><a href="#模板字符串" class="headerlink" title="模板字符串"></a><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/template_strings" target="_blank" rel="noopener">模板字符串</a></h3><p>可以在字符串中嵌入变量，还可以用来定义多行字符串，其中所有的空格、缩进、换行都会被保留下来。</p>
+<h3 id="解析结构"><a href="#解析结构" class="headerlink" title="解析结构"></a><a href="https://blog.csdn.net/qq_36772866/article/details/89288487" target="_blank" rel="noopener">解析结构</a></h3><p>解析结构是一种从对象或者数组中取得值的一种全新的写法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var tom=&#123;</span><br><span class="line">    name:&apos;Tom&apos;,</span><br><span class="line">    age:20,</span><br><span class="line">    gender:1</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const &#123;name,age,gender&#125;=tom;</span><br></pre></td></tr></table></figure>
+
+<p>可以给变量指定默认值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 如果数据中心能找到name，则变量中的值与数据中相等；若找不到，则使用默认值</span><br><span class="line">const &#123;name=&apos;Jack&apos;,age,gender&#125;=tom;</span><br></pre></td></tr></table></figure>
+
+<p>或者给变量重新命名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const &#123;gender:t&#125;=tom;</span><br></pre></td></tr></table></figure>
+
+<p>可以利用即系结构获得嵌套数据中的值</p>
+<p>注意：与对象不同的是，数组中变量和值的关系与序列号是一一对应的，这是一个有序的对应关系。而对象则根据属性名一一对应，这是一个无序的对应关系。</p>
+<p>在一个函数中，当传入的参数是数组或者对象时，也可以使用解析结构简化代码</p>
+<h3 id="展开运算符"><a href="#展开运算符" class="headerlink" title="展开运算符"></a><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Spread_syntax" target="_blank" rel="noopener">展开运算符</a></h3><p><a href="http://wangyuekai.com/2017/07/04/es6-spread-syntax/" target="_blank" rel="noopener">参考</a></p>
+<p>在ES6 中，使用 <code>...</code>来表示展开运算符，它可以展开数组/对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var arr = [1,2,3];</span><br><span class="line">console.log(...arr)//1 2 3</span><br></pre></td></tr></table></figure>
+
+<p>在解析结构中，也常常使用展开运算符。</p>
+<p>展开运算符也可以运用在函数参数中，放置于函数参数的最后一个参数（ <strong>只能放置于最后</strong> ，表示不定参）</p>
+<h3 id="对象与-class"><a href="#对象与-class" class="headerlink" title="对象与 class"></a>对象与 <code>class</code></h3><h4 id="class"><a href="#class" class="headerlink" title="class"></a>class</h4><p>ES6 为创建对象提供了新的语法–class。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">class Person&#123;</span><br><span class="line">    constructor(name,age)&#123;  //构造函数</span><br><span class="line">        this.name=name;</span><br><span class="line">        this,age=age;</span><br><span class="line">    &#125;</span><br><span class="line">    getName()&#123;  //原型方法</span><br><span class="line">        return this.name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//等价于 （ES5）</span><br><span class="line">function Person(name,age)&#123;</span><br><span class="line">    this.name=name;</span><br><span class="line">    this.age=age</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Person.prototype.getName=function()&#123;</span><br><span class="line">    return this.name</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>利用该关键字，可以很容易的定义一个类。相比较而言，比原型的方法更加简单，也更加容易理解。</p>
+<p>注意： <code>constructor</code>方法是一个默认方法，当通过 <code>new</code>声明实例时，会调用该方法，相当于构造函数。如果没有显式定义，那么将会添加一个空的默认方法。</p>
+<h4 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//Student 继承 Person</span><br><span class="line">classStudent extend Person&#123;</span><br><span class="line">    constructor(name,age,gender,classes)&#123;</span><br><span class="line">        super(name,age);</span><br><span class="line">        this,gender=gender;</span><br><span class="line">        this.classes=classes;</span><br><span class="line">    &#125;</span><br><span class="line">    getGender()&#123;</span><br><span class="line">        return this.gender</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>只需要一个 <code>extend</code>关键字和 <code>super</code>方法，就能实现继承。</p>
+<p>在子类的构造函数中必须调用 <code>super</code>方法，它表示构造函数的继承。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JS/" rel="tag"># JS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/28/面向对象/" rel="next" title="面向对象">
+                <i class="fa fa-chevron-left"></i> 面向对象
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/05/09/webpack-基础/" rel="prev" title="webpack-基础">
+                webpack-基础 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Jerry">
+            
+              <p class="site-author-name" itemprop="name">Jerry</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#let、const、var"><span class="nav-number">1.</span> <span class="nav-text">let、const、var</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#变量提升"><span class="nav-number">1.1.</span> <span class="nav-text">变量提升</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#暂时性死区"><span class="nav-number">1.2.</span> <span class="nav-text">暂时性死区</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#重复声明"><span class="nav-number">1.3.</span> <span class="nav-text">重复声明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#初始值"><span class="nav-number">1.4.</span> <span class="nav-text">初始值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#作用域"><span class="nav-number">1.5.</span> <span class="nav-text">作用域</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#箭头函数"><span class="nav-number">2.</span> <span class="nav-text">箭头函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模板字符串"><span class="nav-number">3.</span> <span class="nav-text">模板字符串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解析结构"><span class="nav-number">4.</span> <span class="nav-text">解析结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#展开运算符"><span class="nav-number">5.</span> <span class="nav-text">展开运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对象与-class"><span class="nav-number">6.</span> <span class="nav-text">对象与 class</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#class"><span class="nav-number">6.1.</span> <span class="nav-text">class</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#继承"><span class="nav-number">6.2.</span> <span class="nav-text">继承</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jerry</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
