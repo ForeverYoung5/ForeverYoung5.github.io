@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="Mapmap 方法会给原数组中的每个元素都按顺序调用一次callback 函数。callback 每次执行后的返回值（包括 undefined）组合起来形成一个新数组。 callback 函数只会在有值的索引上被调用；那些从来没被赋过值或者使用 delete 删除的索引则不会被调用。 1234567var arr = [1,2,3];var new_arr = arr.map(e =&amp;gt; e*">
+<meta name="description" content="123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475var Arr = [1, 2, 4, 4, 3, 3, 1, 5, 3];/* **************1 ES">
 <meta name="keywords" content="JS">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Map、FlatMap、Reduce">
-<meta property="og:url" content="http://yoursite.com/2020/03/26/Map、FlatMap、Reduce/index.html">
+<meta property="og:title" content="数组去重">
+<meta property="og:url" content="http://yoursite.com/2020/07/08/数组去重/index.html">
 <meta property="og:site_name" content="Jerry&#39;s Blog">
-<meta property="og:description" content="Mapmap 方法会给原数组中的每个元素都按顺序调用一次callback 函数。callback 每次执行后的返回值（包括 undefined）组合起来形成一个新数组。 callback 函数只会在有值的索引上被调用；那些从来没被赋过值或者使用 delete 删除的索引则不会被调用。 1234567var arr = [1,2,3];var new_arr = arr.map(e =&amp;gt; e*">
+<meta property="og:description" content="123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475var Arr = [1, 2, 4, 4, 3, 3, 1, 5, 3];/* **************1 ES">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-06-30T12:16:55.044Z">
+<meta property="og:updated_time" content="2020-07-08T03:50:59.839Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Map、FlatMap、Reduce">
-<meta name="twitter:description" content="Mapmap 方法会给原数组中的每个元素都按顺序调用一次callback 函数。callback 每次执行后的返回值（包括 undefined）组合起来形成一个新数组。 callback 函数只会在有值的索引上被调用；那些从来没被赋过值或者使用 delete 删除的索引则不会被调用。 1234567var arr = [1,2,3];var new_arr = arr.map(e =&amp;gt; e*">
+<meta name="twitter:title" content="数组去重">
+<meta name="twitter:description" content="123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475var Arr = [1, 2, 4, 4, 3, 3, 1, 5, 3];/* **************1 ES">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/03/26/Map、FlatMap、Reduce/">
+  <link rel="canonical" href="http://yoursite.com/2020/07/08/数组去重/">
 
 
 
 
 
-  <title>Map、FlatMap、Reduce | Jerry's Blog</title>
+  <title>数组去重 | Jerry's Blog</title>
   
 
 
@@ -253,7 +253,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/26/Map、FlatMap、Reduce/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/08/数组去重/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jerry">
@@ -270,7 +270,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Map、FlatMap、Reduce</h1>
+          <h1 class="post-title" itemprop="name headline">数组去重</h1>
         
 
         <div class="post-meta">
@@ -282,8 +282,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-26T10:50:23+08:00">
-                2020-03-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-08T11:50:33+08:00">
+                2020-07-08
               </time>
             
 
@@ -342,33 +342,8 @@
       
 
       
-        <h3 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h3><p><code>map</code> 方法会给原数组中的每个元素都按顺序调用一次<code>callback</code> 函数。<code>callback</code> 每次执行后的返回值（包括 undefined）组合起来形成一个新数组。 <code>callback</code> 函数只会在有值的索引上被调用；那些从来没被赋过值或者使用 <code>delete</code> 删除的索引则不会被调用。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var arr = [1,2,3];</span><br><span class="line">var new_arr = arr.map(e =&gt; e*2);</span><br><span class="line">console.log(new_arr); //[ 2, 4, 6 ]</span><br><span class="line"></span><br><span class="line">var another_arr =arr.forEach(e =&gt; e*3)</span><br><span class="line">console.log(another_arr) //undefined</span><br><span class="line">console.log(arr)//[ 1, 2, 3 ]</span><br></pre></td></tr></table></figure>
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">var Arr = [1, 2, 4, 4, 3, 3, 1, 5, 3];</span><br><span class="line"></span><br><span class="line">/* </span><br><span class="line">**************1 ES6 set************</span><br><span class="line">*/</span><br><span class="line">function unique1(arr)&#123;</span><br><span class="line">    return Array.from(new Set(arr));</span><br><span class="line">&#125;;</span><br><span class="line">// console.log(unique1(Arr))</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line">**********2 for嵌套+splice**************</span><br><span class="line">*/</span><br><span class="line">function unique2(arr)&#123;</span><br><span class="line">    for(let i = 0;i&lt;arr.length;i++)&#123;</span><br><span class="line">        for(let j = i+1;j&lt;arr.length;j++)&#123;</span><br><span class="line">            if(arr[i] == arr[j])&#123;</span><br><span class="line">                arr.splice(j,1);</span><br><span class="line">                j--;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return arr;</span><br><span class="line">&#125;</span><br><span class="line">// console.log(unique2(Arr));</span><br><span class="line"></span><br><span class="line">// ****************3 indexOf去重****************</span><br><span class="line">function unique3(arr)&#123;</span><br><span class="line">    if(!Array.isArray(arr))&#123;</span><br><span class="line">        console.log(&apos;type error&apos;);</span><br><span class="line">        return</span><br><span class="line">    &#125;</span><br><span class="line">    var result = [];</span><br><span class="line">    for(var i =0;i&lt;arr.length;i++)&#123;</span><br><span class="line">        if(result.indexOf(arr[i]) === -1)&#123;</span><br><span class="line">            result.push(arr[i])</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br><span class="line">// console.log(unique3(Arr));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// *************4 sort()去重****************</span><br><span class="line">function unique4(arr)&#123;</span><br><span class="line">    if(!Array.isArray(arr))&#123;</span><br><span class="line">        console.log(&apos;type error&apos;);</span><br><span class="line">        return</span><br><span class="line">    &#125;</span><br><span class="line">    arr = arr.sort()</span><br><span class="line">    var result = [arr[0]];</span><br><span class="line">    for(var i = 1;i&lt;arr.length;i++)&#123;</span><br><span class="line">        if(arr[i] !== arr[i-1])&#123;</span><br><span class="line">            result.push(arr[i])</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return result</span><br><span class="line">&#125;</span><br><span class="line">// console.log(unique4(Arr));</span><br><span class="line"></span><br><span class="line">// **************5 includes*********************</span><br><span class="line">function unique5(arr) &#123;</span><br><span class="line">    if (!Array.isArray(arr)) &#123;</span><br><span class="line">        console.log(&apos;type error!&apos;)</span><br><span class="line">        return</span><br><span class="line">    &#125;</span><br><span class="line">    var array =[];</span><br><span class="line">    for(var i = 0; i &lt; arr.length; i++) &#123;</span><br><span class="line">            if( !array.includes( arr[i]) ) &#123;//includes 检测数组是否有某个值</span><br><span class="line">                    array.push(arr[i]);</span><br><span class="line">              &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return array</span><br><span class="line">&#125;</span><br><span class="line">// console.log(unique5(Arr));</span><br></pre></td></tr></table></figure>
 
-<p><code>map</code>生成一个新数组，当你不打算使用返回的新数组却使用<code>map</code>是违背设计初衷的，请用<code>forEach</code>或者<code>for-of</code>替代。</p>
-<p>不该使用map: </p>
-<ul>
-<li>你不打算使用返回的新数组</li>
-<li>你没有从回调函数中返回值。</li>
-</ul>
-<p><code>callback</code> 函数会被自动传入三个参数：数组元素，元素索引，原数组本身。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">var arr = [1,2,3];</span><br><span class="line">var map_canshu = arr.map((a,b,c) =&gt; &#123;</span><br><span class="line">    console.log(&apos;a--&gt;&apos;,a);</span><br><span class="line">    console.log(&apos;b--&gt;&apos;,b);</span><br><span class="line">    console.log(&apos;c--&gt;&apos;,c);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line">a--&gt; 1</span><br><span class="line">b--&gt; 0</span><br><span class="line">c--&gt; [ 1, 2, 3 ]</span><br><span class="line">a--&gt; 2</span><br><span class="line">b--&gt; 1</span><br><span class="line">c--&gt; [ 1, 2, 3 ]</span><br><span class="line">a--&gt; 3</span><br><span class="line">b--&gt; 2</span><br><span class="line">c--&gt; [ 1, 2, 3 ]</span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
-
-<h3 id="FlatMap"><a href="#FlatMap" class="headerlink" title="FlatMap"></a>FlatMap</h3><p><code>FlatMap</code> 和 <code>map</code> 的作用几乎是相同的，但是对于多维数组来说，会将原数组降维。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var arr1 = [1, 2, 3, 4];</span><br><span class="line"></span><br><span class="line">arr1.map(x =&gt; [x * 2]); </span><br><span class="line">// [[2], [4], [6], [8]]</span><br><span class="line"></span><br><span class="line">arr1.flatMap(x =&gt; [x * 2]);</span><br><span class="line">// [2, 4, 6, 8]</span><br></pre></td></tr></table></figure>
-
-<p>目前该函数在浏览器中还不支持。</p>
-<h3 id="Reduce"><a href="#Reduce" class="headerlink" title="Reduce"></a>Reduce</h3><p><code>reduce()</code>方法对数组中的每个元素执行一个由您提供的<code>reducer</code>函数(升序执行)，将其结果汇总为单个返回值。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var redArr = [1,2,3,4];</span><br><span class="line">var reducer = (accumulator, currentValue) =&gt; accumulator + currentValue;</span><br><span class="line"></span><br><span class="line">console.log(redArr.reduce(reducer));  //10</span><br></pre></td></tr></table></figure>
-
-<p><code>reducer</code> 函数接收4个参数:</p>
-<ol>
-<li>Accumulator (acc) (累计器)</li>
-<li>Current Value (cur) (当前值)</li>
-<li>Current Index (idx) (当前索引)</li>
-<li>Source Array (src) (源数组)</li>
-</ol>
-<p><code>reducer</code>函数的返回值分配给累计器，该返回值在数组的每个迭代中被记住，并最后成为最终的单个结果值。</p>
 
       
     </div>
@@ -399,8 +374,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/03/25/模块化、防抖和节流/" rel="next" title="模块化、防抖和节流">
-                <i class="fa fa-chevron-left"></i> 模块化、防抖和节流
+              <a href="/2020/07/08/HTTP/" rel="next" title="HTTP">
+                <i class="fa fa-chevron-left"></i> HTTP
               </a>
             
           </div>
@@ -408,10 +383,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/03/26/async-await和promise执行顺序/" rel="prev" title="async/await和promise执行顺序">
-                async/await和promise执行顺序 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -463,17 +434,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -535,22 +497,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Map"><span class="nav-number">1.</span> <span class="nav-text">Map</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FlatMap"><span class="nav-number">2.</span> <span class="nav-text">FlatMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reduce"><span class="nav-number">3.</span> <span class="nav-text">Reduce</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
