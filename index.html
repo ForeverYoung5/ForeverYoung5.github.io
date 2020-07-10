@@ -249,6 +249,203 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/10/浏览器内核/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerry">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerry's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/07/10/浏览器内核/" itemprop="url">浏览器内核</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-10T14:00:59+08:00">
+                2020-07-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>浏览器内核主要分为两个部分：渲染引擎和JS引擎。</p>
+<p>渲染引擎用来解释网页语法并渲染到网页上。JS引擎用来解析执行JavaScript来实现网页的动态效果。</p>
+<p>最开始渲染引擎和JS引擎并没有区分的很明确，后来 JS 引擎越来越独立，内核就倾向于只指渲染引擎。</p>
+<p>浏览器内核决定了浏览器该如何显示网页内容以及页面的格式信息。</p>
+<h3 id="常见的内核种类"><a href="#常见的内核种类" class="headerlink" title="常见的内核种类"></a>常见的内核种类</h3><p><img src="https://s1.ax1x.com/2020/07/10/Uus2HU.png" alt="image"></p>
+<p>主流浏览器内核私有属性css前缀</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mozilla内核 (firefox,flock等)      -moz</span><br><span class="line">webkit内核(safari,chrome等)        -webkit</span><br><span class="line">opera内核(opera浏览器)              -o</span><br><span class="line">trident内核(ie浏览器)               -ms</span><br></pre></td></tr></table></figure>
+
+<h3 id="浏览器兼容性问题"><a href="#浏览器兼容性问题" class="headerlink" title="浏览器兼容性问题"></a>浏览器兼容性问题</h3><ul>
+<li>1.不同浏览器的标签默认的外补丁和内补丁不同</li>
+</ul>
+<p>问题症状：随便写几个标签，不加样式控制的情况下，各自的margin 和padding差异较大。</p>
+<p>碰到频率:100%</p>
+<p>解决方案：CSS里    *{margin:0;padding:0;}</p>
+<ul>
+<li>2.块属性标签float后，又有横行的margin情况下，在IE6显示margin比设置的大</li>
+</ul>
+<p>问题症状:常见症状是IE6中后面的一块被顶到下一行</p>
+<p>碰到频率：90%（稍微复杂点的页面都会碰到，float布局最常见的浏览器兼容问题）</p>
+<p>解决方案：在float的标签样式控制中加入 display:inline;将其转化为行内属性</p>
+<p>备注：我们最常用的就是div+CSS布局了，而div就是一个典型的块属性标签，横向布局的时候我们通常都是用div float实现的，横向的间距设置如果用margin实现，这就是一个必然会碰到的兼容性问题。</p>
+<ul>
+<li>3.设置较小高度标签（一般小于10px），在IE6，IE7，遨游中高度超出自己设置高度</li>
+</ul>
+<p>问题症状：IE6、7和遨游里这个标签的高度不受控制，超出自己设置的高度</p>
+<p>碰到频率：60%</p>
+<p>解决方案：给超出高度的标签设置overflow:hidden;或者设置行高line-height 小于你设置的高度。</p>
+<p>备注：这种情况一般出现在我们设置小圆角背景的标签里。出现这个问题的原因是IE8之前的浏览器都会给标签一个最小默认的行高的高度。即使你的标签是空的，这个标签的高度还是会达到默认的行高。</p>
+<ul>
+<li>4.行内属性标签，设置display:block后采用float布局，又有横行的margin的情况，IE6间距bug</li>
+</ul>
+<p>问题症状：IE6里的间距比超过设置的间距</p>
+<p>碰到几率：20%</p>
+<p>解决方案：在display:block;后面加入display:inline;display:table;</p>
+<p>备注：行内属性标签，为了设置宽高，我们需要设置display:block;(除了input标签比较特殊)。在用float布局并有横向的margin后，在IE6下，他就具有了块属性float后的横向margin的bug。不过因为它本身就是行内属性标签，所以我们再加上display:inline的话，它的高宽就不可设了。这时候我们还需要在display:inline后面加入display:talbe。</p>
+<ul>
+<li>5.图片默认有间距</li>
+</ul>
+<p>问题症状：几个img标签放在一起的时候，有些浏览器会有默认的间距，加了问题一中提到的通配符也不起作用。</p>
+<p>碰到几率：20%</p>
+<p>解决方案：使用float属性为img布局</p>
+<p>备注：因为img标签是行内属性标签，所以只要不超出容器宽度，img标签都会排在一行里，但是部分浏览器的img标签之间会有个间距。去掉这个间距使用float是正道。</p>
+<ul>
+<li>8.IE6双边距问题:在 IE6中设置了float , 同时又设置margin , 就会出现边距问题<br>解决方案：设置display:inline;</li>
+</ul>
+<ul>
+<li>9.当标签的高度设置小于10px，在IE6、IE7中会超出自己设置的高度<br>解决方案：超出高度的标签设置overflow:hidden,或者设置line-height的值小于你的设置高度</li>
+</ul>
+<ul>
+<li><p>10.图片默认有间距<br>解决方案：使用float 为img 布局</p>
+</li>
+<li><p>17.解决 IE6 不支持 min-height 属性的问题</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">min-height: 350px;</span><br><span class="line">_height: 350px;</span><br></pre></td></tr></table></figure>
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/10/flex布局和盒模型/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1773,277 +1970,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/07/vue组件通信/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jerry">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jerry's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/07/07/vue组件通信/" itemprop="url">vue组件通信</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-07T10:00:40+08:00">
-                2020-07-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/前端/" itemprop="url" rel="index">
-                    <span itemprop="name">前端</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="封装组件过程"><a href="#封装组件过程" class="headerlink" title="封装组件过程"></a>封装组件过程</h2><h3 id="注册组件"><a href="#注册组件" class="headerlink" title="注册组件"></a>注册组件</h3><h4 id="全局组件"><a href="#全局组件" class="headerlink" title="全局组件"></a>全局组件</h4><p>注册</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;&lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">  import Vue from &apos;vue&apos;;</span><br><span class="line">  </span><br><span class="line">  var globalComponent = &#123;</span><br><span class="line">    template:&quot;&lt;div&gt;&lt;button @click=&apos;add()&apos;&gt;&#123;&#123;value&#125;&#125;:&#123;&#123;account&#125;&#125;&lt;/button&gt;&lt;/div&gt;&quot;,</span><br><span class="line">    data:function()&#123;</span><br><span class="line">      return &#123;</span><br><span class="line">        value:&apos;我是全局组件返回值&apos;,</span><br><span class="line">        account:0</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    methods:&#123;</span><br><span class="line">      add:function()&#123;</span><br><span class="line">        this.account++</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  Vue.component(&apos;global-component&apos;,globalComponent)</span><br><span class="line"></span><br><span class="line">  export default &#123;</span><br><span class="line">    data()&#123;</span><br><span class="line">      return &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-<p>使用：直接使用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;global-component&gt;&lt;/global-component&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-<h3 id="局部组件"><a href="#局部组件" class="headerlink" title="局部组件"></a>局部组件</h3><h4 id="注册"><a href="#注册" class="headerlink" title="注册"></a>注册</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id=&quot;local&quot;&gt;</span><br><span class="line">      &lt;local-component&gt;&lt;/local-component&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">var localComponent = &#123;</span><br><span class="line">  template: &quot;&lt;div&gt;&lt;button @click=add()&gt;&#123;&#123;account&#125;&#125;&lt;/button&gt;&lt;/div&gt;&quot;,</span><br><span class="line">  data()&#123;</span><br><span class="line">    return&#123;</span><br><span class="line">      account:0</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods:&#123;</span><br><span class="line">    add()&#123;</span><br><span class="line">      this.account++</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  components:&#123;</span><br><span class="line">    &quot;local-component&quot;:localComponent</span><br><span class="line">  &#125;,</span><br><span class="line">  data()&#123;</span><br><span class="line">    return &#123;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-<p>别的页面使用组件：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id=&quot;local&quot;&gt;</span><br><span class="line">      &lt;local-component&gt;&lt;/local-component&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line"></span><br><span class="line">import localComponent from &apos;./localComponent&apos;</span><br><span class="line">export default &#123;</span><br><span class="line">  components:&#123;</span><br><span class="line">    &quot;local-component&quot;:localComponent</span><br><span class="line">  &#125;,</span><br><span class="line">  data()&#123;</span><br><span class="line">    return&#123;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-<h2 id="组件之间通信"><a href="#组件之间通信" class="headerlink" title="组件之间通信"></a>组件之间通信</h2><p>组件是 vue.js最强大的功能之一，而组件实例的作用域是相互独立的，这就意味着不同组件之间的数据无法相互引用。</p>
-<h3 id="1、props-emit"><a href="#1、props-emit" class="headerlink" title="1、props/$emit"></a>1、props/$emit</h3><h4 id="1-1、父组件向子组件传值"><a href="#1-1、父组件向子组件传值" class="headerlink" title="1.1、父组件向子组件传值"></a>1.1、父组件向子组件传值</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">// 子组件</span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;ul&gt;</span><br><span class="line">      &lt;li v-for=&quot;(user,index) in users&quot; :key=index&gt;&#123;&#123;user&#125;&#125;&lt;/li&gt;</span><br><span class="line">    &lt;/ul&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name:&apos;child&apos;,</span><br><span class="line">  props:&#123;</span><br><span class="line">    users:&#123;  //父组件即将传进来的</span><br><span class="line">      type:Array,</span><br><span class="line">      required:true</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">// 父组件</span><br><span class="line"></span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;child-component v-bind:users=&quot;canshu&quot;&gt;&lt;/child-component&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line"></span><br><span class="line">import Users from &apos;./childComponent&apos;</span><br><span class="line">export default &#123;</span><br><span class="line">  data()&#123;</span><br><span class="line">    return&#123;</span><br><span class="line">      canshu:[&apos;tom&apos;,&apos;jerry&apos;,&apos;mary&apos;]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  components:&#123;</span><br><span class="line">    &apos;child-component&apos;:Users</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-<h4 id="1-2、子组件向父组件传值（通过事件形式）"><a href="#1-2、子组件向父组件传值（通过事件形式）" class="headerlink" title="1.2、子组件向父组件传值（通过事件形式）"></a>1.2、子组件向父组件传值（通过事件形式）</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">// 子组件</span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;h1 @click=&quot;changeTitle&quot;&gt;&#123;&#123;title&#125;&#125;&lt;/h1&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  data()&#123;</span><br><span class="line">    return&#123;</span><br><span class="line">      title:&apos;Vue.js demo&apos;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods:&#123;</span><br><span class="line">    changeTitle()&#123;</span><br><span class="line">      console.log(&apos;son-emit&apos;)</span><br><span class="line">      this.$emit(&quot;titleChanged&quot;,&quot;子组件向父组件传值&quot;);</span><br><span class="line">      </span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">// 父组件</span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;son-component v-on:titleChanged=&quot;updateTitle&quot;&gt;&lt;/son-component&gt;</span><br><span class="line">    &lt;h1&gt;&#123;&#123;title&#125;&#125;&lt;/h1&gt;  //点击后变：为子组件向父组件传值</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import SonComponent from &apos;./son&apos;</span><br><span class="line"></span><br><span class="line">export default&#123;</span><br><span class="line">  data()&#123;</span><br><span class="line">    return&#123;</span><br><span class="line">      title:&apos;尚未传值&apos;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  methods:&#123;</span><br><span class="line">    updateTitle(e)&#123;</span><br><span class="line">      this.title = e;</span><br><span class="line">       console.log(this.title)</span><br><span class="line">     </span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">    components:&#123;</span><br><span class="line">    &quot;son-component&quot;:SonComponent</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-<h3 id="2、-emit-on"><a href="#2、-emit-on" class="headerlink" title="2、 $emit/$on"></a>2、 $emit/$on</h3><p>这种方法通过一个空的Vue实例作为中央事件总线（事件中心），用它来触发事件和监听事件,巧妙而轻量地实现了任何组件间的通信，包括父子、兄弟、跨级。当我们的项目比较大时，可以选择更好的状态管理解决方案vuex</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">// 组件A</span><br><span class="line">&lt;template id=&quot;a&quot;&gt;</span><br><span class="line">  &lt;my-a&gt;&lt;/my-a&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import Bus from &apos;./bus&apos;;</span><br><span class="line">var A = &#123;</span><br><span class="line">  template:&apos; &lt;div&gt;&lt;h1&gt;A组件：&#123;&#123;name&#125;&#125;&lt;/h1&gt;&lt;button @click=&quot;send()&quot;&gt;A组件向C发送消息&lt;/button&gt;&lt;/div&gt;&apos;,</span><br><span class="line">  data()&#123;</span><br><span class="line">    return&#123;</span><br><span class="line">      name:&apos;jerry&apos;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods:&#123;</span><br><span class="line">    send()&#123;</span><br><span class="line">      Bus.$emit(&apos;data-a&apos;,this.name)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">export default &#123;</span><br><span class="line">  components:&#123;</span><br><span class="line">    &apos;my-a&apos;:A</span><br><span class="line"> &#125;,</span><br><span class="line">  data()&#123;</span><br><span class="line">    return&#123;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">// 组件B</span><br><span class="line">&lt;template id=&quot;b&quot;&gt;</span><br><span class="line">  &lt;my-b&gt;&lt;/my-b&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import Bus from &apos;./bus&apos;;</span><br><span class="line">var B = &#123;</span><br><span class="line">  template:&apos;&lt;div&gt;&lt;h1&gt;B组件：&#123;&#123;age&#125;&#125;&lt;/h1&gt;&lt;button @click=&quot;send()&quot;&gt;B组件向C发送消息&lt;/button&gt;&lt;/div&gt;&apos;,</span><br><span class="line">  data()&#123;</span><br><span class="line">    return&#123;</span><br><span class="line">      age:22</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods:&#123;</span><br><span class="line">    send()&#123;</span><br><span class="line">      Bus.$emit(&apos;data-b&apos;,this.age)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  components:&#123;</span><br><span class="line">    &apos;my-b&apos;:B</span><br><span class="line"> &#125;,</span><br><span class="line">  data()&#123;</span><br><span class="line">    return&#123;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">// 组件C</span><br><span class="line">&lt;template id=&quot;c&quot;&gt;</span><br><span class="line">  &lt;my-c&gt;&lt;/my-c&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import Bus from &apos;./bus&apos;;</span><br><span class="line">var C = &#123;</span><br><span class="line">  template:&apos;&lt;div&gt;&lt;h1&gt;C组件：&#123;&#123;name&#125;&#125;:&#123;&#123;age&#125;&#125;&lt;/h1&gt;&lt;/div&gt;&apos;,</span><br><span class="line">  data()&#123;</span><br><span class="line">    return&#123;</span><br><span class="line">      name:&apos;&apos;,</span><br><span class="line">      age:null</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  mounted()&#123;</span><br><span class="line">    Bus.$on(&apos;data-a&apos;,(name)=&gt;&#123;</span><br><span class="line">      this.name = name</span><br><span class="line">    &#125;);</span><br><span class="line">    Bus.$on(&apos;data-b&apos;,(age)=&gt;&#123;</span><br><span class="line">      this.age = age</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">export default &#123;</span><br><span class="line">  components:&#123;</span><br><span class="line">    &apos;my-c&apos;:C</span><br><span class="line"> &#125;,</span><br><span class="line">  data()&#123;</span><br><span class="line">    return&#123;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">// index.vue</span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;my-a&gt;&lt;/my-a&gt;</span><br><span class="line">    &lt;my-b&gt;&lt;/my-b&gt;</span><br><span class="line">    &lt;my-c&gt;&lt;/my-c&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import A from &apos;./componentA&apos;</span><br><span class="line">import B from &apos;./componentB&apos;</span><br><span class="line">import C from &apos;./componentC&apos;</span><br><span class="line">export default &#123;</span><br><span class="line">    components:&#123;</span><br><span class="line">    &apos;my-a&apos;:A,</span><br><span class="line">    &apos;my-b&apos;:B,</span><br><span class="line">    &apos;my-c&apos;:C</span><br><span class="line">  &#125;,</span><br><span class="line">  data()&#123;</span><br><span class="line">    return&#123;&#125;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-<p>$on 监听了自定义事件 data-a和data-b，因为有时不确定何时会触发事件，一般会在 mounted 或 created 钩子中来监听。</p>
-<h3 id="3、Vuex"><a href="#3、Vuex" class="headerlink" title="3、Vuex"></a>3、Vuex</h3><p>Vuex 是专门为vue应用程序开发的状态管理模式。集中式存储管理所有组件的状态。vuex 实现了一个单向数据流。</p>
-<p><img src="https://s1.ax1x.com/2020/07/06/UPbOvq.png" alt="image"></p>
-<p>但是当多个组件共享状态时，单向数据流的简洁性很容易破坏：</p>
-<ol>
-<li>多个视图依赖同一状态：传参困难繁琐。</li>
-<li>来自不同的视图行为需要改变同一状态。</li>
-</ol>
-<p>Vuex 可以帮我们管理共享状态。</p>
-<h4 id="3-1-准备"><a href="#3-1-准备" class="headerlink" title="3.1 准备"></a>3.1 准备</h4><p>安装：</p>
-<blockquote>
-<p>npm install vuex –save</p>
-</blockquote>
-<p>创建store/index.js;</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">import Vue from &apos;vue&apos;;</span><br><span class="line">import Vuex from &apos;vuex&apos;;</span><br><span class="line"></span><br><span class="line">Vue.use(Vuex);</span><br><span class="line"></span><br><span class="line">const store = new Vuex.Store(&#123;</span><br><span class="line">  state:&#123;</span><br><span class="line">    count:12</span><br><span class="line">  &#125;,</span><br><span class="line">  mutations:&#123;</span><br><span class="line">    toIncrease(state)&#123;</span><br><span class="line">      state.count++</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">export default store;</span><br></pre></td></tr></table></figure>
-
-<p>为了在所有组件上可以使用，</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import store from &apos;./store&apos;</span><br><span class="line"></span><br><span class="line">new Vue(&#123;</span><br><span class="line">  el: &apos;#app&apos;,</span><br><span class="line">  router,</span><br><span class="line">  store,</span><br><span class="line">  components: &#123; App &#125;,</span><br><span class="line">  template: &apos;&lt;App/&gt;&apos;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-<p>简单使用：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;&lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  data()&#123;</span><br><span class="line">    return&#123;&#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  created()&#123;</span><br><span class="line">    console.log(this.$store.state.count)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-<p>只能通过提交mutation的方式，改变state</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;button @click=&quot;increment&quot;&gt;increase&lt;/button&gt;</span><br><span class="line">    &lt;div&gt;&#123;&#123;$store.state.count&#125;&#125;&lt;/div&gt;</span><br><span class="line">    &lt;!--数据会响应式的更新--&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  data()&#123;</span><br><span class="line">    return&#123;&#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  created()&#123;</span><br><span class="line">    console.log(this.$store.state.count)</span><br><span class="line">  &#125;,</span><br><span class="line">  methods:&#123;</span><br><span class="line">    increment()&#123;</span><br><span class="line">      this.$store.commit(&apos;toIncrease&apos;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-<h4 id="3-2-核心内容"><a href="#3-2-核心内容" class="headerlink" title="3.2 核心内容"></a>3.2 核心内容</h4><ul>
-<li>store: 是Vuex 的核心，是一个容器，包含着应用中的大部分状态。Vuex 和全局对象存在两个不同：</li>
-</ul>
-<ol>
-<li>Vuex 的状态存储是响应式的。当 Vue 组件从 store 中读取状态的时候，若 store 中的状态发生变化，那么相应的组件也会相应地得到高效更新。</li>
-<li>你不能直接改变 store 中的状态。改变 store 中的状态的唯一途径就是显式地提交 (commit) mutation。</li>
-</ol>
-<ul>
-<li><p>mutations:是操作state数据的方法的集合</p>
-</li>
-<li><p>getters:加工state成员给外界</p>
-</li>
-<li><p>actions:异步操作(调接口后将对数据进行操作)，ue组件如果调用某个VueX的方法过程中需要向后端请求时或者说出现异步操作时，需要dispatch VueX中actions的方法，以保证数据的同步。可以说，action的存在就是为了让mutations中的方法能在异步操作中起作用。如果没有异步操作，那么我们就可以直接在组件内提交状态中的Mutations中自己编写的方法来达成对state成员的操作。注意，1.3.3节中有提到，不建议在组件中直接对state中的成员进行操作，这是因为直接修改(例如：this.$store.state.name = ‘hello’)的话不能被VueDevtools所监控到。</p>
-</li>
-<li><p>modules:模块化状态管理</p>
-</li>
-</ul>
-<h4 id="3-3-mutations使用"><a href="#3-3-mutations使用" class="headerlink" title="3.3 mutations使用"></a>3.3 mutations使用</h4><p>参数：([state] [,payload])</p>
-<ul>
-<li>state是当前VueX对象中的state</li>
-<li>payload是该方法在被调用时传递参数使用的（比如你想把state中的状态修改成的值等）</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">import Vue from &apos;vue&apos;</span><br><span class="line">import Vuex from &apos;vuex&apos;</span><br><span class="line"></span><br><span class="line">Vue.use(Vuex)</span><br><span class="line"></span><br><span class="line">const store = new Vuex.store(&#123;</span><br><span class="line">    state:&#123;</span><br><span class="line">        name:&apos;helloVueX&apos;</span><br><span class="line">    &#125;,</span><br><span class="line">    mutations:&#123;</span><br><span class="line">        //es6语法，等同edit:funcion()&#123;...&#125;</span><br><span class="line">        edit(state)&#123;</span><br><span class="line">            state.name = &apos;jack&apos;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">export default store</span><br><span class="line"></span><br><span class="line">// 使用</span><br><span class="line">onemethod()&#123;</span><br><span class="line">    this.$store.commit(&apos;edit&apos;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>实际使用时可能会需要向mutations中传递一些参数，传递单个值时直接后续传参即可，传递多个值时，要将多个参数放到对象中。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">this.$store.commit(&apos;edit&apos;,15)</span><br><span class="line">this.$store.commit(&apos;edit&apos;,&#123;age:15,sex:&apos;男&apos;&#125;)</span><br></pre></td></tr></table></figure>
-
-<p>接收参数：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">edit(state,payload)&#123;</span><br><span class="line">    state.name = &apos;jack&apos;</span><br><span class="line">    console.log(payload) // 15或&#123;age:15,sex:&apos;男&apos;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>还有一种提交方式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">this.$store.commit(&#123;</span><br><span class="line">    type:&apos;edit&apos;,</span><br><span class="line">    payload:&#123;</span><br><span class="line">        age:15,</span><br><span class="line">        sex:&apos;男&apos;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-<p>为了配合Vue的响应式数据，我们在Mutations的方法中，应当使用Vue提供的方法来进行操作。如果使用delete或者xx.xx = xx的形式去删或增，则Vue不能对数据进行实时响应。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Vue.set(state,&quot;age&quot;,15) // 向state中添加age成员</span><br><span class="line">Vue.delete(state,&apos;age&apos;) // 删除state中age成员</span><br></pre></td></tr></table></figure>
-
-<h4 id="3-4-getters"><a href="#3-4-getters" class="headerlink" title="3.4 getters"></a>3.4 getters</h4><p>Getters中的方法有两个默认参数</p>
-<ul>
-<li>state 当前VueX对象中的状态对象</li>
-<li>getters 当前getters对象，用于将getters下的其他getter拿来用</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">getters:&#123;</span><br><span class="line">    nameInfo(state)&#123;</span><br><span class="line">        return &quot;姓名:&quot;+state.name</span><br><span class="line">    &#125;,</span><br><span class="line">    fullInfo(state,getters)&#123;</span><br><span class="line">        return getters.nameInfo+&apos;年龄:&apos;+state.age</span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 调用</span><br><span class="line">this.$store.getters.fullInfo</span><br></pre></td></tr></table></figure>
-
-<h4 id="3-5-Actions"><a href="#3-5-Actions" class="headerlink" title="3.5 Actions"></a>3.5 Actions</h4><p>由于直接在mutation方法中进行异步操作，将会引起数据失效。所以提供了Actions来专门进行异步操作，最终提交mutation方法。</p>
-<p>Actions中的方法有两个默认参数</p>
-<ul>
-<li>context 上下文(相当于箭头函数中的this)对象</li>
-<li>payload 挂载参数</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">actions:&#123;</span><br><span class="line">    aEdit(context,payload)&#123;</span><br><span class="line">        setTimeout(()=&gt;&#123;</span><br><span class="line">            context.commit(&apos;edit&apos;,payload)</span><br><span class="line">        &#125;,2000)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 使用</span><br><span class="line">this.$store.dispatch(&apos;aEdit&apos;,&#123;age:15&#125;)</span><br></pre></td></tr></table></figure>
-
-<h4 id="3-6-Models"><a href="#3-6-Models" class="headerlink" title="3.6 Models"></a>3.6 Models</h4><p>当项目庞大，状态非常多时，可以采用模块化管理模式。Vuex 允许我们将 store 分割成模块（module）。每个模块拥有自己的 state、mutation、action、getter、甚至是嵌套子模块——从上至下进行同样方式的分割。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">models:&#123;</span><br><span class="line">    a:&#123;</span><br><span class="line">        state:&#123;&#125;,</span><br><span class="line">        getters:&#123;&#125;,</span><br><span class="line">        ....</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>调用时不变：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">this.$store.state.a</span><br><span class="line">this.$store.commit(&apos;editKey&apos;)</span><br><span class="line">this.$store.dispatch(&apos;aEditKey&apos;)</span><br></pre></td></tr></table></figure>
-
-<p>注意：</p>
-<ul>
-<li>模块中mutations和getters中的方法接受的第一个参数是自身局部模块内部的state</li>
-<li>getters中方法的第三个参数是根节点状态（rootState）</li>
-<li>actions中方法获取局部模块状态是context.state,根节点状态是context.rootState</li>
-</ul>
-<h4 id="3-7-Vuex和localStorage"><a href="#3-7-Vuex和localStorage" class="headerlink" title="3.7 Vuex和localStorage"></a>3.7 Vuex和localStorage</h4><p>Vuex是vue的状态管理器，存储数据时响应式的，但是并不会保存起来，刷新之后就回到了出初始状态。想要保存的话就将state中数据保存到localstorage里边，刷新之后再用localstorage来替换state。但是state里边都是数组，而localstorage里边只支持字符串，岁哦医药转化成字符串。</p>
-<h4 id="attrs-listeners"><a href="#attrs-listeners" class="headerlink" title="$attrs/$listeners"></a>$attrs/$listeners</h4><p>多级组件嵌套需要传递数据时，通常使用vuex，但是如果仅仅传递数据不做中间处理，使用vuex处理有点大材小用，vue2.4版本提供了另一种方法$attrs/$listeners</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
-<li>父子通信</li>
-</ul>
-<ol>
-<li>父-&gt;子：props</li>
-<li>子-&gt;父：$emit</li>
-</ol>
-<ul>
-<li>兄弟通信：Bus;Vuex</li>
-<li>跨级通信：Bus;Vuex;$attrs/$listeners</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2096,7 +2022,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">61</span>
+                  <span class="site-state-item-count">62</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
