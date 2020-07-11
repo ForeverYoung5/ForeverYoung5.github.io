@@ -249,6 +249,207 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/21/js/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerry">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerry's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/04/21/js/" itemprop="url">js</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-21T15:05:40+08:00">
+                2020-04-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="不同浏览器关于js兼容性的两个常见问题"><a href="#不同浏览器关于js兼容性的两个常见问题" class="headerlink" title="不同浏览器关于js兼容性的两个常见问题"></a>不同浏览器关于js兼容性的两个常见问题</h3><ul>
+<li>事件绑定兼容性：IE8以下的浏览器不支持使用<code>addEventListener</code>来绑定事件，使用<code>attachEvent</code> 可以解决这个问题。</li>
+<li><code>stopPropagation</code>兼容性：IE8以下的浏览器不支持使用<code>e.stopPropagation</code>来阻止事件传播，使用<code>e.returnValue = false</code>可以解决这个问题。</li>
+</ul>
+<p><a href="https://www.w3school.com.cn/jsref/event_stoppropagation.asp" target="_blank" rel="noopener">stopPropagation</a></p>
+<h3 id="什么是未声明和未定义变量"><a href="#什么是未声明和未定义变量" class="headerlink" title="什么是未声明和未定义变量"></a>什么是未声明和未定义变量</h3><p>未声明的变量是程序中不存在且未声明的变量。如果程序尝试读取未声明变量的值，则会遇到运行时错误。</p>
+<p>未定义的变量是在程序中声明但尚未给出任何值的变量。如果程序尝试读取未定义变量的值，则返回未定义的值。</p>
+<h3 id="JavaScript-中的进制转换"><a href="#JavaScript-中的进制转换" class="headerlink" title="JavaScript 中的进制转换"></a><code>JavaScript</code> 中的进制转换</h3><h4 id="十进制转换为其它进制"><a href="#十进制转换为其它进制" class="headerlink" title="十进制转换为其它进制"></a>十进制转换为其它进制</h4><p><code>Number.toString([radix])</code>，<code>radix</code> 要转换为的进制。</p>
+<p>在调用数值的 <code>toString()</code>方法时，可以传递一个参数：输出数值的基数。默认情况下， <code>toString()</code>方法以十进制格式返回数值的字符串表示。而通过传递基数，<code>toString()</code>可以输出以二进制、八进制、十六进制，乃至其他任意有效进制格式表示的字符串值。下面给出几个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var num = 10;</span><br><span class="line">alert(num.toString()); // &quot;10&quot;</span><br><span class="line">alert(num.toString(2)); // &quot;1010&quot;</span><br><span class="line">alert(num.toString(8)); // &quot;12&quot;</span><br><span class="line">alert(num.toString(10)); // &quot;10&quot;</span><br><span class="line">alert(num.toString(16)); // &quot;a&quot;</span><br></pre></td></tr></table></figure>
+
+<h4 id="其他禁止转换为十进制"><a href="#其他禁止转换为十进制" class="headerlink" title="其他禁止转换为十进制"></a>其他禁止转换为十进制</h4><p><code>parseInt(str, [radix])</code> </p>
+<p><code>str</code> 必选项，转换对象。（该方法会将第一个参数强制转换为字符串）</p>
+<p><code>radix</code> 可选项，表示 <code>str</code>的进制，范围为 2 - 36；如果缺少 <code>radix</code>，则以 0x 开头的字符串转换为十六进制，以 0 开头的字符串转换为八进制，其它字符串都转换十进制。将字符串<code>str</code>按照radix进制编码方式转换为10进制返回，没有radix，默认为10；此方法把任意进制字符串转为10进展返回。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var x=&apos;110&apos;;</span><br><span class="line">alert(parseInt(x,2)); //6</span><br><span class="line">alert(parseInt(x,8));//72</span><br><span class="line">alert(parseInt(x,16));//272</span><br></pre></td></tr></table></figure>
+
+<h3 id="void-0-的作用是什么"><a href="#void-0-的作用是什么" class="headerlink" title="void(0)的作用是什么"></a><code>void(0)</code>的作用是什么</h3><h4 id="void关键字介绍"><a href="#void关键字介绍" class="headerlink" title="void关键字介绍"></a><code>void</code>关键字介绍</h4><p>void关键字是javascript当中非常重要的关键字，该操作符指定要计算或运行一个表达式，但是不返回值。</p>
+<p>语法格式：<code>void func()</code> or <code>javascript:void func()</code>或者 <code>void(func())</code> or <code>javascript:void(func())</code></p>
+<ul>
+<li>点击超级连接，什么都不发生</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--当用户点击链接时，viod(0)计算为0，用户不会发生任何效果--&gt;</span><br><span class="line"> &lt;a href=&quot;javascript:void(0);&quot;&gt;单击此处什么都不会发生&lt;/a&gt;&lt;br&gt;</span><br><span class="line"> </span><br><span class="line"> &lt;!--下面的代码创建了一个超级链接，用户单时会提交表单。--&gt;</span><br><span class="line"> &lt;a href=&quot;javascript:void(document.form.submit())&quot;&gt;点击此处提交表单&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>执行void当中代码</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 2.执行 void() 操作符中的代码 --&gt;</span><br><span class="line">    &lt;a href=&quot;javascript:void(alert(&apos;还真点啊你，真听话！！！哈哈哈！！！&apos;))&quot;&gt;点我弹出警告框!!!&lt;/a&gt;&lt;br&gt;</span><br><span class="line">    &lt;a href=&quot;javascript:void(console.log(&apos;还真点啊你，真听话！！！哈哈哈！！！&apos;))&quot;&gt;点我输出到控制台!!!&lt;/a&gt;&lt;br&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>计算void当中算数</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;button type=&quot;button&quot;&gt; 点我&lt;/button&gt;</span><br><span class="line">&lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">    document.querySelector(&apos;button&apos;).addEventListener(&apos;click&apos;, function () &#123;</span><br><span class="line">        var a, b, c, d;</span><br><span class="line">        a = void(b = 2, c = 3);</span><br><span class="line">        console.log(&apos;a =&gt; &apos; + a); //undefined</span><br><span class="line">        console.log(&apos;b =&gt; &apos; + b);//2</span><br><span class="line">        console.log(&apos;c =&gt; &apos; + c);//3</span><br><span class="line">        console.log(&apos;d =&gt; &apos; + d);//undefined</span><br><span class="line">    &#125;);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">//很显然，2赋值给了a, 3赋值给了b, a 和 d一样只是定义了没有赋值，所以为undefined</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>#与javascript:void(0)的区别</li>
+</ul>
+<p>#可以跳转到设置了id的目的地</p>
+<p>javascript:void(0)则停留在原地，一动不动，我们称之为“死链接”</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=&quot;javascript:void(0);&quot;&gt;你点吧，反正我就是不动，嘿嘿嘿！！！&lt;/a&gt;&lt;br&gt;</span><br><span class="line">    &lt;a href=&quot;#destination&quot;&gt;点我跳转&lt;/a&gt;</span><br><span class="line">    &lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;</span><br><span class="line">    &lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;</span><br><span class="line">    &lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;</span><br><span class="line">    &lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;</span><br><span class="line">    &lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;</span><br><span class="line">    &lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;</span><br><span class="line">    &lt;h2 id=&quot;destination&quot;&gt;目的地&lt;/h2&gt;</span><br></pre></td></tr></table></figure>
+
+<p>当点击第一个链接时，一动不动</p>
+<p>当点击第二个连接时，会跳转到指定id得位置（页面最底部）</p>
+<p>总结：</p>
+<p><code>void</code>操作符使表达式的运算结果返回 <code>undefined</code>   <code>a.void(5)-&gt;undefined</code></p>
+<p><code>void(0)</code>用于防止页面刷新，并在传递时传递参数 “0”</p>
+<p><code>void(0)</code>用于调用另一种方法而不刷新页面</p>
+<h3 id="在JavaScript中使用innerHTML的缺点是什么"><a href="#在JavaScript中使用innerHTML的缺点是什么" class="headerlink" title="在JavaScript中使用innerHTML的缺点是什么"></a>在<code>JavaScript</code>中使用<code>innerHTML</code>的缺点是什么</h3><p>定义：该属性设置或返回表格行的开始合结束标签之间的 HTML</p>
+<p>语法： <code>HTMLElementObject.innerHTML=text</code></p>
+<ul>
+<li>内容被随处替换</li>
+<li>整个innerHTML内容被重新解析并构建成元素，因此它慢得多</li>
+<li>innerHTML不提供验证，因此我们可以在文档中插入有效和破碎的HTML并将其分隔</li>
+<li>我们不能使用像“appending to innerHTML”，即使使用 += 如 “innerHTML = innerHTML + ‘html’” ，旧的内容仍然会被字符串的连接替换掉</li>
+</ul>
+<h5 id="innerHTML与-innerText的区别："><a href="#innerHTML与-innerText的区别：" class="headerlink" title="innerHTML与 innerText的区别："></a><code>innerHTML</code>与 <code>innerText</code>的区别：</h5><p>这两个属性都是获取 <code>document</code>对象的文本内容的。</p>
+<ul>
+<li><code>innerHTML</code>指的是 ：从对象的起始位置到终止位置的全部内容，包括 HTML标签</li>
+<li><code>innerText</code>指的是 ：从起始位置到终止位置的内容，但它去除HTML标签</li>
+</ul>
+<p>同时，innerHTML 是所有浏览器都支持的，innerText 是IE浏览器和chrome 浏览器支持的，Firefox浏览器不支持。其实，innerHTML 是W3C 组织规定的属性；而innerText 属性是IE浏览器自己的属性，不过后来的浏览器部分实现这个属性罢了。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/21/题目/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2121,158 +2322,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/02/浏览器多个标签页之间通信/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jerry">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jerry's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/04/02/浏览器多个标签页之间通信/" itemprop="url">浏览器多个标签页之间通信</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-02T09:41:21+08:00">
-                2020-04-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/前端/" itemprop="url" rel="index">
-                    <span itemprop="name">前端</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="调用localStorage"><a href="#调用localStorage" class="headerlink" title="调用localStorage"></a>调用<code>localStorage</code></h3><p>在一个标签页里面使用 <code>localStorage.setItem(key,value)</code>添加（修改、删除）内容；在另一个标签页里面监听 <code>storage</code> 事件。即可得到 <code>localstorge</code> 存储的值，实现不同标签页之间的通信。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--index1.html --&gt;</span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;Title&lt;/title&gt;</span><br><span class="line">    &lt;style&gt;&lt;/style&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;input type=&quot;button&quot; id=&quot;btn&quot; value=&quot;提交&quot;&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        var bt = document.getElementById(&apos;btn&apos;)</span><br><span class="line">        bt.onclick = function () &#123;</span><br><span class="line">            localStorage.setItem(&quot;name&quot;, &apos;I am the value of name&apos;);</span><br><span class="line">        &#125;;</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line"></span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- index2.html --&gt;</span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;Title&lt;/title&gt;</span><br><span class="line">    &lt;style&gt;&lt;/style&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        window.addEventListener(&quot;storage&quot;, function (event) &#123;</span><br><span class="line">            console.log(event.key + &quot;=&quot; + event.newValue);</span><br><span class="line">        &#125;);</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line"></span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-
-<h3 id="调用cookie-setInterval"><a href="#调用cookie-setInterval" class="headerlink" title="调用cookie + setInterval()"></a>调用<code>cookie + setInterval()</code></h3><p><a href="https://www.runoob.com/js/js-cookies.html" target="_blank" rel="noopener">参考</a></p>
-<p>将要传递的信息存储在<code>cookie</code>中，每隔一定时间读取<code>cookie</code>信息，即可随时获取要传递的信息。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--index1.html--&gt;</span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;Title&lt;/title&gt;</span><br><span class="line">    &lt;style&gt;&lt;/style&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;input type=&quot;button&quot; id=&quot;btn&quot; value=&quot;提交&quot;&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        var bt = document.getElementById(&apos;btn&apos;)</span><br><span class="line">        bt.onclick = function () &#123;</span><br><span class="line">            document.cookie=&quot;username=John Doe&quot;;</span><br><span class="line">        &#125;;</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line"></span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--index2.html--&gt;</span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;Title&lt;/title&gt;</span><br><span class="line">    &lt;style&gt;&lt;/style&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        function getCookie(key) &#123;</span><br><span class="line">           return document.cookie;</span><br><span class="line">        &#125;</span><br><span class="line">        setInterval(function () &#123;</span><br><span class="line">            console.log(&quot;name=&quot; + getCookie(&quot;name&quot;));</span><br><span class="line">        &#125;, 10000);    </span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line"></span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2325,7 +2374,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">62</span>
+                  <span class="site-state-item-count">63</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

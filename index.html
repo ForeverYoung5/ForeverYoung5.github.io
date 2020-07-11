@@ -249,6 +249,230 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/11/常见布局/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerry">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerry's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/07/11/常见布局/" itemprop="url">常见布局</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-11T09:46:32+08:00">
+                2020-07-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="两栏布局"><a href="#两栏布局" class="headerlink" title="两栏布局"></a>两栏布局</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;left&quot;&gt;</span><br><span class="line">  &lt;h1&gt;Left Side&lt;/h1&gt;</span><br><span class="line">  &lt;p&gt;我是左侧栏&lt;/p&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;div class=&quot;right&quot;&gt;</span><br><span class="line">  &lt;h1&gt;Right Side&lt;/h1&gt;</span><br><span class="line">  &lt;p&gt;我是右侧栏&lt;/p&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="1、浮动定位法：float-margin-left"><a href="#1、浮动定位法：float-margin-left" class="headerlink" title="1、浮动定位法：float + margin-left"></a>1、浮动定位法：float + margin-left</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">*&#123;</span><br><span class="line">     /* 清除默认格式 */</span><br><span class="line">     margin: 0;</span><br><span class="line">     padding: 0;</span><br><span class="line">   &#125;</span><br><span class="line">   .left&#123;</span><br><span class="line">     width: 200px;</span><br><span class="line">     background-color: antiquewhite;</span><br><span class="line">     float: left;</span><br><span class="line">   &#125;</span><br><span class="line">   .right&#123;</span><br><span class="line">     background-color: cornflowerblue;</span><br><span class="line">     /* 等于左侧的宽度 */</span><br><span class="line">     margin-left: 200px;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2、绝对定位法：absolute-margin-left"><a href="#2、绝对定位法：absolute-margin-left" class="headerlink" title="2、绝对定位法：absolute + margin-left"></a>2、绝对定位法：absolute + margin-left</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">*&#123;</span><br><span class="line">  /* 清除默认格式 */</span><br><span class="line">  margin: 0;</span><br><span class="line">  padding: 0;</span><br><span class="line">&#125;</span><br><span class="line">.left&#123;</span><br><span class="line">  width: 200px;</span><br><span class="line">  background-color: antiquewhite;</span><br><span class="line">  position: absolute;</span><br><span class="line">&#125;</span><br><span class="line">.right&#123;</span><br><span class="line">  background-color: cornflowerblue;</span><br><span class="line">  /* 等于左侧的宽度 */</span><br><span class="line">  margin-left: 200px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3、margin负值法"><a href="#3、margin负值法" class="headerlink" title="3、margin负值法"></a>3、margin负值法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;aside&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;div class=&quot;main&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;content&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"> *&#123;</span><br><span class="line">  margin: 0;</span><br><span class="line">  padding: 0;</span><br><span class="line">&#125;</span><br><span class="line">.aside &#123;</span><br><span class="line">  width: 300px;</span><br><span class="line">  height: 100px;</span><br><span class="line">  background: darkcyan;</span><br><span class="line">  margin-right: -100%;</span><br><span class="line">  float: left;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.main &#123;</span><br><span class="line">  width: 100%;</span><br><span class="line">  float: right;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.content &#123;</span><br><span class="line">  margin-left: 300px;</span><br><span class="line">  height: 100px;</span><br><span class="line">  background: salmon;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="4、flex"><a href="#4、flex" class="headerlink" title="4、flex"></a>4、flex</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;box&quot;&gt; //关键</span><br><span class="line">  &lt;div class=&quot;left&quot;&gt;</span><br><span class="line">    &lt;h1&gt;Left Side&lt;/h1&gt;</span><br><span class="line">    &lt;p&gt;我是左侧栏&lt;/p&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">  &lt;div class=&quot;right&quot;&gt;</span><br><span class="line">    &lt;h1&gt;Right Side&lt;/h1&gt;</span><br><span class="line">    &lt;p&gt;我是右侧栏&lt;/p&gt;</span><br><span class="line">  &lt;/div&gt;  </span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">*&#123;</span><br><span class="line">  margin: 0;</span><br><span class="line">  padding: 0;</span><br><span class="line">&#125;</span><br><span class="line">.box&#123;</span><br><span class="line">  display:flex; </span><br><span class="line">&#125;</span><br><span class="line">.left&#123;</span><br><span class="line">  width: 200px;</span><br><span class="line">  background-color: antiquewhite;</span><br><span class="line">&#125;</span><br><span class="line">.right&#123;</span><br><span class="line">  flex: 1; //关键</span><br><span class="line">  background-color: cornflowerblue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="三栏布局"><a href="#三栏布局" class="headerlink" title="三栏布局"></a>三栏布局</h3><h4 id="1、浮动定位法：float-margin"><a href="#1、浮动定位法：float-margin" class="headerlink" title="1、浮动定位法：float + margin"></a>1、浮动定位法：float + margin</h4><p>左栏左浮右栏右浮，中间不设宽度用左右margin值撑开距离，且布局中中间栏放最后</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;left&quot;&gt;</span><br><span class="line">  &lt;h1&gt;Left&lt;/h1&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;div class=&quot;right&quot;&gt;</span><br><span class="line">  &lt;h1&gt;Right&lt;/h1&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;!--middle  在左右的后边--&gt;</span><br><span class="line">&lt;div class=&quot;middle&quot;&gt;</span><br><span class="line">  &lt;h1&gt;Middle&lt;/h1&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">*&#123;</span><br><span class="line">  margin: 0;</span><br><span class="line">  padding: 0;</span><br><span class="line">&#125;</span><br><span class="line">.left&#123;</span><br><span class="line">  width: 200px;</span><br><span class="line">  height: 300px;</span><br><span class="line">  background-color: darksalmon;</span><br><span class="line"></span><br><span class="line">  float: left;</span><br><span class="line">&#125;</span><br><span class="line">.middle&#123;</span><br><span class="line"> // 不设置宽度</span><br><span class="line">  height: 300px;</span><br><span class="line">  background-color: darkseagreen;</span><br><span class="line"></span><br><span class="line">  margin: 0 200px;</span><br><span class="line">&#125;</span><br><span class="line">.right&#123;</span><br><span class="line">  width: 200px;</span><br><span class="line">  height: 300px;</span><br><span class="line">  background-color: firebrick;</span><br><span class="line"></span><br><span class="line">  float: right;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2、绝对定位法：absolute-margin"><a href="#2、绝对定位法：absolute-margin" class="headerlink" title="2、绝对定位法：absolute + margin"></a>2、绝对定位法：absolute + margin</h4><p>左右两栏绝对定位，分别固定到页面的左右两侧，中间栏不设宽度，用左右margin撑开距离。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;left&quot;&gt;左栏&lt;/div&gt;</span><br><span class="line">&lt;div class=&quot;middle&quot;&gt;中间栏&lt;/div&gt;</span><br><span class="line">&lt;div class=&quot;right&quot;&gt;右栏&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">* &#123;</span><br><span class="line">  margin: 0;</span><br><span class="line">  padding: 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.left &#123;</span><br><span class="line">  width: 200px;</span><br><span class="line">  height: 300px;</span><br><span class="line">  background-color: #DC698A;</span><br><span class="line"></span><br><span class="line">  position: absolute;</span><br><span class="line">  left: 0;</span><br><span class="line">  top: 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.middle &#123;</span><br><span class="line">  height: 300px;</span><br><span class="line">  background-color: #8CB08B;</span><br><span class="line"></span><br><span class="line">  margin: 0 200px;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.right &#123;</span><br><span class="line">  width: 200px;</span><br><span class="line">  height: 300px;</span><br><span class="line">  background-color: #3EACDD;</span><br><span class="line"></span><br><span class="line">  position: absolute;</span><br><span class="line">  right: 0;</span><br><span class="line">  top: 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3、margin负值法-1"><a href="#3、margin负值法-1" class="headerlink" title="3、margin负值法"></a>3、margin负值法</h4><p>左栏中间栏右栏左浮，左栏margin-left：-100%，中间栏宽100%,，右栏margin-left:-右栏宽度</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;middle&quot;&gt;</span><br><span class="line">  &lt;h1&gt;Middle&lt;/h1&gt; // 被覆盖</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;div class=&quot;left&quot;&gt;</span><br><span class="line">  &lt;h1 &gt;Left&lt;/h1&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;div class=&quot;right&quot;&gt;</span><br><span class="line">  &lt;h1&gt;Right&lt;/h1&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">* &#123;</span><br><span class="line">   margin: 0;</span><br><span class="line">   padding: 0;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> .left &#123;</span><br><span class="line">   width: 200px;</span><br><span class="line">   height: 300px;</span><br><span class="line">   background-color: #DC698A;</span><br><span class="line"></span><br><span class="line">   float: left;</span><br><span class="line">   margin-left: -100%;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> .middle &#123;</span><br><span class="line">   width: 100%;</span><br><span class="line">   height: 300px;</span><br><span class="line">   background-color: #8CB08B;</span><br><span class="line"></span><br><span class="line">   float: left;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> .right &#123;</span><br><span class="line">   width: 200px;</span><br><span class="line">   height: 300px;</span><br><span class="line">   background-color: #3EACDD;</span><br><span class="line"></span><br><span class="line">   float: left;</span><br><span class="line">   margin-left: -200px;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="4、flex-1"><a href="#4、flex-1" class="headerlink" title="4、flex"></a>4、flex</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;box&quot;&gt;</span><br><span class="line">  &lt;div class=&quot;left&quot;&gt;左边&lt;/div&gt;</span><br><span class="line">  &lt;div class=&quot;middle&quot;&gt;中间&lt;/div&gt;</span><br><span class="line">  &lt;div class=&quot;right&quot;&gt;右边&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">* &#123;</span><br><span class="line">  margin: 0;</span><br><span class="line">  padding: 0;</span><br><span class="line">&#125;</span><br><span class="line">.box&#123;</span><br><span class="line">  display: flex;</span><br><span class="line">&#125;</span><br><span class="line">.left&#123;</span><br><span class="line">  background-color: lightcoral;</span><br><span class="line">  width: 200px;</span><br><span class="line">  height: 300px;</span><br><span class="line">&#125;</span><br><span class="line">.right&#123;</span><br><span class="line">  background-color: lightseagreen;</span><br><span class="line">  width: 200px;</span><br><span class="line">  height: 300px;</span><br><span class="line">&#125;</span><br><span class="line">.middle&#123;</span><br><span class="line">  background-color: mediumorchid;</span><br><span class="line"></span><br><span class="line">  flex: 1 1 0%;      </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="水平居中"><a href="#水平居中" class="headerlink" title="水平居中"></a>水平居中</h3><h4 id="1、行内元素水平居中"><a href="#1、行内元素水平居中" class="headerlink" title="1、行内元素水平居中"></a>1、行内元素水平居中</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;p class=&quot;inLine&quot;&gt;行内元素水平居中&lt;/p&gt;  </span><br><span class="line">&lt;style&gt;</span><br><span class="line">  .inLine&#123;</span><br><span class="line">    text-align: center;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2、定宽块状元素水平居中"><a href="#2、定宽块状元素水平居中" class="headerlink" title="2、定宽块状元素水平居中"></a>2、定宽块状元素水平居中</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;blockHaveWidth&quot;&gt;定宽块状元素水平居中&lt;/div&gt;  </span><br><span class="line">&lt;style&gt;</span><br><span class="line"></span><br><span class="line">  .blockHaveWidth&#123;</span><br><span class="line">    border:solid 1px black;</span><br><span class="line">    width:200px;</span><br><span class="line">    text-align: center;</span><br><span class="line">    </span><br><span class="line">    margin: 0 auto;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3、不定宽块状元素水平居中"><a href="#3、不定宽块状元素水平居中" class="headerlink" title="3、不定宽块状元素水平居中"></a>3、不定宽块状元素水平居中</h4><ul>
+<li>改变块状元素的display属性为inline, 然后给父级设置 text-aline：center 来实现水平居中， 这种方法的缺点是不能再给元素设置宽高了</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;father&quot;&gt;</span><br><span class="line">  &lt;div class=&quot;son&quot;&gt;不定宽块状元素水平居中&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;style&gt;</span><br><span class="line">  .father &#123;</span><br><span class="line">    text-align: center;</span><br><span class="line">  &#125;</span><br><span class="line">  .son&#123;</span><br><span class="line">    display: inline;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>利用绝对定位，让元素向右偏移50%，然后再向左偏移自身的50%</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;noWidthBlock&quot;&gt;不定宽块状元素水平居中&lt;/div&gt;</span><br><span class="line">&lt;style&gt;</span><br><span class="line">  .noWidthBlock &#123;</span><br><span class="line">    position: absolute;</span><br><span class="line">    left: 50%;</span><br><span class="line">    transform: translateX(-50%);</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>flex</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;box&quot;&gt;</span><br><span class="line">  &lt;div class=&quot;inner&quot;&gt;不定宽块状元素水平居中&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;style&gt;</span><br><span class="line">  .box &#123;</span><br><span class="line">    display: flex;</span><br><span class="line">  &#125;</span><br><span class="line">  .inner&#123;</span><br><span class="line">    margin: 20px auto;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>利用CSS3的fit-content配合左右margin为auto实现水平居中方法</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;son&quot;&gt;不定宽块状元素水平居中&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;style&gt;</span><br><span class="line"> .son&#123;</span><br><span class="line">    width: fit-content;</span><br><span class="line">    margin-left: auto;</span><br><span class="line">    margin-right: auto;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="垂直居中"><a href="#垂直居中" class="headerlink" title="垂直居中"></a>垂直居中</h3><h4 id="1、将div封装成table"><a href="#1、将div封装成table" class="headerlink" title="1、将div封装成table"></a>1、将div封装成table</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;table&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;td&quot;&gt;</span><br><span class="line">      &lt;div class=&quot;child&quot;&gt;</span><br><span class="line">        一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">  &lt;style&gt;</span><br><span class="line">    div.table &#123;</span><br><span class="line">      display: table;</span><br><span class="line">      border: 1px solid red;</span><br><span class="line">      height: 600px;</span><br><span class="line">    &#125;</span><br><span class="line">    div.td &#123;</span><br><span class="line">      display: table-cell;</span><br><span class="line">      border: 10px solid blue;</span><br><span class="line">      vertical-align: middle;</span><br><span class="line">    &#125;</span><br><span class="line">    .child &#123;</span><br><span class="line">      border: 10px solid black;</span><br><span class="line">    &#125;</span><br><span class="line">  &lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+<p>利用table 自带属性（td中的文字会在table中央</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;table class=&quot;parent&quot;&gt;</span><br><span class="line">  &lt;tr&gt;</span><br><span class="line">    &lt;td class=&quot;child&quot;&gt;</span><br><span class="line">      一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字一串文字</span><br><span class="line">    &lt;/td&gt;</span><br><span class="line">  &lt;/tr&gt;</span><br><span class="line">&lt;/table&gt;</span><br><span class="line"></span><br><span class="line">&lt;style&gt;</span><br><span class="line">  .parent &#123;</span><br><span class="line">    border: 1px solid red;</span><br><span class="line">    height: 500px;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  .child &#123;</span><br><span class="line">    border: 1px solid green;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2、margin-top-50"><a href="#2、margin-top-50" class="headerlink" title="2、margin-top=-50%"></a>2、margin-top=-50%</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;parent&quot;&gt;</span><br><span class="line">  &lt;div class=&quot;child&quot;&gt;</span><br><span class="line">    这里被我垂直居中了。</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;style&gt;</span><br><span class="line">  .parent &#123;</span><br><span class="line">    height: 500px;</span><br><span class="line">    border: 1px solid red;</span><br><span class="line">    position: relative;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  .child &#123;</span><br><span class="line">    border: 1px solid green;</span><br><span class="line">    width: 300px;</span><br><span class="line">    position: absolute;</span><br><span class="line">    background: red;</span><br><span class="line">    top: 50%;</span><br><span class="line">    /* left: 50%; */</span><br><span class="line">    height: 100px;</span><br><span class="line">    /* margin-left: -150px; */</span><br><span class="line">    margin-top: -50px;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3、translate-50"><a href="#3、translate-50" class="headerlink" title="3、translate:-50%"></a>3、translate:-50%</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;parent&quot;&gt;</span><br><span class="line">  &lt;div class=&quot;child&quot;&gt;</span><br><span class="line">    这里被我垂直居中了。</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;style&gt;</span><br><span class="line">  .parent &#123;</span><br><span class="line">    height: 600px;</span><br><span class="line">    border: 1px solid red;</span><br><span class="line">    position: relative;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  .child &#123;</span><br><span class="line">    border: 1px solid green;</span><br><span class="line">    position: absolute;</span><br><span class="line">    background: red;</span><br><span class="line">    top: 50%;</span><br><span class="line">    transform: translate(-50% 0);</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="4、flex-2"><a href="#4、flex-2" class="headerlink" title="4、flex"></a>4、flex</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;parent&quot;&gt;</span><br><span class="line">  &lt;div class=&quot;child&quot;&gt;</span><br><span class="line">    这里被我垂直居中了。</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;style&gt;</span><br><span class="line">  .parent &#123;</span><br><span class="line">    height: 600px;</span><br><span class="line">    border: 1px solid red;</span><br><span class="line">    </span><br><span class="line">    display: flex;</span><br><span class="line">    align-items: center;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  .child &#123;</span><br><span class="line">    border: 1px solid green;</span><br><span class="line">    height: 200px;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="水平垂直居中"><a href="#水平垂直居中" class="headerlink" title="水平垂直居中"></a>水平垂直居中</h3><h4 id="1、绝对定位元素的居中"><a href="#1、绝对定位元素的居中" class="headerlink" title="1、绝对定位元素的居中"></a>1、绝对定位元素的居中</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;center-vertical&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;style&gt;</span><br><span class="line">  .center-vertical &#123;</span><br><span class="line">    width: 100px;</span><br><span class="line">    height: 100px;</span><br><span class="line">    background: orange;</span><br><span class="line">    position: absolute;</span><br><span class="line">    top: 50%;</span><br><span class="line">    left: 50%;</span><br><span class="line">    margin-top: -50px;</span><br><span class="line">    /*高度的一半*/</span><br><span class="line">    margin-left: -50px;</span><br><span class="line">    /*宽度的一半*/</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+<p>缺点：需要提前知道元素的尺寸。如果不知道元素尺寸，这个时候就需要JS获取了。</p>
+<p>CSS3.0的兴起，使这个问题有了更好的解决方法，就是使用 transform 代替 margin 。</p>
+<p>transform 中 translate 偏移的百分比是相对于自身大小而说的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;center-vertical&quot;&gt;水平竖直居中&lt;/div&gt;</span><br><span class="line">&lt;style&gt;</span><br><span class="line">  .center-vertical &#123;</span><br><span class="line">    background: orange;</span><br><span class="line">    position: absolute;</span><br><span class="line">    top: 50%;</span><br><span class="line">    left: 50%;</span><br><span class="line">    transform: translate(-50% ,-50%);</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+<p>优点：无论绝对定位元素的尺寸是多少，它都是水平垂直居中显示的。</p>
+<p>缺点：就是兼容性问题。</p>
+<h4 id="2、margin：auto；实现绝对定位元素居中"><a href="#2、margin：auto；实现绝对定位元素居中" class="headerlink" title="2、margin：auto；实现绝对定位元素居中"></a>2、margin：auto；实现绝对定位元素居中</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;center-vertical&quot;&gt;水平竖直居中&lt;/div&gt;</span><br><span class="line">&lt;style&gt;</span><br><span class="line">  .center-vertical &#123;</span><br><span class="line">    width: 100px;</span><br><span class="line">    height: 100px;</span><br><span class="line">    background-color: aqua;</span><br><span class="line">    position: absolute;</span><br><span class="line">    top: 0;</span><br><span class="line">    left: 0;</span><br><span class="line">    right: 0;</span><br><span class="line">    bottom: 0;</span><br><span class="line">    margin: auto;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3、相对定位"><a href="#3、相对定位" class="headerlink" title="3、相对定位"></a>3、相对定位</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;center-vertical&quot;&gt;水平竖直居中&lt;/div&gt;</span><br><span class="line">&lt;style&gt;</span><br><span class="line">  html,body&#123;</span><br><span class="line">    width: 100%;</span><br><span class="line">    height: 100%;</span><br><span class="line">    margin: 0;</span><br><span class="line">    padding: 0;</span><br><span class="line">  &#125;</span><br><span class="line">  .center-vertical &#123;</span><br><span class="line">    width: 300px;</span><br><span class="line">    height: 300px;</span><br><span class="line">    background-color: aqua;</span><br><span class="line">    margin: 0 auto;</span><br><span class="line">    position: relative;</span><br><span class="line">    top: 50%;</span><br><span class="line">    transform: translateY(-50%);</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="4、flex-3"><a href="#4、flex-3" class="headerlink" title="4、flex"></a>4、flex</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;parent&quot;&gt;</span><br><span class="line">  &lt;div class=&quot;center-vertical&quot;&gt;水平竖直居中&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;style&gt;</span><br><span class="line">  html,body&#123;</span><br><span class="line">    width: 100%;</span><br><span class="line">    height: 100%;</span><br><span class="line">    margin: 0;</span><br><span class="line">    padding: 0;</span><br><span class="line">  &#125;</span><br><span class="line">  .parent&#123;</span><br><span class="line">    width: 100%;</span><br><span class="line">    height: 100%;</span><br><span class="line">    display: flex;</span><br><span class="line">    align-items: center;</span><br><span class="line">    justify-content: center;</span><br><span class="line">  &#125;</span><br><span class="line">  .center-vertical &#123;</span><br><span class="line">    background-color: aqua;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/10/浏览器内核/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1808,168 +2032,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/08/SEO/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jerry">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jerry's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/07/08/SEO/" itemprop="url">SEO</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-08T09:05:24+08:00">
-                2020-07-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/前端/" itemprop="url" rel="index">
-                    <span itemprop="name">前端</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>比如在百度中，后台有一个非常庞大的数据库，里面存储了海量关键词，每个关键词对应很多网址，这些网址是百度程序（又称搜索引擎蜘蛛或者网络爬虫）从茫茫互联网上一点一点下载收集来的。这些蜘蛛每天在互联网上爬行，从一个连接到另一个链接，下载其内容，进行分析提炼，找到其关键词。如果蜘蛛认为关键词是对用户有用的而数据库中又没有就会存入到数据库中，反之就丢弃，继续爬行找到最新的、有用的信息保存起来供用户搜索。当用户搜索时就会检索到与关键词相关的网址显示给访客。</p>
-<p>一个关键词存在多个网址，那就回存在排名问题。当与关键词最吻合的网址就会排在前边。</p>
-<p>SEO 就是传说中的搜索引擎优化，是指为了增加网页在搜索引擎自然搜索结果中的收录数量以及提升排序位置而做的优化行为。</p>
-<p>SEO分为白帽SEO和黑帽SEO。白帽SEO，起到了改良和规范网站设计的作用，使网站对搜索引擎和用户更加友好，并且网站也能从搜索引擎中获取合理的流量，这是搜索引擎鼓励和支持的。黑帽SEO，利用和放大搜索引擎政策缺陷来获取更多用户的访问量，这类行为大多是欺骗搜索引擎，一般搜索引擎公司是不支持与鼓励的。</p>
-<h3 id="前端SEO"><a href="#前端SEO" class="headerlink" title="前端SEO"></a>前端SEO</h3><h4 id="网站结构布局优化：尽量简单，开门见山，提倡扁平化结构。"><a href="#网站结构布局优化：尽量简单，开门见山，提倡扁平化结构。" class="headerlink" title="网站结构布局优化：尽量简单，开门见山，提倡扁平化结构。"></a>网站结构布局优化：尽量简单，开门见山，提倡扁平化结构。</h4><p>一般而言，建立的网站<strong>结构层次</strong>越少，越容易被“蜘蛛”抓取，也就容易被收录。一般中小型网站目录结构超过三级，“蜘蛛”便不愿意往下爬，“万一天黑迷路了怎么办”。并且根据相关调查：访客如果经过跳转3次还没找到需要的信息，很可能离开。因此，三层目录结构也是体验的需要。为此我们需要做到：</p>
-<h5 id="1-控制首页链接数量"><a href="#1-控制首页链接数量" class="headerlink" title="1. 控制首页链接数量"></a>1. 控制首页链接数量</h5><p>　　网站首页是权重最高的地方，如果首页链接太少，没有“桥”，“蜘蛛”不能继续往下爬到内页，直接影响网站收录数量。但是首页链接也不能太多，一旦太多，没有实质性的链接，很容易影响用户体验，也会降低网站首页的权重，收录效果也不好。</p>
-<p>　　因此对于中小型企业网站，建议首页链接在100个以内，链接的性质可以包含页面导航、底部导航、锚文字链接等等，注意链接要建立在用户的良好体验和引导用户获取信息的基础之上。</p>
-<h5 id="2-扁平化的目录层次"><a href="#2-扁平化的目录层次" class="headerlink" title="2.扁平化的目录层次"></a>2.扁平化的目录层次</h5><p>尽量让“蜘蛛”只要跳转3次，就能到达网站内的任何一个内页。扁平化的目录结构，比如：“植物”–&gt; “水果” –&gt; “苹果”、“桔子”、“香蕉”，通过3级就能找到香蕉了。</p>
-<h5 id="3-导航优化"><a href="#3-导航优化" class="headerlink" title="3.导航优化"></a>3.导航优化</h5><p>　　导航应该尽量采用文字方式，也可以搭配图片导航，但是图片代码一定要进行优化，<strong>&lt; img &gt;标签</strong>必须添加“alt”和“title”属性，告诉搜索引擎导航的定位，做到即使图片未能正常显示时，用户也能看到提示文字。</p>
-<p>　　其次，在每一个网页上应该加上<strong>面包屑导航</strong>，好处：从用户体验方面来说，可以让用户了解当前所处的位置以及当前页面在整个网站中的位置，帮助用户很快了解网站组织形式，从而形成更好的位置感，同时提供了返回各个页面的接口，方便用户操作；对“蜘蛛”而言，能够清楚的了解网站结构，同时还增加了大量的内部链接，方便抓取，降低跳出率。</p>
-<h5 id="4-网站的结构布局–不可忽略的细节"><a href="#4-网站的结构布局–不可忽略的细节" class="headerlink" title="4. 网站的结构布局–不可忽略的细节"></a>4. 网站的结构布局–不可忽略的细节</h5><p>页面头部：logo及主导航，以及用户的信息。</p>
-<p>页面主体：左边正文，包括面包屑导航及正文；右边放<strong>热门文章</strong>及相关文章，好处：留住访客，让访客多停留，对“蜘蛛”而言，这些文章属于相关链接，增强了页面相关性，也能增强页面的权重。</p>
-<p>页面底部：版权信息和友情链接。</p>
-<p>特别注意：<strong>分页导航</strong>写法，推荐写法：“首页 1 2 3 4 5 6 7 8 9 下拉框”，这样“蜘蛛”能够根据相应页码直接跳转，下拉框直接选择页面跳转。而下面的写法是不推荐的，“首页 下一页 尾页”，特别是当分页数量特别多时，“蜘蛛”需要经过很多次往下爬，才能抓取，会很累、会容易放弃。</p>
-<h5 id="5-控制页面的大小，减少http请求，提高网站的加载速度。"><a href="#5-控制页面的大小，减少http请求，提高网站的加载速度。" class="headerlink" title="5.控制页面的大小，减少http请求，提高网站的加载速度。"></a>5.控制页面的大小，减少http请求，提高网站的加载速度。</h5><p>一个页面最好不要超过100k，太大，页面加载速度慢。当速度很慢时，用户体验不好，留不住访客，并且一旦超时，“蜘蛛”也会离开。</p>
-<h4 id="网页代码优化"><a href="#网页代码优化" class="headerlink" title="网页代码优化"></a>网页代码优化</h4><h5 id="1-标题"><a href="#1-标题" class="headerlink" title="1.标题"></a>1.<title>标题</title></h5><p>只强调重点即可，尽量把重要的关键词放在前面，关键词不要重复出现，尽量做到每个页面的<title>标题中不要设置相同的内容。</title></p>
-<h5 id="2-标签"><a href="#2-标签" class="headerlink" title="2.标签"></a>2.<meta keywords>标签</h5><p>关键词，列举出几个页面的重要关键字即可，切记过分堆砌。</p>
-<h5 id="3-标签"><a href="#3-标签" class="headerlink" title="3.标签"></a>3.<meta description>标签</h5><p>网页描述，需要高度概括网页内容，切记不能太长，过分堆砌关键词，每个页面也要有所不同。</p>
-<h5 id="4-中的标签"><a href="#4-中的标签" class="headerlink" title="4.中的标签"></a>4.<body>中的标签</body></h5><p>尽量让代码<strong>语义化</strong>，在适当的位置使用适当的标签，用正确的标签做正确的事。让阅读源码者和“蜘蛛”都一目了然。比如：h1-h6 是用于标题类的，<nav>标签是用来设置页面主导航的等。</nav></p>
-<h5 id="5-lt-a-gt-标签"><a href="#5-lt-a-gt-标签" class="headerlink" title="5.&lt; a &gt;标签"></a>5.&lt; a &gt;标签</h5><p>页内链接，<strong>要加 “title” 属性</strong>加以说明，让访客和 “蜘蛛” 知道。而外部链接，链接到其他网站的，则需要加上 el=”nofollow” 属性, 告诉 “蜘蛛” 不要爬，因为一旦“蜘蛛”爬了外部链接之后，就不会再回来了。</p>
-<h5 id="6-正文标题要用-lt-h1-gt-标签"><a href="#6-正文标题要用-lt-h1-gt-标签" class="headerlink" title="6.正文标题要用&lt; h1&gt;标签"></a>6.正文标题要用&lt; h1&gt;标签</h5><p>“蜘蛛” 认为它最重要，若不喜欢&lt; h1&gt;的默认样式可以通过CSS设置。尽量做到正文标题用&lt; h1&gt;标签，副标题用&lt; h2&gt;标签, 而其它地方不应该随便乱用标题标签。</p>
-<h5 id="7-重要内容不要用JS输出，因为“蜘蛛”不认识"><a href="#7-重要内容不要用JS输出，因为“蜘蛛”不认识" class="headerlink" title="7.重要内容不要用JS输出，因为“蜘蛛”不认识"></a>7.重要内容不要用JS输出，因为“蜘蛛”不认识</h5><h5 id="8-尽量少使用iframe框架-因为“蜘蛛”一般不会读取其中的内容"><a href="#8-尽量少使用iframe框架-因为“蜘蛛”一般不会读取其中的内容" class="headerlink" title="8. 尽量少使用iframe框架,因为“蜘蛛”一般不会读取其中的内容"></a>8. 尽量少使用iframe框架,因为“蜘蛛”一般不会读取其中的内容</h5><h5 id="9-js代码如果是操作DOM操作，应尽量放在body结束标签之前，html代码之后。"><a href="#9-js代码如果是操作DOM操作，应尽量放在body结束标签之前，html代码之后。" class="headerlink" title="9.js代码如果是操作DOM操作，应尽量放在body结束标签之前，html代码之后。"></a>9.js代码如果是操作DOM操作，应尽量放在body结束标签之前，html代码之后。</h5>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2022,7 +2084,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">62</span>
+                  <span class="site-state-item-count">63</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

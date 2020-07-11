@@ -249,6 +249,205 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/19/webpack-性能优化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerry">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerry's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/05/19/webpack-性能优化/" itemprop="url">webpack-性能优化</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-19T14:11:42+08:00">
+                2020-05-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="提升webpack打包速度的方法"><a href="#提升webpack打包速度的方法" class="headerlink" title="提升webpack打包速度的方法"></a>提升webpack打包速度的方法</h3><h4 id="1-跟上技术迭代（Node，Npm，Yarn"><a href="#1-跟上技术迭代（Node，Npm，Yarn" class="headerlink" title="1. 跟上技术迭代（Node，Npm，Yarn)"></a>1. 跟上技术迭代（Node，Npm，Yarn)</h4><p>每次技术的革新，内部必然会实现优化，及时更新webpack，node环境，安装新版本的npm或者yarn管理工具，打包速度都会有所提升。</p>
+<h4 id="2-在尽可能少的模块上应用loader"><a href="#2-在尽可能少的模块上应用loader" class="headerlink" title="2. 在尽可能少的模块上应用loader"></a>2. 在尽可能少的模块上应用loader</h4><p>对于某种类型的文件，部分需要打包，部分不需要打包时使用比如js文件，业务代码是需要打包的，但是node_modules中的js就不需要再次打包了:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    test: /\.js$/,</span><br><span class="line">    exclude: /node_modules/,</span><br><span class="line">    loader:&quot;babel-loader&quot;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<p>上边的exclude就是性能优化的体现，我们没必要对node_modules中的js代码使用babel-loader实现转换。不仅可以配置exclude，还可以配置include：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">include:path.resolve(__dirname,&apos;../src&apos;)</span><br></pre></td></tr></table></figure>
+
+<p>即只对src目录下js文件应用 babel-loader。</p>
+<p>但是在对图片文件的处理中，所有的图片文件都需要loader打包之后才可以，所以就不必再设置include或者exclude。</p>
+<p>但是合理的使用include和exclude可以在尽可能少的模块上使用loader，从而提高打包速度。</p>
+<h4 id="3-Plugin尽可能精简并确保可靠"><a href="#3-Plugin尽可能精简并确保可靠" class="headerlink" title="3. Plugin尽可能精简并确保可靠"></a>3. Plugin尽可能精简并确保可靠</h4><p>在打包生成线上代码的时候，为了使代码尽可能的小，加载速度尽可能的快，需要使用optimize-css-assets-plugin对代码css代码进行压缩，但是在开发环境下并不需要对代码进行压缩，所以在开发环境下不使用这个插件，就节省了打包过程中对代码进行压缩的时间，加快打包速度。</p>
+<p>在使用插件的时候最好是使用官方推荐过的插件，使用第三方或者自己编写的插件时，可能解决了一些问题，但是没有通过官方验证，在性能上可能存在不足。</p>
+<h4 id="4-resolve参数的合理配置"><a href="#4-resolve参数的合理配置" class="headerlink" title="4. resolve参数的合理配置"></a>4. resolve参数的合理配置</h4><p>可以在webpack配置文件中配置resolve：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">resolve：&#123;</span><br><span class="line">    extensions:[&apos;js&apos;,&apos;jsx&apos;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上设置的含义是，当我们按照如下方式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import xxx from &apos;../index/index&apos;</span><br></pre></td></tr></table></figure>
+
+<p>引入index文件夹下的名称为index的文件时,会先去index文件夹下查找index.js，没有的话再去查找index.jsx，还没有的话报错。</p>
+<p>之所以说要合理配置resolve参数，是因为当resolve参数过多时，对每个文件的引入都要去查找一次，会延长打包时间，所以我们经常只对js这一类的业务路基文件配置resolve。</p>
+<p>按照以上方式配置好之后，我们引入child文件夹下index.js文件时直接写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import xxx from &apos;../child&apos;  //只写到文件夹</span><br></pre></td></tr></table></figure>
+
+<p>不会报错。但是引入child文件夹下的child.js文件时直接写到文件夹就会报错。</p>
+<p>我们可以在resolve中配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">resolve：&#123;</span><br><span class="line">    extensions:[&apos;js&apos;,&apos;jsx&apos;],</span><br><span class="line">    mainFiles:[&apos;index&apos;,&apos;child&apos;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>引入文件夹的时候，我们先去文件夹下查找index文件，没有的话再去查找child文件，但是这样确实会增加打包负担。每次引入一个文件要去查找可能不止一次。</p>
+<p>resolve还有其他设置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">resolve：&#123;</span><br><span class="line">    extensions:[&apos;js&apos;,&apos;jsx&apos;],</span><br><span class="line">    mainFiles:[&apos;index&apos;,&apos;child&apos;],</span><br><span class="line">    alias:&#123;</span><br><span class="line">        jerry:path.resolve(__dirname,&apos;../src/child&apos; //给src/child取别名为jerry)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样就可以：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 将</span><br><span class="line"></span><br><span class="line">import xxx from &apos;../src/child&apos;</span><br><span class="line"></span><br><span class="line">//改为</span><br><span class="line"></span><br><span class="line">import xxx from &apos;jerry&apos;</span><br></pre></td></tr></table></figure>
+
+<p>alias使用场景：文件向下嵌套很多层时，层层引入(‘../a/b/c/d/child’)很麻烦，可以用alias。</p>
+<h4 id="5-使用-DllPlugin-提高打包速度"><a href="#5-使用-DllPlugin-提高打包速度" class="headerlink" title="5. 使用 DllPlugin 提高打包速度"></a>5. 使用 DllPlugin 提高打包速度</h4><p>我们常常会引用很多第三方模块，每次打包的时候，都要从node_modules里面取出模块，然后在把这些模块打包到源代码之中。这个过程中，会消耗一定的打包时间。但是事实上，每次打包，这些第三方模块的内容并没有改变，每次打包实属浪费。因此，我们希望只打包一次，之后再次打包时，直接使用第一次打包好了大模块。</p>
+<p>为第三方模块单独创建一个配置文件，webpack.dll.js，配置如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">const path = require(&apos;path&apos;);</span><br><span class="line">const webapck = require(&apos;webpack&apos;);</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">    mode:&apos;production&apos;,</span><br><span class="line">    entry:&#123;</span><br><span class="line">        vendors:[&apos;react&apos;,&apos;react-dom&apos;,&apos;lodash&apos;]//对第三方文件打包</span><br><span class="line">    &#125;,</span><br><span class="line">    output:&#123;</span><br><span class="line">        filename:&apos;[name].dll.js&apos;,//打包后的文件放到vendors.dll.js文件中</span><br><span class="line">        path:path.resolve(__filename,&apos;../dll&apos;);//存放到dll目录下</span><br><span class="line">        library:&apos;[name]&apos;//将打包好的第三方模块以全局变量的形式暴露出去</span><br><span class="line">    &#125;,</span><br><span class="line">    plugins:[</span><br><span class="line">    //DllPlugin对暴露出去的全局变量中的全局代码进行分析，生成manifest.json映射文件</span><br><span class="line">        new webapck.DllPlugin(&#123;</span><br><span class="line">            name:&apos;[name]&apos;,</span><br><span class="line">            path:path.resolve(__dirname,&apos;../dll/[name].manifest.json&apos;)</span><br><span class="line">        &#125;)</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后在package.json中配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;build:dll&quot;: &quot;webpack --config ./build/webpack.dll.js&quot;</span><br></pre></td></tr></table></figure>
+
+<p>之后运行npm run build:dll就可以生成两个文件：vendors.dll.js和映射文件vendors.manifest.json</p>
+<p>但是我们打包线上代码和开发代码时会用不同的配置文件，但是他们存在公共的配置文件webpack.common.js,我们需要在其中配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">new AddAssetHtmlWbpackPludin(&#123;</span><br><span class="line">    manifest:path.resolve(__dirname,&apos;../dll/vendors.dll.js&apos;)</span><br><span class="line">&#125;)</span><br><span class="line">new webpack.DllReferencePlugin(&#123;</span><br><span class="line">    manifest:path.resolve(__dirname,&apos;../dll/vendors.manifest.json&apos;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>之后执行npm run dev 或者 npm run build时DllReferencePlugin会结合传入的映射文件，打包后的文件vendoe.dll.js和引入的第三方模块，分析模块是否在vendoe.dll.js中已经打包好，如果打包好了，就不在去node_modules中分析打包了。</p>
+<p>AddAssetHtmlWbpackPludin负责将打包后的vendors.dll.js文件放到HTML文件上去(挂载到页面上)，然后才会出现全局变量。</p>
+<p>如果我们想把每个模块单独打包一个js文件，那么我们就需要为每个文件配置插件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">new AddAssetHtmlWbpackPludin(&#123;</span><br><span class="line">    manifest:path.resolve(__dirname,&apos;../dll/vendors.dll.js&apos;)</span><br><span class="line">&#125;)</span><br><span class="line">new webpack.DllReferencePlugin(&#123;</span><br><span class="line">    manifest:path.resolve(__dirname,&apos;../dll/vendors.manifest.json&apos;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>每次引入插件都修改的话很麻烦，那么就需要用到node去分析dll文件夹下有几个js文件，有几个manifest.json文件，为我们动态的添加插件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">const fs = require(&apos;fs&apos;);//引入node的核心模块</span><br><span class="line"></span><br><span class="line">//都dll文件夹下的所有内容</span><br><span class="line">const files = fs.readdirSync(path.resolve(__dirnamem,&apos;../dll&apos;) );</span><br><span class="line">const plufins=[</span><br><span class="line">  //别的plugins</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line">files.forEach(file =&gt; &#123;</span><br><span class="line">    if(/.*\.dll.js/.test(file))&#123;</span><br><span class="line">        plugins.push(new    AddAssetHtmlWbpackPludin(&#123;</span><br><span class="line">          manifest:path.resolve(__dirname,&apos;../dll&apos;,flie)</span><br><span class="line">        &#125;))</span><br><span class="line">    &#125;</span><br><span class="line">    if(/.*\.manifest.json/.test(file) )&#123;</span><br><span class="line">        plugins.push(new webpack.DllReferencePlugin(&#123;</span><br><span class="line">            manifest:path.resolve(__dirname,&apos;../dll&apos;,file)</span><br><span class="line">        &#125;))</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">module.exports=&#123;</span><br><span class="line">    plugins,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="6-控制包文件的大小"><a href="#6-控制包文件的大小" class="headerlink" title="6. 控制包文件的大小"></a>6. 控制包文件的大小</h4><p>TreeShaking  和 SplitChunksPlugin </p>
+<h4 id="7-tread-loader-parallel-webpack-happypack多进程打包"><a href="#7-tread-loader-parallel-webpack-happypack多进程打包" class="headerlink" title="7. tread-loader ,parallel-webpack ,happypack多进程打包"></a>7. tread-loader ,parallel-webpack ,happypack多进程打包</h4><h4 id="8-合理使用sourceMap"><a href="#8-合理使用sourceMap" class="headerlink" title="8. 合理使用sourceMap"></a>8. 合理使用sourceMap</h4><p>sourceMap 越详细，打包越慢。合理配置。</p>
+<h4 id="9-结合stats分析打包结果"><a href="#9-结合stats分析打包结果" class="headerlink" title="9. 结合stats分析打包结果"></a>9. 结合stats分析打包结果</h4><h4 id="10-开发环境内存编译"><a href="#10-开发环境内存编译" class="headerlink" title="10. 开发环境内存编译"></a>10. 开发环境内存编译</h4><p>开发环境打包时使用的是devServer,不会生成dist文件，而是把编译之后生成的文件放到内存里边，内存的读取比硬盘的读取快得多，也会加快打包速度。</p>
+<h4 id="11-开发环境无用插件剔除"><a href="#11-开发环境无用插件剔除" class="headerlink" title="11. 开发环境无用插件剔除"></a>11. 开发环境无用插件剔除</h4><p>在开发环境呀，不必压缩，如果设置成mode=production,做不必要的压缩，也是在浪费时间。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/16/webpack-实战配置讲解/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2519,207 +2718,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/21/js/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jerry">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jerry's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/04/21/js/" itemprop="url">js</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-21T15:05:40+08:00">
-                2020-04-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/前端/" itemprop="url" rel="index">
-                    <span itemprop="name">前端</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="不同浏览器关于js兼容性的两个常见问题"><a href="#不同浏览器关于js兼容性的两个常见问题" class="headerlink" title="不同浏览器关于js兼容性的两个常见问题"></a>不同浏览器关于js兼容性的两个常见问题</h3><ul>
-<li>事件绑定兼容性：IE8以下的浏览器不支持使用<code>addEventListener</code>来绑定事件，使用<code>attachEvent</code> 可以解决这个问题。</li>
-<li><code>stopPropagation</code>兼容性：IE8以下的浏览器不支持使用<code>e.stopPropagation</code>来阻止事件传播，使用<code>e.returnValue = false</code>可以解决这个问题。</li>
-</ul>
-<p><a href="https://www.w3school.com.cn/jsref/event_stoppropagation.asp" target="_blank" rel="noopener">stopPropagation</a></p>
-<h3 id="什么是未声明和未定义变量"><a href="#什么是未声明和未定义变量" class="headerlink" title="什么是未声明和未定义变量"></a>什么是未声明和未定义变量</h3><p>未声明的变量是程序中不存在且未声明的变量。如果程序尝试读取未声明变量的值，则会遇到运行时错误。</p>
-<p>未定义的变量是在程序中声明但尚未给出任何值的变量。如果程序尝试读取未定义变量的值，则返回未定义的值。</p>
-<h3 id="JavaScript-中的进制转换"><a href="#JavaScript-中的进制转换" class="headerlink" title="JavaScript 中的进制转换"></a><code>JavaScript</code> 中的进制转换</h3><h4 id="十进制转换为其它进制"><a href="#十进制转换为其它进制" class="headerlink" title="十进制转换为其它进制"></a>十进制转换为其它进制</h4><p><code>Number.toString([radix])</code>，<code>radix</code> 要转换为的进制。</p>
-<p>在调用数值的 <code>toString()</code>方法时，可以传递一个参数：输出数值的基数。默认情况下， <code>toString()</code>方法以十进制格式返回数值的字符串表示。而通过传递基数，<code>toString()</code>可以输出以二进制、八进制、十六进制，乃至其他任意有效进制格式表示的字符串值。下面给出几个例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var num = 10;</span><br><span class="line">alert(num.toString()); // &quot;10&quot;</span><br><span class="line">alert(num.toString(2)); // &quot;1010&quot;</span><br><span class="line">alert(num.toString(8)); // &quot;12&quot;</span><br><span class="line">alert(num.toString(10)); // &quot;10&quot;</span><br><span class="line">alert(num.toString(16)); // &quot;a&quot;</span><br></pre></td></tr></table></figure>
-
-<h4 id="其他禁止转换为十进制"><a href="#其他禁止转换为十进制" class="headerlink" title="其他禁止转换为十进制"></a>其他禁止转换为十进制</h4><p><code>parseInt(str, [radix])</code> </p>
-<p><code>str</code> 必选项，转换对象。（该方法会将第一个参数强制转换为字符串）</p>
-<p><code>radix</code> 可选项，表示 <code>str</code>的进制，范围为 2 - 36；如果缺少 <code>radix</code>，则以 0x 开头的字符串转换为十六进制，以 0 开头的字符串转换为八进制，其它字符串都转换十进制。将字符串<code>str</code>按照radix进制编码方式转换为10进制返回，没有radix，默认为10；此方法把任意进制字符串转为10进展返回。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var x=&apos;110&apos;;</span><br><span class="line">alert(parseInt(x,2)); //6</span><br><span class="line">alert(parseInt(x,8));//72</span><br><span class="line">alert(parseInt(x,16));//272</span><br></pre></td></tr></table></figure>
-
-<h3 id="void-0-的作用是什么"><a href="#void-0-的作用是什么" class="headerlink" title="void(0)的作用是什么"></a><code>void(0)</code>的作用是什么</h3><h4 id="void关键字介绍"><a href="#void关键字介绍" class="headerlink" title="void关键字介绍"></a><code>void</code>关键字介绍</h4><p>void关键字是javascript当中非常重要的关键字，该操作符指定要计算或运行一个表达式，但是不返回值。</p>
-<p>语法格式：<code>void func()</code> or <code>javascript:void func()</code>或者 <code>void(func())</code> or <code>javascript:void(func())</code></p>
-<ul>
-<li>点击超级连接，什么都不发生</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--当用户点击链接时，viod(0)计算为0，用户不会发生任何效果--&gt;</span><br><span class="line"> &lt;a href=&quot;javascript:void(0);&quot;&gt;单击此处什么都不会发生&lt;/a&gt;&lt;br&gt;</span><br><span class="line"> </span><br><span class="line"> &lt;!--下面的代码创建了一个超级链接，用户单时会提交表单。--&gt;</span><br><span class="line"> &lt;a href=&quot;javascript:void(document.form.submit())&quot;&gt;点击此处提交表单&lt;/a&gt;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>执行void当中代码</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 2.执行 void() 操作符中的代码 --&gt;</span><br><span class="line">    &lt;a href=&quot;javascript:void(alert(&apos;还真点啊你，真听话！！！哈哈哈！！！&apos;))&quot;&gt;点我弹出警告框!!!&lt;/a&gt;&lt;br&gt;</span><br><span class="line">    &lt;a href=&quot;javascript:void(console.log(&apos;还真点啊你，真听话！！！哈哈哈！！！&apos;))&quot;&gt;点我输出到控制台!!!&lt;/a&gt;&lt;br&gt;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>计算void当中算数</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;button type=&quot;button&quot;&gt; 点我&lt;/button&gt;</span><br><span class="line">&lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">    document.querySelector(&apos;button&apos;).addEventListener(&apos;click&apos;, function () &#123;</span><br><span class="line">        var a, b, c, d;</span><br><span class="line">        a = void(b = 2, c = 3);</span><br><span class="line">        console.log(&apos;a =&gt; &apos; + a); //undefined</span><br><span class="line">        console.log(&apos;b =&gt; &apos; + b);//2</span><br><span class="line">        console.log(&apos;c =&gt; &apos; + c);//3</span><br><span class="line">        console.log(&apos;d =&gt; &apos; + d);//undefined</span><br><span class="line">    &#125;);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">//很显然，2赋值给了a, 3赋值给了b, a 和 d一样只是定义了没有赋值，所以为undefined</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>#与javascript:void(0)的区别</li>
-</ul>
-<p>#可以跳转到设置了id的目的地</p>
-<p>javascript:void(0)则停留在原地，一动不动，我们称之为“死链接”</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=&quot;javascript:void(0);&quot;&gt;你点吧，反正我就是不动，嘿嘿嘿！！！&lt;/a&gt;&lt;br&gt;</span><br><span class="line">    &lt;a href=&quot;#destination&quot;&gt;点我跳转&lt;/a&gt;</span><br><span class="line">    &lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;</span><br><span class="line">    &lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;</span><br><span class="line">    &lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;</span><br><span class="line">    &lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;</span><br><span class="line">    &lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;</span><br><span class="line">    &lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;</span><br><span class="line">    &lt;h2 id=&quot;destination&quot;&gt;目的地&lt;/h2&gt;</span><br></pre></td></tr></table></figure>
-
-<p>当点击第一个链接时，一动不动</p>
-<p>当点击第二个连接时，会跳转到指定id得位置（页面最底部）</p>
-<p>总结：</p>
-<p><code>void</code>操作符使表达式的运算结果返回 <code>undefined</code>   <code>a.void(5)-&gt;undefined</code></p>
-<p><code>void(0)</code>用于防止页面刷新，并在传递时传递参数 “0”</p>
-<p><code>void(0)</code>用于调用另一种方法而不刷新页面</p>
-<h3 id="在JavaScript中使用innerHTML的缺点是什么"><a href="#在JavaScript中使用innerHTML的缺点是什么" class="headerlink" title="在JavaScript中使用innerHTML的缺点是什么"></a>在<code>JavaScript</code>中使用<code>innerHTML</code>的缺点是什么</h3><p>定义：该属性设置或返回表格行的开始合结束标签之间的 HTML</p>
-<p>语法： <code>HTMLElementObject.innerHTML=text</code></p>
-<ul>
-<li>内容被随处替换</li>
-<li>整个innerHTML内容被重新解析并构建成元素，因此它慢得多</li>
-<li>innerHTML不提供验证，因此我们可以在文档中插入有效和破碎的HTML并将其分隔</li>
-<li>我们不能使用像“appending to innerHTML”，即使使用 += 如 “innerHTML = innerHTML + ‘html’” ，旧的内容仍然会被字符串的连接替换掉</li>
-</ul>
-<h5 id="innerHTML与-innerText的区别："><a href="#innerHTML与-innerText的区别：" class="headerlink" title="innerHTML与 innerText的区别："></a><code>innerHTML</code>与 <code>innerText</code>的区别：</h5><p>这两个属性都是获取 <code>document</code>对象的文本内容的。</p>
-<ul>
-<li><code>innerHTML</code>指的是 ：从对象的起始位置到终止位置的全部内容，包括 HTML标签</li>
-<li><code>innerText</code>指的是 ：从起始位置到终止位置的内容，但它去除HTML标签</li>
-</ul>
-<p>同时，innerHTML 是所有浏览器都支持的，innerText 是IE浏览器和chrome 浏览器支持的，Firefox浏览器不支持。其实，innerHTML 是W3C 组织规定的属性；而innerText 属性是IE浏览器自己的属性，不过后来的浏览器部分实现这个属性罢了。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2772,7 +2770,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">62</span>
+                  <span class="site-state-item-count">63</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
