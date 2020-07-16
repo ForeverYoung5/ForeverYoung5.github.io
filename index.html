@@ -249,6 +249,158 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/16/设计模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerry">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerry's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/07/16/设计模式/" itemprop="url">设计模式</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-16T16:44:40+08:00">
+                2020-07-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h3><p>是用来创建对象的一种最常用的设计模式。我们不暴露创建对象的具体逻辑，而是将将逻辑封装在一个函数中，那么这个函数就可以被视为一个工厂。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function Person(opts) &#123;</span><br><span class="line">    var obj = new Object();</span><br><span class="line">    obj.name = opts.name;</span><br><span class="line">    obj.age = opts.age;</span><br><span class="line">    obj.getInfo = function () &#123;</span><br><span class="line">        return &apos;名称：&apos; + obj.name + &apos;， 年龄：&apos; + obj.color;</span><br><span class="line">    &#125;</span><br><span class="line">    return obj;</span><br><span class="line">&#125;</span><br><span class="line">var person = Person(&#123; name: &apos;张三&apos;, age: &apos;14&apos; &#125;);</span><br><span class="line">person.getInfo();</span><br></pre></td></tr></table></figure>
+
+<h3 id="构造函数模式"><a href="#构造函数模式" class="headerlink" title="构造函数模式"></a>构造函数模式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">function Person(name, age) &#123;</span><br><span class="line">    this.name = name;</span><br><span class="line">    this.age = age;</span><br><span class="line">    this.getName = function () &#123;</span><br><span class="line">        return this.name;</span><br><span class="line">    &#125;,</span><br><span class="line">    this.getAge = function () &#123;</span><br><span class="line">        return this.age;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">// 实例一个对象 </span><br><span class="line">var person = new Person(&apos;张三&apos;, &apos;14&apos;);</span><br><span class="line">console.log(person.getName());</span><br><span class="line">console.log(person.getAge());</span><br></pre></td></tr></table></figure>
+
+<h3 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h3><p>它限制一个类只能有一个实例化对象。经典的实现方式是，创建一个类，这个类包含一个方法，这个方法在没有对象存在的情况下，将会创建一个新的实例对象。如果对象存在，这个方法只是返回这个对象的引用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">var mySingleton = (function () &#123;</span><br><span class="line">  // Instance stores a reference to the Singleton</span><br><span class="line">  var instance;</span><br><span class="line">  function init() &#123;</span><br><span class="line">    // 单例</span><br><span class="line">    // 私有方法和变量</span><br><span class="line">    function privateMethod()&#123;</span><br><span class="line">        console.log( &quot;I am private&quot; );</span><br><span class="line">    &#125;</span><br><span class="line">    var privateVariable = &quot;Im also private&quot;;</span><br><span class="line">    var privateRandomNumber = Math.random();</span><br><span class="line">    return &#123;</span><br><span class="line">      // 共有方法和变量</span><br><span class="line">      publicMethod: function () &#123;</span><br><span class="line">        console.log( &quot;The public can see me!&quot; );</span><br><span class="line">      &#125;,</span><br><span class="line">      publicProperty: &quot;I am also public&quot;,</span><br><span class="line">      getRandomNumber: function() &#123;</span><br><span class="line">        return privateRandomNumber;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  return &#123;</span><br><span class="line">    // 如果存在获取此单例实例，如果不存在创建一个单例实例</span><br><span class="line">    getInstance: function () &#123;</span><br><span class="line">      if ( !instance ) &#123;</span><br><span class="line">        instance = init();</span><br><span class="line">      &#125;</span><br><span class="line">      return instance;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line">var myBadSingleton = (function () &#123;</span><br><span class="line">  // 存储单例实例的引用</span><br><span class="line">  var instance;</span><br><span class="line">  function init() &#123;</span><br><span class="line">    // 单例</span><br><span class="line">    var privateRandomNumber = Math.random();</span><br><span class="line">    return &#123;</span><br><span class="line">      getRandomNumber: function() &#123;</span><br><span class="line">        return privateRandomNumber;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  return &#123;</span><br><span class="line">    // 总是创建一个新的实例</span><br><span class="line">    getInstance: function () &#123;</span><br><span class="line">      instance = init();</span><br><span class="line">      return instance;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line">// 使用:</span><br><span class="line"></span><br><span class="line">var singleA = mySingleton.getInstance();</span><br><span class="line">var singleB = mySingleton.getInstance();</span><br><span class="line">console.log( singleA.getRandomNumber() === singleB.getRandomNumber() ); // true</span><br><span class="line"></span><br><span class="line">var badSingleA = myBadSingleton.getInstance();</span><br><span class="line">var badSingleB = myBadSingleton.getInstance();</span><br><span class="line">console.log( badSingleA.getRandomNumber() !== badSingleB.getRandomNumber() ); // true</span><br></pre></td></tr></table></figure>
+
+<h3 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h3><p>策略模式就是指对象有某个行为，但是在不同的场景中，该行为有不同的实现算法。比如每个人都要“交个人所得税”，但是“在美国交个人所得税”和“在中国交个人所得税”就有不同的算税方法。<br>简单的说 就是将算法封装到类中，将选择和实现分离开来。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">//使用策略模式</span><br><span class="line">var strategies = &#123;</span><br><span class="line">    //一组策略 </span><br><span class="line">    &quot;A&quot;: function (original) &#123; return original * 3 &#125;,</span><br><span class="line">    &quot;B&quot;: function (original) &#123; return original * 2 &#125;,</span><br><span class="line">    &quot;C&quot;: function (original) &#123; return original * 1.5 &#125;</span><br><span class="line">&#125;</span><br><span class="line">function calcSalary(original, grade) &#123;</span><br><span class="line">    //调用环境 </span><br><span class="line">    return strategies[grade](original)</span><br><span class="line">&#125;</span><br><span class="line">console.log(calcSalary(2000, &apos;A&apos;)) // 6000</span><br></pre></td></tr></table></figure>
+
+<h3 id="观察者模式和发布订阅模式"><a href="#观察者模式和发布订阅模式" class="headerlink" title="观察者模式和发布订阅模式"></a><a href="https://foreveryoung5.github.io/2020/07/06/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F%E5%92%8C%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F/" target="_blank" rel="noopener">观察者模式和发布订阅模式</a></h3>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/11/常见布局/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1882,165 +2034,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/08/栈和队列/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jerry">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jerry's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/07/08/栈和队列/" itemprop="url">栈和队列</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-08T10:07:10+08:00">
-                2020-07-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/数据结构/" itemprop="url" rel="index">
-                    <span itemprop="name">数据结构</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="栈和队列的区别"><a href="#栈和队列的区别" class="headerlink" title="栈和队列的区别"></a>栈和队列的区别</h3><ul>
-<li>栈的插入删除都在一端进行，而队列在两端。栈只允许在表尾一端进行插入和删除，队列只允许在表尾一端进行插入，在表头一端进行删除。</li>
-<li>栈是先进后出，队列是先进先出</li>
-</ul>
-<h3 id="栈和堆的区别"><a href="#栈和堆的区别" class="headerlink" title="栈和堆的区别"></a>栈和堆的区别</h3><ul>
-<li>栈区：由编辑器自动分配释放，存放函数的参数值，局部变量等值。（基本数据类型）</li>
-<li>堆区：由程序员分配释放，若程序员不释放，程序结束时可能有OS回收。（引用数据类型）</li>
-<li>栈是一种先进后出的数据结构，而堆像一棵树。</li>
-</ul>
-<h3 id="用栈实现队列"><a href="#用栈实现队列" class="headerlink" title="用栈实现队列"></a>用栈实现队列</h3><p>用两个栈，栈A来模拟入队，栈B模拟出队。</p>
-<p><img src="https://s1.ax1x.com/2020/07/08/UEaBiF.png" alt="image"></p>
-<p>让A中所有元素按顺序出栈之后再压入B中，</p>
-<p><img src="https://s1.ax1x.com/2020/07/08/UEaHsI.png" alt="image"></p>
-<p><img src="https://s1.ax1x.com/2020/07/08/UEaXo8.png" alt="image"></p>
-<p>之后让B中元素按顺序出栈即可。</p>
-<p>代码实现：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">var stackA = [];</span><br><span class="line">var stackB = [];</span><br><span class="line"></span><br><span class="line">function push(node)&#123;</span><br><span class="line">  stackA.push(node);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function pop()&#123;</span><br><span class="line">  if(stackB.length)&#123;</span><br><span class="line">    return stackB.pop();</span><br><span class="line">  &#125;else&#123;</span><br><span class="line">    if(stackA.length)&#123;</span><br><span class="line">      var len = stackA.length;</span><br><span class="line">      for(i=0;i&lt;len;i++)&#123;</span><br><span class="line">        stackB.push(stackA.pop());</span><br><span class="line">      &#125;</span><br><span class="line">      return stackB.pop()</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">      return null;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">push(1);</span><br><span class="line"></span><br><span class="line">push(2);</span><br><span class="line">push(3);</span><br><span class="line">console.log(stackA);  //[ 1, 2, 3 ]</span><br><span class="line">console.log(pop()) //1</span><br></pre></td></tr></table></figure>
-
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2093,7 +2086,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-count">64</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2115,7 +2108,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
