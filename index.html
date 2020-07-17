@@ -405,7 +405,7 @@
 <li>为什么需要四次挥手呢？TCP是全双工模式，当client发出FIN报文段时，只是表示client已经没有数据要发送了，client告诉server，它的数据已经全部发送完毕了；但是，这个时候client还是可以接受来server的数据；当server返回ACK报文段时，表示它已经知道client没有数据发送了，但是server还是可以发送数据到client的；当server也发送了FIN报文段时，这个时候就表示server也没有数据要发送了，就会告诉client，我也没有数据要发送了，如果收到client确认报文段，之后彼此就会愉快的中断这次TCP连接。</li>
 </ul>
 <h3 id="HTTPS实现原理"><a href="#HTTPS实现原理" class="headerlink" title="HTTPS实现原理"></a>HTTPS实现原理</h3><p>SSL建立连接过程</p>
-<p><img src="https://s2.ax1x.com/2019/11/12/M3IkDg.png" alt="image"></p>
+<p><img src="https://s1.ax1x.com/2020/07/17/UyFMut.png" alt="image"></p>
 <ul>
 <li>Client发起一个HTTPS（https:/demo.linianhui.dev）的请求，根据RFC2818的规定，Client知道需要连接Server的443（默认）端口。</li>
 <li>Server把事先配置好的公钥证书（public key certificate）返回给客户端。</li>
