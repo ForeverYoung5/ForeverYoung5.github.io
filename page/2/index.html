@@ -249,6 +249,204 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/10/W3C标准/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerry">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerry's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/07/10/W3C标准/" itemprop="url">W3C标准</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-10T07:34:40+08:00">
+                2020-07-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>W3C标准，万维网联盟（World Wide Web Consortium）标准，不是一个标准，而是一系列标准的集合。网页主要有三方面组成：</p>
+<ul>
+<li>结构</li>
+<li>表现</li>
+<li>行为</li>
+</ul>
+<p>对应的标准也有三方面：</p>
+<ul>
+<li>结构化标准主要包括XHML和XML</li>
+<li>表现标准语言主要包括CSS</li>
+<li>行为标准主要包括W3C DOM 、ECMAScript等</li>
+</ul>
+<p>这些标准大多数是由W3C起草发布的，也有一些是其他标准组织只能给定的，比如ECMAScript的ECMAScript标准。</p>
+<h3 id="XHTML"><a href="#XHTML" class="headerlink" title="XHTML"></a>XHTML</h3><ul>
+<li>XHTML是更严谨纯净版的HTML</li>
+<li>XHTML标准与HTML4几乎没有什么不同</li>
+</ul>
+<p>主要的不同是：</p>
+<ul>
+<li>XHTML元素必须正确被嵌套</li>
+<li>XHTML元素必须被关闭</li>
+<li>标签名必须小写</li>
+<li>XHTML文档必须有根元素</li>
+</ul>
+<h3 id="标准规范"><a href="#标准规范" class="headerlink" title="标准规范"></a>标准规范</h3><h4 id="1-需要声明-DOCTYPE"><a href="#1-需要声明-DOCTYPE" class="headerlink" title="1. 需要声明(DOCTYPE)"></a>1. 需要声明(DOCTYPE)</h4><p>document type 文档类型的缩写，用来说明你用的XHTML或者HTML是什么版本。</p>
+<p>DTD是文档类型定义，里面包含了文档规则，浏览器根据DTD来解释你的页面标识，并展现出来。</p>
+<p>HTML1.0 和HTML4.01中都有三种DTD声明可以选择：过度的(Transitional)、严格的(Strict)、框架的(Frameset)。声明方式不同。</p>
+<h4 id="2-需要自定义语言编码"><a href="#2-需要自定义语言编码" class="headerlink" title="2. 需要自定义语言编码"></a>2. 需要自定义语言编码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta http-equiv=“Content-Type” content=“text/html; charset=gb2312” /&gt;</span><br></pre></td></tr></table></figure>
+
+<p>忘记时可能会出现页面乱码</p>
+<h4 id="3-JavaScript-定义"><a href="#3-JavaScript-定义" class="headerlink" title="3. JavaScript 定义"></a>3. JavaScript 定义</h4><p>Js必须要用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script language=&quot;javascript&quot; type=&quot;text/javascript&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>来开头定义，以保证在不支持js的浏览器上直接显示出来。</p>
+<h4 id="4-CSS-定义"><a href="#4-CSS-定义" class="headerlink" title="4. CSS 定义"></a>4. CSS 定义</h4><p>CSS必须要用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;style type=“text/css”&gt;</span><br></pre></td></tr></table></figure>
+
+<p>开头来定义，为保证各浏览器的兼容性，在写CSS时请都写上数量单位，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 错误：</span><br><span class="line">.space_10&#123;padding-left:10&#125;</span><br><span class="line"></span><br><span class="line">//正确：</span><br><span class="line">.space_10 &#123;padding-left:10px&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="5-使用注释"><a href="#5-使用注释" class="headerlink" title="5. 使用注释"></a>5. 使用注释</h4><p>“–”只能发生在XHTML注释的开头和结束，也就是说，在内容中它们不再有效。使用等号或者空格代替内部虚线（—-）</p>
+<h4 id="6-所有属性值必须用引号括起来"><a href="#6-所有属性值必须用引号括起来" class="headerlink" title="6. 所有属性值必须用引号括起来"></a>6. 所有属性值必须用引号括起来</h4><h4 id="7-特殊符号用编码表示"><a href="#7-特殊符号用编码表示" class="headerlink" title="7. 特殊符号用编码表示"></a>7. 特殊符号用编码表示</h4><p>空格(&amp;nbsp)、小于号(&amp;lt)、大于号(&amp;gt)、和&amp;(&amp;amp)等</p>
+<h4 id="8-属性必须有属性值，没有值就是重复本身。"><a href="#8-属性必须有属性值，没有值就是重复本身。" class="headerlink" title="8. 属性必须有属性值，没有值就是重复本身。"></a>8. 属性必须有属性值，没有值就是重复本身。</h4><h4 id="9-所有标记都要有相应的结束标记"><a href="#9-所有标记都要有相应的结束标记" class="headerlink" title="9. 所有标记都要有相应的结束标记"></a>9. 所有标记都要有相应的结束标记</h4><p>双标记：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<p>单标记：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img /&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="10-所有标记必须合理嵌套"><a href="#10-所有标记必须合理嵌套" class="headerlink" title="10. 所有标记必须合理嵌套"></a>10. 所有标记必须合理嵌套</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;p&gt;&lt;b&gt;&lt;/p&gt;&lt;/b&gt;</span><br><span class="line"></span><br><span class="line">//必须修改为：</span><br><span class="line"></span><br><span class="line">&lt;p&gt;&lt;b&gt;&lt;/b&gt;&lt;/p&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="11-图片添加有意义的alt属性"><a href="#11-图片添加有意义的alt属性" class="headerlink" title="11. 图片添加有意义的alt属性"></a>11. 图片添加有意义的alt属性</h4><p>图片加载失败时可以用alt属性表明图片内容。同理添加文字链接的title属性，帮助显示不完整的内容显示完整。</p>
+<h4 id="12-在form表单中增加label，以增加用户友好度"><a href="#12-在form表单中增加label，以增加用户友好度" class="headerlink" title="12. 在form表单中增加label，以增加用户友好度"></a>12. 在form表单中增加label，以增加用户友好度</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;form&gt;</span><br><span class="line"> </span><br><span class="line">    &lt;labelfor=&quot;firstname&quot;&gt;first name: &lt;/label&gt;</span><br><span class="line"> </span><br><span class="line">    &lt;inputtype=&quot;text&quot; id=&quot;firstname&quot;/&gt;</span><br><span class="line"> </span><br><span class="line">&lt;/form&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>1、标签规范可以提高搜索引擎对页面的抓取效率，对SEO（搜索引擎优化）很有帮助。</p>
+<p>2、尽量使用外链css样式表和js脚本。是结构、表现和行为分为三块，符合规范。同时提高页面渲染速度，提高用户的体验。</p>
+<p>3、样式尽量少用行间样式表，使结构与表现分离，标签的id和class等属性命名要做到见文知义，标签越少，加载越快，用户体验提高，代码维护简单，便于改版</p>
+<p>注意：JQuery 不符合W3C标准</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/09/HTML5和CSS3特性/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1823,163 +2021,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/06/观察者模式和发布订阅模式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jerry">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jerry's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/07/06/观察者模式和发布订阅模式/" itemprop="url">观察者模式和发布订阅模式</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-06T16:44:37+08:00">
-                2020-07-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/前端/" itemprop="url" rel="index">
-                    <span itemprop="name">前端</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="观察者模式"><a href="#观察者模式" class="headerlink" title="观察者模式"></a>观察者模式</h3><p>观察者模式定义了对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都将得到通知，并自动更新。观察者模式属于行为型模式，行为型模式关注的是对象之间的通讯，观察者模式就是观察者和被观察者之间的通讯。</p>
-<h3 id="发布订阅模式"><a href="#发布订阅模式" class="headerlink" title="发布订阅模式"></a>发布订阅模式</h3><p>发布订阅模式开始只是观察者模式的别称，但是随着时间的沉淀越来越强大，已经独立于观察者模式，成为另外一种设计模式。</p>
-<p>在现在的发布订阅模式中，称为发布者的消息发送者不会将消息直接发送给订阅者，这意味着发布者和订阅者不知道彼此的存在。在发布者和订阅者之间存在第三个组件，称为<strong>消息代理或调度中心或中间件</strong>，它维持着发布者和订阅者之间的联系，过滤所有发布者传入的消息并相应地分发它们给订阅者。</p>
-<p>例子：微博上你关注了A，同时也有很多人关注了他，当A发布动态的时候，微博会为你们推送这条动态。A是发布者，你是订阅者，微博就是调度中心。</p>
-<h3 id="观察者模式是不是发布订阅模式"><a href="#观察者模式是不是发布订阅模式" class="headerlink" title="观察者模式是不是发布订阅模式"></a>观察者模式是不是发布订阅模式</h3><p>如果以<strong>结构</strong>来分辨模式，发布订阅模式相比观察者模式多了一个中间件订阅器，所以发布订阅模式是不同于观察者模式的；</p>
-<p>如果以<strong>意图</strong>来分辨模式，他们都是实现了对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都将得到通知，并自动更新，那么他们就是同一种模式，发布订阅模式是在观察者模式的基础上做的优化升级。</p>
-<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><h4 id="观察者模式："><a href="#观察者模式：" class="headerlink" title="观察者模式："></a>观察者模式：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">  //有一家猎人工会，其中每个猎人都具有发布任务(publish)，订阅任务(subscribe)的功能</span><br><span class="line">	//他们都有一个订阅列表来记录谁订阅了自己</span><br><span class="line">	//定义一个猎人类</span><br><span class="line">	//包括姓名，级别，订阅列表</span><br><span class="line">function Hunter(name,level)&#123;</span><br><span class="line">  this.name = name;</span><br><span class="line">  this.level = level;</span><br><span class="line">  this.list = [];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Hunter.prototype.publish = function(money)&#123;</span><br><span class="line">  console.log(`$&#123;this.level&#125; 猎人 $&#123;this.name&#125; 寻求帮助`);</span><br><span class="line">  this.list.forEach(function(item)&#123;</span><br><span class="line">    item(money);</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Hunter.prototype.subscribe = function(target,fn)&#123;</span><br><span class="line">  console.log( `$&#123;this.level&#125; 猎人 $&#123;this.name&#125; 订阅了 $&#123;target.name&#125;`);</span><br><span class="line">  target.list.push(fn)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//猎人工会走来了几个猎人</span><br><span class="line"></span><br><span class="line">var hunterMing = new Hunter(&apos;小明&apos;,&apos;黄金&apos;)</span><br><span class="line">var hunterJin = new Hunter(&apos;小金&apos;,&apos;白银&apos;)</span><br><span class="line">var hunterZhang = new Hunter(&apos;小张&apos;,&apos;黄金&apos;)</span><br><span class="line">var hunterPeter = new Hunter(&apos;peter&apos;,&apos;青铜&apos;)</span><br><span class="line"></span><br><span class="line">// perter等级低，可能需要帮助，所以都订阅peter</span><br><span class="line"></span><br><span class="line">hunterMing.subscribe(hunterPeter, function(money)&#123;</span><br><span class="line">  console.log(&apos;小明表示：&apos; + (money &gt; 200 ? &apos;&apos; : &apos;暂时很忙，不能&apos;) + &apos;给予帮助&apos;)</span><br><span class="line">&#125;)</span><br><span class="line">hunterJin.subscribe(hunterPeter, function()&#123;</span><br><span class="line">  console.log(&apos;小金表示：给予帮助&apos;)</span><br><span class="line">&#125;)</span><br><span class="line">hunterZhang.subscribe(hunterPeter, function()&#123;</span><br><span class="line">  console.log(&apos;小张表示：给予帮助&apos;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">	//Peter遇到困难，赏金198寻求帮助</span><br><span class="line">  hunterPeter.publish(198)</span><br><span class="line">  </span><br><span class="line">  /*</span><br><span class="line">  黄金 猎人 小明 订阅了 peter</span><br><span class="line">白银 猎人 小金 订阅了 peter</span><br><span class="line">黄金 猎人 小张 订阅了 peter</span><br><span class="line">青铜 猎人 peter 寻求帮助</span><br><span class="line">小明表示：暂时很忙，不能给予帮助</span><br><span class="line">小金表示：给予帮助</span><br><span class="line">小张表示：给予帮助</span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
-
-<h4 id="发布订阅模式-1"><a href="#发布订阅模式-1" class="headerlink" title="发布订阅模式"></a>发布订阅模式</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">//定义一家猎人工会</span><br><span class="line">//主要功能包括任务发布大厅(topics)，以及订阅任务(subscribe)，发布任务(publish)</span><br><span class="line">var HunterUnion = &#123;</span><br><span class="line">  type:&apos;hunter&apos;,</span><br><span class="line">  topics:Object.create(null),</span><br><span class="line"></span><br><span class="line">  subscribe:function(topic,fn)&#123;</span><br><span class="line">    if(!this.topics[topic])&#123;</span><br><span class="line">      this.topics[topic]=[]</span><br><span class="line">    &#125;</span><br><span class="line">    this.topics[topic].push(fn)</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  publish:function(topic,money)&#123;</span><br><span class="line">    if(!this.topics[topic])</span><br><span class="line">      return;</span><br><span class="line">    for(let fn of this.topics[topic])&#123;</span><br><span class="line">      fn(money);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//定义一个猎人类</span><br><span class="line">	//包括姓名，级别</span><br><span class="line">	function Hunter(name, level)&#123;</span><br><span class="line">		this.name = name</span><br><span class="line">		this.level = level</span><br><span class="line">	&#125;</span><br><span class="line">	//猎人可在猎人工会发布订阅任务</span><br><span class="line">	Hunter.prototype.subscribe = function (topic, fn)&#123;</span><br><span class="line">		console.log(this.level + &apos;猎人&apos; + this.name + &apos;订阅了狩猎&apos; + topic + &apos;的任务&apos;)</span><br><span class="line">	    HunterUnion.subscribe(topic, fn)</span><br><span class="line">	&#125;</span><br><span class="line">	Hunter.prototype.publish = function (topic, money)&#123;</span><br><span class="line">		console.log(this.level + &apos;猎人&apos; + this.name + &apos;发布了狩猎&apos; + topic + &apos;的任务&apos;)</span><br><span class="line">	    HunterUnion.publish(topic, money)</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  //猎人工会走来了几个猎人</span><br><span class="line">	let hunterMing = new Hunter(&apos;小明&apos;, &apos;黄金&apos;)</span><br><span class="line">	let hunterJin = new Hunter(&apos;小金&apos;, &apos;白银&apos;)</span><br><span class="line">	let hunterZhang = new Hunter(&apos;小张&apos;, &apos;黄金&apos;)</span><br><span class="line">	let hunterPeter = new Hunter(&apos;Peter&apos;, &apos;青铜&apos;)</span><br><span class="line">//小明，小金，小张分别订阅了狩猎tiger的任务</span><br><span class="line">hunterMing.subscribe(&apos;tiger&apos;, function(money)&#123;</span><br><span class="line">  console.log(&apos;小明表示：&apos; + (money &gt; 200 ? &apos;&apos; : &apos;不&apos;) + &apos;接取任务&apos;)</span><br><span class="line">&#125;)</span><br><span class="line">hunterJin.subscribe(&apos;tiger&apos;, function(money)&#123;</span><br><span class="line">  console.log(&apos;小金表示：接取任务&apos;)</span><br><span class="line">&#125;)</span><br><span class="line">hunterZhang.subscribe(&apos;tiger&apos;, function(money)&#123;</span><br><span class="line">  console.log(&apos;小张表示：接取任务&apos;)</span><br><span class="line">&#125;)</span><br><span class="line">//Peter订阅了狩猎sheep的任务</span><br><span class="line">hunterPeter.subscribe(&apos;sheep&apos;, function(money)&#123;</span><br><span class="line">  console.log(&apos;Peter表示：接取任务&apos;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">//Peter发布了狩猎tiger的任务</span><br><span class="line">hunterPeter.publish(&apos;tiger&apos;, 198)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line">黄金猎人小明订阅了狩猎tiger的任务</span><br><span class="line">白银猎人小金订阅了狩猎tiger的任务</span><br><span class="line">黄金猎人小张订阅了狩猎tiger的任务</span><br><span class="line">青铜猎人Peter订阅了狩猎sheep的任务</span><br><span class="line">青铜猎人Peter发布了狩猎tiger的任务</span><br><span class="line">小明表示：不接取任务</span><br><span class="line">小金表示：接取任务</span><br><span class="line">小张表示：接取任务</span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
-
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
-<li>观察者和被观察者，是松耦合的关系</li>
-<li>发布者和订阅者，则完全不存在耦合</li>
-<li>观察者模式，多用于单个应用内部</li>
-<li>发布订阅模式，则更多的是一种跨应用的模式(cross-application pattern)，比如我们常用的消息中间件(wamp)</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2032,7 +2073,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">68</span>
+                  <span class="site-state-item-count">69</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
