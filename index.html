@@ -249,6 +249,178 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/29/常见数据结构操作/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerry">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerry's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/07/29/常见数据结构操作/" itemprop="url">常见数据结构操作</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-29T17:23:33+08:00">
+                2020-07-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h3><h4 id="数组节点生成二叉树"><a href="#数组节点生成二叉树" class="headerlink" title="数组节点生成二叉树"></a>数组节点生成二叉树</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">array = [1, 2, 3, 4, 5];</span><br><span class="line"></span><br><span class="line">function creatTree(arr) &#123;</span><br><span class="line">  //创建节点数组</span><br><span class="line">  function Node(key) &#123;</span><br><span class="line">    this.key = key;</span><br><span class="line">    this.left = null;</span><br><span class="line">    this.right = null;</span><br><span class="line">  &#125;</span><br><span class="line">  var nodeArr = [];</span><br><span class="line">  arr.forEach((e) =&gt; &#123;</span><br><span class="line">    nodeArr.push(new Node(e));</span><br><span class="line">  &#125;);</span><br><span class="line">  console.log(nodeArr);</span><br><span class="line">&lt;!--  /* 节点数组创建完成--&gt;</span><br><span class="line">&lt;!--  [--&gt;</span><br><span class="line">&lt;!--  Node &#123; key: 1, left: null, right: null &#125;,--&gt;</span><br><span class="line">&lt;!--  Node &#123; key: 2, left: null, right: null &#125;,--&gt;</span><br><span class="line">&lt;!--  Node &#123; key: 3, left: null, right: null &#125;,--&gt;</span><br><span class="line">&lt;!--  Node &#123; key: 4, left: null, right: null &#125;,--&gt;</span><br><span class="line">&lt;!--  Node &#123; key: 5, left: null, right: null &#125;--&gt;</span><br><span class="line">&lt;!--]--&gt;</span><br><span class="line">&lt;!--*/--&gt;</span><br><span class="line"></span><br><span class="line">// 生成二叉树</span><br><span class="line">&lt;!--找到最后一个父节点--&gt;</span><br><span class="line"></span><br><span class="line">  var lastParent = parseInt(nodeArr.length / 2 - 1);</span><br><span class="line"></span><br><span class="line">  for (let i = 0; i &lt; lastParent; i++) &#123;</span><br><span class="line">    nodeArr[i].left = nodeArr[i * 2 + 1];</span><br><span class="line">    nodeArr[i].right = nodeArr[i * 2 + 2];</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  nodeArr[lastParent].left = nodeArr[2 * lastParent + 1];</span><br><span class="line"></span><br><span class="line">&lt;!--看最后一个父节点又没有有孩子--&gt;</span><br><span class="line">  if (nodeArr.length % 2 === 1) &#123;</span><br><span class="line">    nodeArr[lastParent].right = nodeArr[2 * lastParent + 2];</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  return nodeArr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">console.log(&apos;结果---&gt;&apos;,creatTree(array));</span><br><span class="line">&lt;!--/*--&gt;</span><br><span class="line">&lt;!--[--&gt;</span><br><span class="line">&lt;!--  Node &#123;--&gt;</span><br><span class="line">&lt;!--    key: 1,--&gt;</span><br><span class="line">&lt;!--    left: Node &#123; key: 2, left: [Node], right: [Node] &#125;,--&gt;</span><br><span class="line">&lt;!--    right: Node &#123; key: 3, left: null, right: null &#125;--&gt;</span><br><span class="line">&lt;!--  &#125;,--&gt;</span><br><span class="line">&lt;!--  Node &#123;--&gt;</span><br><span class="line">&lt;!--    key: 2,--&gt;</span><br><span class="line">&lt;!--    left: Node &#123; key: 4, left: null, right: null &#125;,--&gt;</span><br><span class="line">&lt;!--    right: Node &#123; key: 5, left: null, right: null &#125;--&gt;</span><br><span class="line">&lt;!--  &#125;,--&gt;</span><br><span class="line">&lt;!--  Node &#123; key: 3, left: null, right: null &#125;,--&gt;</span><br><span class="line">&lt;!--  Node &#123; key: 4, left: null, right: null &#125;,--&gt;</span><br><span class="line">&lt;!--  Node &#123; key: 5, left: null, right: null &#125;--&gt;</span><br><span class="line">&lt;!--]--&gt;</span><br><span class="line">&lt;!--*/--&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="二叉树的层次遍历（广度遍历）"><a href="#二叉树的层次遍历（广度遍历）" class="headerlink" title="二叉树的层次遍历（广度遍历）"></a>二叉树的层次遍历（广度遍历）</h4><p>二叉树的广度遍历借助队列完成</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">function levelOrder(root) &#123;</span><br><span class="line"></span><br><span class="line">  var que = [];</span><br><span class="line">  que.push(root);</span><br><span class="line">  </span><br><span class="line">  while (que.length != 0) &#123;</span><br><span class="line">  </span><br><span class="line">    var tmp = que.shift();</span><br><span class="line">    console.log(tmp.data);</span><br><span class="line">    </span><br><span class="line">    if (tmp.left != null) &#123;</span><br><span class="line">      que.push(tmp.left);</span><br><span class="line">    &#125;</span><br><span class="line">    if (tmp.right != null) &#123;</span><br><span class="line">      que.push(tmp.right);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="二叉树的深度遍历"><a href="#二叉树的深度遍历" class="headerlink" title="二叉树的深度遍历"></a>二叉树的深度遍历</h4><p>二叉树的深度遍历借助的是栈，二叉树深度遍历结果与前序遍历结果相同</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">// 二叉树的深度遍历</span><br><span class="line"></span><br><span class="line">function deepOrder(root) &#123;</span><br><span class="line">  var stack = [];</span><br><span class="line">  stack.push(root);</span><br><span class="line"></span><br><span class="line">  while (stack.length != 0) &#123;</span><br><span class="line"></span><br><span class="line">    var tmp = stack.pop();</span><br><span class="line">    console.log(tmp.data);</span><br><span class="line"></span><br><span class="line">    if (tmp.right != null) &#123;</span><br><span class="line">      stack.push(tmp.right);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (tmp.left != null) &#123;</span><br><span class="line">      stack.push(tmp.left);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="二叉树的前序遍历"><a href="#二叉树的前序遍历" class="headerlink" title="二叉树的前序遍历"></a>二叉树的前序遍历</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">pre(root)&#123;</span><br><span class="line">    if(root != null)&#123;</span><br><span class="line">        console.log(root.data);</span><br><span class="line">        pre(root.left);</span><br><span class="line">        pre(root.right)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="二叉树中序遍历"><a href="#二叉树中序遍历" class="headerlink" title="二叉树中序遍历"></a>二叉树中序遍历</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mid(root)&#123;</span><br><span class="line">    if(root != null)&#123;</span><br><span class="line">        mid(root.left);</span><br><span class="line">        console.log(root.data);</span><br><span class="line">        mid(root.right)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="二叉树后序遍历"><a href="#二叉树后序遍历" class="headerlink" title="二叉树后序遍历"></a>二叉树后序遍历</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">behind(root)&#123;</span><br><span class="line">    if(root != null)&#123;</span><br><span class="line">        behind(root.left);</span><br><span class="line">        behind(root.right);</span><br><span class="line">        console.log(root.data)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h3><h4 id="链表翻转"><a href="#链表翻转" class="headerlink" title="链表翻转"></a>链表翻转</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function res(head)&#123;</span><br><span class="line"></span><br><span class="line">  if(head==null || head.next ==null)&#123;</span><br><span class="line">    return head</span><br><span class="line">  &#125;;</span><br><span class="line">  var newHead = res(head.next);</span><br><span class="line">  head.next.next = head;</span><br><span class="line">  head.next = null;</span><br><span class="line">  return newHead</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="查找第K个节点"><a href="#查找第K个节点" class="headerlink" title="查找第K个节点"></a>查找第K个节点</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function look(k, head) &#123;</span><br><span class="line">  var tmp = head;</span><br><span class="line">  for (let i = 1; i &lt; k; i++) &#123;</span><br><span class="line">    tmp = tmp.next;</span><br><span class="line">  &#125;</span><br><span class="line">  return tmp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="找倒数第k个节点"><a href="#找倒数第k个节点" class="headerlink" title="找倒数第k个节点"></a>找倒数第k个节点</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">function look(k, head) &#123;</span><br><span class="line">  var p1 = head;</span><br><span class="line">  var p2 = head;</span><br><span class="line"></span><br><span class="line">  for (let i = 0; i &lt; k; i++) &#123;</span><br><span class="line">    p2 = p2.next;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  while (p2 != null) &#123;</span><br><span class="line">    p1 = p1.next;</span><br><span class="line">    p2 = p2.next;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  return p1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="中间节点"><a href="#中间节点" class="headerlink" title="中间节点"></a>中间节点</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function look(head) &#123;</span><br><span class="line">  var p1 = head;</span><br><span class="line">  var p2 = head;</span><br><span class="line">  while (p2 != null) &#123;</span><br><span class="line">    p1 = p1.next;</span><br><span class="line">    p2 = p2.next.next;</span><br><span class="line">  &#125;</span><br><span class="line">  return p1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="判断是否交叉"><a href="#判断是否交叉" class="headerlink" title="判断是否交叉"></a>判断是否交叉</h4><p>不是 x 交叉，是 &gt; 交叉。</p>
+<h4 id="反向输出链表"><a href="#反向输出链表" class="headerlink" title="反向输出链表"></a>反向输出链表</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">log(head)&#123;</span><br><span class="line">    if(head == null)&#123;</span><br><span class="line">        return</span><br><span class="line">    &#125;</span><br><span class="line">    log(head.next)</span><br><span class="line">    console.log(head.data)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="反转字符串"><a href="#反转字符串" class="headerlink" title="反转字符串"></a>反转字符串</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">res(str)&#123;</span><br><span class="line">    if(str.length == 1)&#123;</span><br><span class="line">        return str</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return res(str.substring(2)) + str.substring(0,1)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">var stack = function () &#123;</span><br><span class="line">  this.data = [];</span><br><span class="line"></span><br><span class="line">  this.push = push;</span><br><span class="line">  this.pop = pop;</span><br><span class="line"></span><br><span class="line">  this.clear = clear;</span><br><span class="line">  this.length = length;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var push = function (e) &#123;</span><br><span class="line">  this.data.push(e);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var pop = function () &#123;</span><br><span class="line">  this.data.pop();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var clear = function () &#123;</span><br><span class="line">  this.length = 0;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var length = function () &#123;</span><br><span class="line">  return this.data.length;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">var que = function () &#123;</span><br><span class="line">  this.data = [];</span><br><span class="line"></span><br><span class="line">  this.enQuw = enQuw;</span><br><span class="line">  this.deQue = deQue;</span><br><span class="line"></span><br><span class="line">  this.clear = clear;</span><br><span class="line">  this.length = length;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var enQuw = function (e) &#123;</span><br><span class="line">  this.data.push(e);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var deQue = function () &#123;</span><br><span class="line">  this.data.shift();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var clear = function () &#123;</span><br><span class="line">  this.length = 0;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var length = function () &#123;</span><br><span class="line">  return this.data.length;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/27/vue-router/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2172,231 +2344,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/10/HTML语义化/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jerry">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jerry's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/07/10/HTML语义化/" itemprop="url">HTML语义化</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-10T09:14:14+08:00">
-                2020-07-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/前端/" itemprop="url" rel="index">
-                    <span itemprop="name">前端</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="什么是语义元素"><a href="#什么是语义元素" class="headerlink" title="什么是语义元素"></a>什么是语义元素</h3><p>元素本身传达了关于标签所包含内容类型的一些信息。</p>
-<p>例如当浏览器解析到h1标签时，将他解析为包含着一块内容最重要的标题h1标签的语义就是用它来标识特定网页或部分最重要内容的标题。</p>
-<p>例如p和span，里边都可以包含一段文字，但是p的含义是段落，span没有特别的含义。</p>
-<h3 id="语义化的好处"><a href="#语义化的好处" class="headerlink" title="语义化的好处"></a>语义化的好处</h3><ul>
-<li>代码结构:页面没有css的情况下，也能够呈现出很好的内容结构</li>
-<li>有利于SEO: 爬虫依赖标签来确定关键字的权重，因此可以和搜索引擎建立良好的沟通，帮助爬虫抓取更多的有效信息</li>
-<li>提升用户体验： 例如title、alt可以用于解释名称或者解释图片信息，以及label标签的灵活运用。</li>
-<li>便于团队开发和维护: 语义化使得代码更具有可读性，让其他开发人员更加理解你的html结构，减少差异化。</li>
-<li>方便其他设备解析: 如屏幕阅读器、盲人阅读器、移动设备等，以有意义的方式来渲染网页。</li>
-</ul>
-<h3 id="HTML5常用的语义元素"><a href="#HTML5常用的语义元素" class="headerlink" title="HTML5常用的语义元素"></a>HTML5常用的语义元素</h3><p>HTML5提供了新的语义元素来定义网页的不同部分，它们被称为“切片元素”，如图所示：</p>
-<p><img src="https://s1.ax1x.com/2020/07/10/UuQJO0.png" alt="image"></p>
-<p>大约有一百多种语义元素可供使用，常用的有：</p>
-<p><img src="https://s1.ax1x.com/2020/07/10/UuQ0fJ.png" alt="image"></p>
-<ul>
-<li>&lt; header &gt;元素</li>
-</ul>
-<p>用于定义<strong>页面的介绍展示区域</strong>，通常包括网站logo、主导航、全站链接以及搜索框。也适合对页面内部一组介绍性或导航性内容进行标记。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;header&gt;</span><br><span class="line">    &lt;h1&gt;HTML Reference&lt;/h1&gt;</span><br><span class="line">    &lt;nav&gt;</span><br><span class="line">        &lt;a&gt;Home&lt;/a&gt;</span><br><span class="line">        &lt;a&gt;About&lt;/a&gt;</span><br><span class="line">        &lt;a&gt;Contact&lt;/a&gt;</span><br><span class="line">     &lt;/nav&gt;</span><br><span class="line">&lt;/header&gt;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>&lt; h1 &gt;~&lt; h6 &gt;元素</li>
-</ul>
-<p>定义页面的标题，h1元素具有最高等级，h6元素具有最低的等级</p>
-<ul>
-<li>&lt; nav&gt;元素</li>
-</ul>
-<p>定义页面的导航链接部分区域，不是所有的链接都需要包含在<nav>中，除了页脚再次显示顶级全局导航、或者包含招聘信息等重要链接。</nav></p>
-<ul>
-<li>&lt; main&gt;元素</li>
-</ul>
-<p>定义页面的主要内容，一个页面只能使用一次。如果是web应用，则包围其主要功能。</p>
-<ul>
-<li>&lt; article&gt;元素</li>
-</ul>
-<p>定义页面独立的内容，它可以有自己的header、footer、sections等，专注于单个主题的博客文章，报纸文章或网页文章。article可以嵌套article，只要里面的article与外面的是部分与整体的关系。</p>
-<ul>
-<li>&lt; section&gt;元素</li>
-</ul>
-<p>元素用于标记文档的各个部分，例如长表单文章的章节或主要部分。</p>
-<ul>
-<li>&lt; aside&gt;元素</li>
-</ul>
-<p>定义与主要内容相关的内容块。通常显示为侧边栏。</p>
-<ul>
-<li>&lt; footer&gt;元素</li>
-</ul>
-<p>定义文档的底部区域，通常包含文档的作者，著作权信息，链接的使用条款，联系信息等</p>
-<ul>
-<li>&lt; small&gt;元素</li>
-</ul>
-<p>为较不重要的内容定义小字体。如果被包围的字体已经是字体模型所支持的最小字号，那么 &lt; small&gt; 标签将不起任何作用。</p>
-<ul>
-<li>&lt; strong&gt;元素</li>
-</ul>
-<p>把文本定义为语气更强的强调的内容，以表示内容的重要性。</p>
-<ul>
-<li>&lt; em&gt;元素</li>
-</ul>
-<p>标记内容着重点（大量用于提升段落文本语义），通常呈现为斜体文字。</p>
-<ul>
-<li>&lt; blockquote&gt;元素</li>
-</ul>
-<p>定义块引用，浏览器会在 blockquote 元素前后添加换行，并增加外边距。cite属性可用来规定引用的来源</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;blockquote cite=&quot;https://en.wikiquote.org/wiki/Marie_Curie&quot;&gt;</span><br><span class="line">    Here is a long quotation here is a long quotation here is a long quotation</span><br><span class="line">    here is a long quotation here is a long quotation here is a long quotation</span><br><span class="line">    here is a long quotation here is a long quotation here is a long quotation.</span><br><span class="line">&lt;/blockquote&gt;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>&lt; abbr&gt;元素</li>
-</ul>
-<p>解释缩写词。使用title属性可提供全称，只在第一次出现时使用就ok。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">The &lt;abbr title=&quot;People&apos;s Republic of China&quot;&gt;PRC&lt;/abbr&gt; was founded in 1949.</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>&lt; ul&gt;：无序列表。</li>
-<li>&lt; ol&gt;：有序列表。</li>
-<li>&lt; q&gt;：短的引述（跨浏览器问题，尽量避免使用）。</li>
-<li>&lt; a&gt;:超链接</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=&quot;http://www.w3school.com.cn&quot;&gt;W3School&lt;/a&gt;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>&lt; li&gt; 标签定义列表项目。</li>
-</ul>
-<p>&lt; li&gt; 标签可用在有序列表 (&lt; ol&gt;) 和无序列表 (&lt; ul&gt;) 中。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2449,7 +2396,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">69</span>
+                  <span class="site-state-item-count">70</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
