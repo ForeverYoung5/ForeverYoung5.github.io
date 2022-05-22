@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="JS,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="定义事件委托就是利用事件冒泡处理动态元素事件绑定的方法。 事件委托就是利用事件冒泡，只指定一个事件处理程序，就可以管理某一类型的所有事件。 js中事件冒泡我们知道，子元素身上的事件会冒泡到父元素身上。 事件代理就是，本来加在子元素身上的事件，加在了其父级身上。 那就产生了问题：父级那么多子元素，怎么区分事件本应该是哪个子元素的？ 答案是：event对象里记录的有“事件源”，它就是发生事件的子元素。">
+<meta name="keywords" content="JS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="事件委托（事件代理）">
+<meta property="og:url" content="http://yoursite.com/2020/04/20/事件委托（事件代理）/index.html">
+<meta property="og:site_name" content="Jerry&#39;s Blog">
+<meta property="og:description" content="定义事件委托就是利用事件冒泡处理动态元素事件绑定的方法。 事件委托就是利用事件冒泡，只指定一个事件处理程序，就可以管理某一类型的所有事件。 js中事件冒泡我们知道，子元素身上的事件会冒泡到父元素身上。 事件代理就是，本来加在子元素身上的事件，加在了其父级身上。 那就产生了问题：父级那么多子元素，怎么区分事件本应该是哪个子元素的？ 答案是：event对象里记录的有“事件源”，它就是发生事件的子元素。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2022-05-08T07:31:54.863Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="事件委托（事件代理）">
+<meta name="twitter:description" content="定义事件委托就是利用事件冒泡处理动态元素事件绑定的方法。 事件委托就是利用事件冒泡，只指定一个事件处理程序，就可以管理某一类型的所有事件。 js中事件冒泡我们知道，子元素身上的事件会冒泡到父元素身上。 事件代理就是，本来加在子元素身上的事件，加在了其父级身上。 那就产生了问题：父级那么多子元素，怎么区分事件本应该是哪个子元素的？ 答案是：event对象里记录的有“事件源”，它就是发生事件的子元素。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/04/20/事件委托（事件代理）/">
+
+
+
+
+
+  <title>事件委托（事件代理） | Jerry's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jerry's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/20/事件委托（事件代理）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerry">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerry's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">事件委托（事件代理）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-20T21:18:59+08:00">
+                2020-04-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>事件委托就是利用事件冒泡处理动态元素事件绑定的方法。</p>
+<p>事件委托就是利用事件冒泡，只指定一个事件处理程序，就可以管理某一类型的所有事件。</p>
+<p>js中事件冒泡我们知道，子元素身上的事件会冒泡到父元素身上。</p>
+<p>事件代理就是，本来加在子元素身上的事件，加在了其父级身上。</p>
+<p>那就产生了问题：父级那么多子元素，怎么区分事件本应该是哪个子元素的？</p>
+<p>答案是：event对象里记录的有“事件源”，它就是发生事件的子元素。</p>
+<p>它存在兼容性问题，在老的IE下，事件源是 window.event.srcElement，其他浏览器是 event.target</p>
+<p>用事件委托有什么好处呢？</p>
+<p>第一个好处是效率高，比如，不用for循环为子元素添加事件了</p>
+<p>第二个好处是，js新生成的子元素也不用新为其添加事件了，程序逻辑上比较方便。</p>
+<h3 id="为什么要用事件委托"><a href="#为什么要用事件委托" class="headerlink" title="为什么要用事件委托"></a>为什么要用事件委托</h3><p>DOM需要事件处理程序，那么我们直接添加，但是如果我们有多个DOM节点需要相同的事件呢，如果循环将会影响性能，这时候就可以使用事件委托。</p>
+<p>在JavaScript中，添加到页面上的事件处理程序数量将直接关系到页面的整体运行性能因为需要不断的与dom节点进行交互，访问dom的次数越多，引起浏览器重绘与重排的次数也就越多，就会延长整个页面的交互就绪时间，这就是为什么性能优化的主要思想之一就是减少DOM操作的原因；如果要用事件委托，就会将所有的操作放到js程序里面，与dom的操作就只需要交互一次，这样就能大大的减少与dom的交互次数，提高性能；</p>
+<p>每个函数都是一个对象，是对象就会占用内存，对象越多，内存占用率就越大，自然性能就越差了。</p>
+<p>比如下面的100个li，就要占用100个内存空间，如果是1000个，10000个呢，那只能说呵呵了，如果用事件委托，那么我们就可以只对它的父级（如果只有一个父级）这一个对象进行操作，这样我们就需要一个内存空间就够了，是不是省了很多，自然性能就会更好</p>
+<p>使用事件委托技术能避免对每个元素添加事件监听器。相反，把事件监听器添加到它们的父元素上。事件监听器会分析从子元素冒泡上来的事件，找到它们是哪个子元素的事件。也就是说，把监听在子元素上的事件监听函数放到它的父元素上，这样新添加的子元素仍然可以执行事件回调函数。</p>
+<p>事件委托的三大优势：减少事件数量、避免内存泄露、预测未来元素。</p>
+<h3 id="事件委托的原理"><a href="#事件委托的原理" class="headerlink" title="事件委托的原理"></a>事件委托的原理</h3><p>事件委托技术能让你避免对特定的每个节点添加事件监听器；相反，事件监听器是被添加到它们的父元素上。事件监听器会分析从子元素冒泡上来的事件，找到是哪个子元素的事件。</p>
+<h3 id="事件委托的实现"><a href="#事件委托的实现" class="headerlink" title="事件委托的实现"></a>事件委托的实现</h3><h5 id="例子一"><a href="#例子一" class="headerlink" title="例子一"></a>例子一</h5><p>页面有个ul包含着4个li，鼠标移动到li上，li背景变成红色，移出，背景恢复原色。</p>
+<p>不使用事件代理的情况下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul id=&quot;ul1&quot;&gt;</span><br><span class="line">            &lt;li&gt;111&lt;/li&gt;</span><br><span class="line">            &lt;li&gt;222&lt;/li&gt;</span><br><span class="line">            &lt;li&gt;333&lt;/li&gt;</span><br><span class="line">            &lt;li&gt;444&lt;/li&gt;</span><br><span class="line">        &lt;/ul&gt;</span><br><span class="line">        </span><br><span class="line">&lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">    window.onload = function()&#123;</span><br><span class="line">        var oUl = document.getElementById(&apos;ul1&apos;);</span><br><span class="line">        var aLi = oUl.children;</span><br><span class="line">        console.log(aLi);</span><br><span class="line">        //传统方法，li身上添加事件，需要用for循环，找到每个li</span><br><span class="line">        for (var i=0;i&lt;aLi.length;i++) &#123;</span><br><span class="line">            aLi[i].onmouseover = function() &#123;</span><br><span class="line">                this.style.background = &apos;red&apos;;</span><br><span class="line">            &#125;</span><br><span class="line">            aLi[i].onmouseout = function()&#123;</span><br><span class="line">                this.style.background = &apos;&apos;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;//for结束</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>使用事件代理：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line"> window.onload = function()&#123;</span><br><span class="line">    var oUl = document.getElementById(&apos;ul1&apos;);      </span><br><span class="line">    oUl.onmouseover = function(ev)&#123;</span><br><span class="line">        var ev = ev || window.event;</span><br><span class="line">        var oLi = ev.srcElement || ev.target;</span><br><span class="line">        oLi.style.background = &apos;red&apos;;              </span><br><span class="line">    &#125;</span><br><span class="line">    oUl.onmouseout = function(ev)&#123;</span><br><span class="line">        var ev = ev || window.event;</span><br><span class="line">        var oLi = ev.srcElement || ev.target;</span><br><span class="line">        oLi.style.background = &apos;&apos;;                </span><br><span class="line">    &#125;</span><br><span class="line">                </span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>但是会发现，鼠标移到了ul身上而不是某个li身上时，获取的事件源是ul，那么整个ul背景将变红，这不是想要的结果，怎么办？</p>
+<p>答曰：加个判断。通过事件源的nodeName判断是不是li，是才做出反应，不是不理它。为了防止nodeName在不同浏览器获取的字母大小写不同，加个toLowerCase()</p>
+<p>所以，上面的js代码更改如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">window.onload = function()&#123;</span><br><span class="line">    var oUl = document.getElementById(&apos;ul1&apos;);</span><br><span class="line">    oUl.onmouseover = function(ev)&#123;</span><br><span class="line">        var ev = ev || window.event;</span><br><span class="line">        var oLi = ev.srcElement || ev.target;</span><br><span class="line">        if(oLi.nodeName.toLowerCase() == &apos;li&apos;)&#123;</span><br><span class="line">            oLi.style.background = &apos;red&apos;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">                </span><br><span class="line">    oUl.onmouseout = function(ev)&#123;</span><br><span class="line">        var ev = ev || window.event;</span><br><span class="line">        var oLi = ev.srcElement || ev.target;</span><br><span class="line">        if(oLi.nodeName.toLowerCase() == &apos;li&apos;)&#123;</span><br><span class="line">            oLi.style.background = &apos;&apos;;</span><br><span class="line">        &#125;                </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="例子二"><a href="#例子二" class="headerlink" title="例子二"></a>例子二</h5><p>定我们有一个UL元素，它有几个子元素：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul id=&quot;parent-list&quot;&gt;</span><br><span class="line">       &lt;li id=&quot;post-1&quot;&gt;Item 1&lt;/li&gt;</span><br><span class="line">       &lt;li id=&quot;post-2&quot;&gt;Item 2&lt;/li&gt;</span><br><span class="line">       &lt;li id=&quot;post-3&quot;&gt;Item 3&lt;/li&gt;</span><br><span class="line">       &lt;li id=&quot;post-4&quot;&gt;Item 4&lt;/li&gt;</span><br><span class="line">       &lt;li id=&quot;post-5&quot;&gt;Item 5&lt;/li&gt;</span><br><span class="line">       &lt;li id=&quot;post-6&quot;&gt;Item 6&lt;/li&gt;</span><br><span class="line">   &lt;/ul&gt;</span><br></pre></td></tr></table></figure>
+
+<p>我们还假设，当每个子元素被点击时，将会有各自不同的事件发生。你可以给每个独立的li元素添加事件监听器，但有时这些li元素可能会被删除，可能会有新增，监听它们的新增或删除事件将会是一场噩梦，尤其是当你的监听事件的代码放在应用的另一个地方时。但是，如果你将监听器安放到它们的父元素上呢？你如何能知道是那个子元素被点击了？</p>
+<p>简单：当子元素的事件冒泡到父ul元素时，你可以检查事件对象的target属性，捕获真正被点击的节点元素的引用。下面是一段很简单的JavaScript代码，演示了事件委托的过程：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 找到父元素，添加监听器...</span><br><span class="line">    document.getElementById(&quot;parent-list&quot;).addEventListener(&quot;click&quot;,function(e) &#123;</span><br><span class="line">        // e.target是被点击的元素!</span><br><span class="line">        // 如果被点击的是li元素</span><br><span class="line">        if(e.target &amp;&amp; e.target.nodeName == &quot;LI&quot;) &#123;</span><br><span class="line">            // 找到目标，输出ID!</span><br><span class="line">            console.log(&quot;List item &quot;,e.target.id.replace(&quot;post-&quot;,&apos;&apos;),&quot; was clicked!&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>一步是给父元素添加事件监听器。当有事件触发监听器时，检查事件的来源，排除非li子元素事件。如果是一个li元素，我们就找到了目标！如果不是一个li元素，事件将被忽略。这个例子非常简单，UL和li是标准的父子搭配。让我们试验一些差异比较大的元素搭配。假设我们有一个父元素div，里面有很多子元素，但我们关心的是里面的一个带有”classA” CSS类的A标记：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">// 获得父元素DIV, 添加监听器...</span><br><span class="line">    document.getElementById(&quot;myDiv&quot;).addEventListener(&quot;click&quot;,function(e) &#123;</span><br><span class="line">        // e.target是被点击的元素</span><br><span class="line">        if(e.target &amp;&amp; e.target.nodeName == &quot;A&quot;) &#123;</span><br><span class="line">            // 获得CSS类名</span><br><span class="line">            var classes = e.target.className.split(&quot; &quot;);</span><br><span class="line">                // 搜索匹配!</span><br><span class="line">                if(classes) &#123;</span><br><span class="line">                    // For every CSS class the element has...</span><br><span class="line">                    for(var x = 0; x &lt; classes.length; x++) &#123;</span><br><span class="line">                        // If it has the CSS class we want...</span><br><span class="line">                        if(classes[x] == &quot;classA&quot;) &#123;</span><br><span class="line">                            // Bingo!</span><br><span class="line">                            console.log(&quot;Anchor element clicked!&quot;);</span><br><span class="line">                            // Now do something here....</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>上面这个例子中不仅比较了标签名，而且比较了CSS类名。虽然稍微复杂了一点，但还是很具代表性的。比如，如果某个A标记里有一个span标记，则这个span将会成为target元素。这个时候，我们需要上溯DOM树结构，找到里面是否有一个 A.classA 的元素。</p>
+<h5 id="例子三"><a href="#例子三" class="headerlink" title="例子三"></a>例子三</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;box&quot;&gt;</span><br><span class="line">        &lt;input type=&quot;button&quot; id=&quot;add&quot; value=&quot;添加&quot; /&gt;</span><br><span class="line">        &lt;input type=&quot;button&quot; id=&quot;remove&quot; value=&quot;删除&quot; /&gt;</span><br><span class="line">        &lt;input type=&quot;button&quot; id=&quot;move&quot; value=&quot;移动&quot; /&gt;</span><br><span class="line">        &lt;input type=&quot;button&quot; id=&quot;select&quot; value=&quot;选择&quot; /&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">window.onload = function()&#123;</span><br><span class="line">            var Add = document.getElementById(&quot;add&quot;);</span><br><span class="line">            var Remove = document.getElementById(&quot;remove&quot;);</span><br><span class="line">            var Move = document.getElementById(&quot;move&quot;);</span><br><span class="line">            var Select = document.getElementById(&quot;select&quot;);</span><br><span class="line">            </span><br><span class="line">            Add.onclick = function()&#123;</span><br><span class="line">                alert(&apos;添加&apos;);</span><br><span class="line">            &#125;;</span><br><span class="line">            Remove.onclick = function()&#123;</span><br><span class="line">                alert(&apos;删除&apos;);</span><br><span class="line">            &#125;;</span><br><span class="line">            Move.onclick = function()&#123;</span><br><span class="line">                alert(&apos;移动&apos;);</span><br><span class="line">            &#125;;</span><br><span class="line">            Select.onclick = function()&#123;</span><br><span class="line">                alert(&apos;选择&apos;);</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p>上边的例子，四个按钮完成四个不同的操作，至少需要四次dom操作，如果运用事件委托能优化吗？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">window.onload = function()&#123;</span><br><span class="line">            var oBox = document.getElementById(&quot;box&quot;);</span><br><span class="line">            oBox.onclick = function (ev) &#123;</span><br><span class="line">                var ev = ev || window.event;</span><br><span class="line">                var target = ev.target || ev.srcElement;</span><br><span class="line">                if(target.nodeName.toLocaleLowerCase() == &apos;input&apos;)&#123;</span><br><span class="line">                    switch(target.id)&#123;</span><br><span class="line">                        case &apos;add&apos; :</span><br><span class="line">                            alert(&apos;添加&apos;);</span><br><span class="line">                            break;</span><br><span class="line">                        case &apos;remove&apos; :</span><br><span class="line">                            alert(&apos;删除&apos;);</span><br><span class="line">                            break;</span><br><span class="line">                        case &apos;move&apos; :</span><br><span class="line">                            alert(&apos;移动&apos;);</span><br><span class="line">                            break;</span><br><span class="line">                        case &apos;select&apos; :</span><br><span class="line">                            alert(&apos;选择&apos;);</span><br><span class="line">                            break;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p>事件委托仅仅操作一次dom就完成了，比上边的性能肯定要好一些。</p>
+<h3 id="事件委托的优点"><a href="#事件委托的优点" class="headerlink" title="事件委托的优点"></a>事件委托的优点</h3><p>事件委托技术可以避免对没个子元素添加监听器，减少操作DOM节点的次数，从而减少浏览器的重排和重绘，提高代码的性能</p>
+<p>使用委托事件，只有父元素与DOM存在交互，其他的操作都是在JS虚拟内存中完成的，这样大大提高了性能。</p>
+<p>当新添加或者删除子元素节点时，响应的事件可以自动添加或删除，不需要在写程序进行添加或删除。</p>
+<h3 id="事件委托三部曲"><a href="#事件委托三部曲" class="headerlink" title="事件委托三部曲"></a>事件委托三部曲</h3><p>第一步：给父元素绑定事件<br>给元素ul添加绑定事件，通过addEventListener为点击事件click添加绑定</p>
+<p>第二步：监听子元素的冒泡事件<br>这里默认是冒泡，点击子元素li会向上冒泡</p>
+<p>第三步：找到是哪个子元素的事件</p>
+<p>通过匿名回调函数的参数e用来接收事件对象，通过target获取触发事件的目标</p>
+<p>另外，event.currentTarget 指向的是监听器直接绑定的那个元素，而 event.target 指向的是我们点击的那个元素。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JS/" rel="tag"># JS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/14/事件系统、事件流/" rel="next" title="事件系统、事件流">
+                <i class="fa fa-chevron-left"></i> 事件系统、事件流
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/04/21/attribute和property/" rel="prev" title="attribute和property">
+                attribute和property <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Jerry">
+            
+              <p class="site-author-name" itemprop="name">Jerry</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">72</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义"><span class="nav-number">1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么要用事件委托"><span class="nav-number">2.</span> <span class="nav-text">为什么要用事件委托</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事件委托的原理"><span class="nav-number">3.</span> <span class="nav-text">事件委托的原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事件委托的实现"><span class="nav-number">4.</span> <span class="nav-text">事件委托的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#例子一"><span class="nav-number">4.0.1.</span> <span class="nav-text">例子一</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#例子二"><span class="nav-number">4.0.2.</span> <span class="nav-text">例子二</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#例子三"><span class="nav-number">4.0.3.</span> <span class="nav-text">例子三</span></a></li></ol></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#事件委托的优点"><span class="nav-number">5.</span> <span class="nav-text">事件委托的优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事件委托三部曲"><span class="nav-number">6.</span> <span class="nav-text">事件委托三部曲</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jerry</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

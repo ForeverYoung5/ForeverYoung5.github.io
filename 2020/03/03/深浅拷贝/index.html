@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="JS,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="什么是拷贝 克隆，即拷贝，简单点说就是复制。 拷贝是针对内部属性而言的。对于最外层的对象，永远是创建的新的对象，然后将源对象内部的属性拷贝进来。  数据类型比较基本数据类型 基本数据类型保存在栈内存中，按值查找。 比较基本数据类型使，比较的是值。  引用数据类型 引用数据类型数据保存在堆内存中，对应引用地址保存在栈内存中。 在比较引用数据类型时比较的是引用地址。  123456var a=10;v">
+<meta name="keywords" content="JS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深浅拷贝">
+<meta property="og:url" content="http://yoursite.com/2020/03/03/深浅拷贝/index.html">
+<meta property="og:site_name" content="Jerry&#39;s Blog">
+<meta property="og:description" content="什么是拷贝 克隆，即拷贝，简单点说就是复制。 拷贝是针对内部属性而言的。对于最外层的对象，永远是创建的新的对象，然后将源对象内部的属性拷贝进来。  数据类型比较基本数据类型 基本数据类型保存在栈内存中，按值查找。 比较基本数据类型使，比较的是值。  引用数据类型 引用数据类型数据保存在堆内存中，对应引用地址保存在栈内存中。 在比较引用数据类型时比较的是引用地址。  123456var a=10;v">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://s2.ax1x.com/2020/03/02/3WEyn0.png">
+<meta property="og:image" content="https://s2.ax1x.com/2020/03/03/3hbFud.png">
+<meta property="og:image" content="https://s2.ax1x.com/2020/03/03/3hOVER.png">
+<meta property="og:updated_time" content="2022-05-08T07:31:54.869Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深浅拷贝">
+<meta name="twitter:description" content="什么是拷贝 克隆，即拷贝，简单点说就是复制。 拷贝是针对内部属性而言的。对于最外层的对象，永远是创建的新的对象，然后将源对象内部的属性拷贝进来。  数据类型比较基本数据类型 基本数据类型保存在栈内存中，按值查找。 比较基本数据类型使，比较的是值。  引用数据类型 引用数据类型数据保存在堆内存中，对应引用地址保存在栈内存中。 在比较引用数据类型时比较的是引用地址。  123456var a=10;v">
+<meta name="twitter:image" content="https://s2.ax1x.com/2020/03/02/3WEyn0.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/03/03/深浅拷贝/">
+
+
+
+
+
+  <title>深浅拷贝 | Jerry's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jerry's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/03/深浅拷贝/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerry">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerry's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">深浅拷贝</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-03T17:48:46+08:00">
+                2020-03-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="什么是拷贝"><a href="#什么是拷贝" class="headerlink" title="什么是拷贝"></a>什么是拷贝</h3><ul>
+<li>克隆，即拷贝，简单点说就是复制。</li>
+<li>拷贝是针对内部属性而言的。对于最外层的对象，永远是创建的新的对象，然后将源对象内部的属性拷贝进来。</li>
+</ul>
+<h3 id="数据类型比较"><a href="#数据类型比较" class="headerlink" title="数据类型比较"></a>数据类型比较</h3><h5 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h5><ul>
+<li>基本数据类型保存在栈内存中，按值查找。</li>
+<li>比较基本数据类型使，比较的是值。</li>
+</ul>
+<h5 id="引用数据类型"><a href="#引用数据类型" class="headerlink" title="引用数据类型"></a>引用数据类型</h5><ul>
+<li>引用数据类型数据保存在堆内存中，对应引用地址保存在栈内存中。</li>
+<li>在比较引用数据类型时比较的是引用地址。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var a=10;</span><br><span class="line">var b=10;</span><br><span class="line">console.log(a==b);//true</span><br><span class="line">var obj1=new Object();</span><br><span class="line">var obj2=new Object();</span><br><span class="line">console.log(obj1==obj2);//false</span><br></pre></td></tr></table></figure>
+
+<h3 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h3><ul>
+<li>创建一个新对象，这个对象有着原始对象属性值的一份精确拷贝。如果属性是基本类型，拷贝的就是基本类型的值，如果属性是引用类型，拷贝的就是内存地址 ，所以如果其中一个对象改变了这个地址，就会影响到另一个对象。</li>
+<li>对拷贝后的数据内容修改会影响原来数据。</li>
+<li>只进行一个层面的拷贝。</li>
+</ul>
+<h5 id="自己实现拷贝"><a href="#自己实现拷贝" class="headerlink" title="自己实现拷贝"></a>自己实现拷贝</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">function clone(o) &#123;</span><br><span class="line">    const obj = &#123;&#125;;</span><br><span class="line">    for (i in o) &#123;</span><br><span class="line">    </span><br><span class="line">    &lt;!--hasOwnProperty忽略继承属性length toString等--&gt;</span><br><span class="line">        if(o.hasOwnProperty(i))&#123;</span><br><span class="line">            obj[i] = o[i]</span><br><span class="line">        &#125;        </span><br><span class="line">    &#125;</span><br><span class="line">    return obj</span><br><span class="line">&#125;;</span><br><span class="line">var source_obj = &#123;</span><br><span class="line">    a:1,</span><br><span class="line">    b:2,</span><br><span class="line">    c:&#123;d:4&#125;</span><br><span class="line">&#125;</span><br><span class="line">var clone_obj = clone(source_obj);</span><br><span class="line">clone_obj.c.d = 555;</span><br><span class="line">console.log(source_obj); //&#123; a: 1, b: 2, c: &#123; d: 555 &#125; &#125;</span><br><span class="line">console.log(clone_obj);  //&#123; a: 1, b: 2, c: &#123; d: 555 &#125; &#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="Object-assign-target-source"><a href="#Object-assign-target-source" class="headerlink" title="Object.assign(target,source)"></a>Object.assign(target,source)</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var target = &#123;&#125;;</span><br><span class="line">var source1 = &#123; a:&#123;c:3&#125;&#125;;</span><br><span class="line">var source2 = &#123; b: 2 &#125;;</span><br><span class="line"></span><br><span class="line">// 接收的第一个对象是拷贝目标，剩下的对象是拷贝的源对象（可以是多个）</span><br><span class="line">Object.assign(target, source1, source2);</span><br><span class="line">console.log(target);  //&#123; a: &#123; c: 3 &#125;, b: 2 &#125;</span><br><span class="line"></span><br><span class="line">target.a.c = &apos;change&apos;;</span><br><span class="line">console.log(target); //&#123; a: &#123; c: &apos;change&apos; &#125;, b: &apos;change&apos; &#125;</span><br><span class="line"></span><br><span class="line">console.log(source1); //&#123; a: &#123; c: &apos;change&apos; &#125; &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>注意</li>
+</ul>
+<ol>
+<li>不会拷贝对象继承的属性</li>
+<li>不拷贝不可枚举的属性</li>
+<li>属性的数据属性/访问器属性</li>
+<li>可以拷贝Symbol类型</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">var obj_1 = &#123;</span><br><span class="line">    a:&#123;</span><br><span class="line">        b:1</span><br><span class="line">    &#125;,</span><br><span class="line">    sym:Symbol(1)</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">//  为obj_1添加innumerable属性，描述为&#123;&#125;</span><br><span class="line">Object.defineProperty(obj_1,&apos;innumerable&apos;,&#123;</span><br><span class="line">    value:&apos;不可枚举属性&apos;,</span><br><span class="line">    enumerable:false</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">var obj_2 = &#123;&#125;;</span><br><span class="line">Object.assign(obj_2,obj_1); </span><br><span class="line">console.log(obj_2);//&#123; a: &#123; b: 1 &#125;, sym: Symbol(1) &#125;</span><br><span class="line"></span><br><span class="line">obj_2.a.b = 2;</span><br><span class="line">console.log(&apos;obj1&apos;,obj_1);  //obj1 &#123; a: &#123; b: 2 &#125;, sym: Symbol(1) &#125;</span><br><span class="line">console.log(&apos;obj2&apos;,obj_2);   //obj2 &#123; a: &#123; b: 2 &#125;, sym: Symbol(1) &#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://s2.ax1x.com/2020/03/02/3WEyn0.png" alt="image"></p>
+<h5 id="扩展运算符"><a href="#扩展运算符" class="headerlink" title="扩展运算符"></a>扩展运算符</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var obj1 = &#123;</span><br><span class="line">    a:&#123;c:3&#125;,</span><br><span class="line">    b:2</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var cloneObj = &#123;...obj1&#125;;</span><br><span class="line">console.log(cloneObj); //&#123; a: &#123; c: 3 &#125;, b: 2 &#125;</span><br><span class="line"></span><br><span class="line">cloneObj.a.c = 4;</span><br><span class="line">cloneObj.b = 5;</span><br><span class="line">console.log(cloneObj);  //&#123; a: &#123; c: 4 &#125;, b: 5 &#125;</span><br><span class="line">console.log(obj1); //&#123; a: &#123; c: 4 &#125;, b: 2 &#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="Array-prototype-slice"><a href="#Array-prototype-slice" class="headerlink" title="Array.prototype.slice()"></a>Array.prototype.slice()</h5><ul>
+<li>slice() 方法返回一个新的数组对象，这一对象是一个由 begin和 end（不包括end）决定的原数组的浅拷贝。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">var arr = [1, &#123; a: 7 &#125;, 2, 3, 4,]</span><br><span class="line"></span><br><span class="line">console.log(arr.slice()); //[ 1, &#123; a: 7 &#125;, 2, 3, 4 ]</span><br><span class="line">console.log(arr.slice() === arr); // false</span><br><span class="line"></span><br><span class="line">var new_arr = arr.slice(0, 2);</span><br><span class="line">console.log(new_arr); //[ 1, &#123; a: 7 &#125; ]</span><br><span class="line"></span><br><span class="line">new_arr[0] = 5;</span><br><span class="line">new_arr[1].a = 666;</span><br><span class="line">console.log(arr); //[ 1, &#123; a: 666 &#125;, 2, 3, 4 ]</span><br><span class="line"></span><br><span class="line">console.log(arr.slice()); //[ 1, &#123; a: 666 &#125;, 2, 3, 4 ]</span><br><span class="line"></span><br><span class="line">console.log(arr.slice() === arr); //false</span><br></pre></td></tr></table></figure>
+
+<h5 id="Array-prototype-concat"><a href="#Array-prototype-concat" class="headerlink" title="Array.prototype.concat()"></a>Array.prototype.concat()</h5><ul>
+<li>该方法是利用Array原型链上的concat方法进行实现，concat方法进行数组的合并返回一个新数组，如果我们传入的是一个空数组（即用原数组与空数组合并），那么显而易见返回的数组就是拷贝得到的数组</li>
+<li>同样对于对象向属性不能创建两个互不相关的对象。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">let arr1 = [1, 2, &#123;username: &apos;Wayne&apos;&#125;]</span><br><span class="line">let arr2 = arr1.concat()</span><br><span class="line">arr2[0] = 5</span><br><span class="line">arr2[2].username = &apos;Jack&apos;</span><br><span class="line">console.log(arr1) // [1, 2, &#123;username: &apos;Jack&apos;&#125;]</span><br><span class="line">console.log(arr2) // [ 5, 2, &#123; username: &apos;Jack&apos; &#125; ]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>从上边各浅拷贝的例子可以看出，拷贝深浅是针对对象而言的。如果属性是原始数据类型，永远是深拷贝（改变新值不影响原值）。</li>
+</ul>
+<h3 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h3><ul>
+<li>将一个对象从内存中完整的拷贝一份出来,从堆内存中开辟一个新的区域存放新对象,且修改新对象不会影响原对象。</li>
+<li>对拷贝后的数据内容修改不会影响原来数据。</li>
+<li>进行无限层级的拷贝。</li>
+</ul>
+<h5 id="JSON-parse"><a href="#JSON-parse" class="headerlink" title="JSON.parse()"></a>JSON.parse()</h5><ul>
+<li>先将要拷贝的对象或数组传入JSON.stringify()中，此时得到了一个JSON字符串，我们把一个引用类型的数据变成了基本的字符串类型，假设此时的这个JSON字符串就叫str吧，那么再将str传入JSON.parse()中，此时str被变成了一个普通的js对象（或数组），所以会得到一个新的对象（或数组）。此数组是由字符串str新产生的，与原对象（或）数组自然没有关系，因此能实现深度克隆。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var arr_s = [1,2,&#123;name:&apos;way&apos;&#125;];</span><br><span class="line">&lt;!--JSON.stringfy将对象转换为字符串--&gt;</span><br><span class="line">&lt;!--JSON.parse将字符串转换为对象--&gt;</span><br><span class="line">var arr_t = JSON.parse(JSON.stringify(arr_s));</span><br><span class="line">console.log(arr_t);  // [ 1, 2, &#123; name: &apos;way&apos; &#125; ]</span><br><span class="line"></span><br><span class="line">arr_t[0] = 5;</span><br><span class="line">arr_t[2].name = &apos;lalala&apos;;</span><br><span class="line">console.log(JSON.stringify(arr_s));  // [ 1, 2, &#123; name: &apos;way&apos; &#125; ]</span><br><span class="line">console.log(JSON.parse(JSON.stringify(arr_s)));  //[ 1, 2, &#123; name: &apos;way&apos; &#125; ]</span><br><span class="line">console.log(arr_s);  // [ 1, 2, &#123; name: &apos;way&apos; &#125; ]</span><br><span class="line">console.log(arr_t);  // [ 5, 2, &#123; name: &apos;lalala&apos; &#125; ]</span><br></pre></td></tr></table></figure>
+
+<p>但是上述方法存在不足：</p>
+<ol>
+<li>会忽略<code>symbol</code> 和<code>undefined</code></li>
+<li>不能序列化函数</li>
+<li>不能解决循环引用的对象</li>
+<li>不能解决对象原型链上的属性和方法</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">let a = &#123;</span><br><span class="line">    age: undefined,</span><br><span class="line">    sex: Symbol(&apos;male&apos;),</span><br><span class="line">    jobs: function() &#123;&#125;,</span><br><span class="line">    name: &apos;yck&apos;</span><br><span class="line">&#125;</span><br><span class="line">let b = JSON.parse(JSON.stringify(a))</span><br><span class="line">console.log(b) // &#123;name: &quot;yck&quot;&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="自己实现深度克隆"><a href="#自己实现深度克隆" class="headerlink" title="自己实现深度克隆"></a>自己实现深度克隆</h5><ul>
+<li>判断被拷贝的类型。</li>
+<li>根据类型生成空的对象或者数组。</li>
+<li>调用for in方法遍历被拷贝对象或者数组，向新的对象或者数组中添加数据，如果是基本数据类型直接添加到新的对象或者数组中，否则深度克隆。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">function deepCopy(obje) &#123;</span><br><span class="line">    if(typeof obje === &apos;object&apos;)&#123;</span><br><span class="line">        let afterClone = Array.isArray(obje) ? [] : &#123;&#125;;</span><br><span class="line">        for(let item in obje)&#123;</span><br><span class="line">            if(obje.hasOwnProperty(item))&#123;</span><br><span class="line">                afterClone[item] = deepCopy(obje[item]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return afterClone;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        return obje;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var theObj = &#123;</span><br><span class="line">    name:&apos;jerry&apos;,</span><br><span class="line">    age:15,</span><br><span class="line">    a:undefined,</span><br><span class="line">    b:&#123;</span><br><span class="line">        c:456</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// 测试</span><br><span class="line">var newObj = deepCopy(theObj);</span><br><span class="line"></span><br><span class="line">console.log(newObj);  // &#123; name: &apos;jerry&apos;, age: 15, a: undefined, b: &#123; c: 456 &#125; &#125;</span><br><span class="line">console.log(theObj);  // &#123; name: &apos;jerry&apos;, age: 15, a: undefined, b: &#123; c: 456 &#125; &#125;</span><br><span class="line"></span><br><span class="line">newObj.b.c = &apos;change&apos;;  </span><br><span class="line"></span><br><span class="line">console.log(newObj);  // &#123; name: &apos;jerry&apos;, age: 15, a: undefined, b: &#123; c: &apos;change&apos; &#125; &#125;</span><br><span class="line">console.log(theObj);  // &#123; name: &apos;jerry&apos;, age: 15, a: undefined, b: &#123; c: 456 &#125; &#125;</span><br><span class="line"></span><br><span class="line">var theArr = [1,2,&#123;d:4&#125;];</span><br><span class="line">var newArr = deepCopy(theArr);</span><br><span class="line"></span><br><span class="line">console.log(&apos;ADS&apos;,newArr); // [ 1, 2, &#123; d: 4 &#125; ]</span><br><span class="line"></span><br><span class="line">newArr[2].d =555;</span><br><span class="line">console.log(theArr);  // [ 1, 2, &#123; d: 4 &#125; ]</span><br><span class="line">console.log(newArr);  // [ 1, 2, &#123; d: 555 &#125; ]</span><br><span class="line"></span><br><span class="line">// 死循环测试</span><br><span class="line">var a = &#123;&#125;;</span><br><span class="line">a.a=a;</span><br><span class="line"></span><br><span class="line">var new_a = deepCopy(a);</span><br><span class="line">console.log(new_a);  //RangeError: Maximum call stack size exceeded</span><br></pre></td></tr></table></figure>
+
+<h3 id="解决上述手动深拷贝存在的问题"><a href="#解决上述手动深拷贝存在的问题" class="headerlink" title="解决上述手动深拷贝存在的问题"></a>解决上述手动深拷贝存在的问题</h3><h5 id="问题一：对象判断不严谨"><a href="#问题一：对象判断不严谨" class="headerlink" title="问题一：对象判断不严谨"></a>问题一：对象判断不严谨</h5><ul>
+<li>抽象一个判断对象的方法</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">function isObject(obj)&#123;</span><br><span class="line">    return Object.prototype.toString.call(obj) ;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var obj1 = &#123;asd:&apos;das&apos;&#125;</span><br><span class="line">console.log(isObject(obj1))  //[object Object]</span><br><span class="line"></span><br><span class="line">var arr1 = [1,2,3]</span><br><span class="line">console.log(isObject(arr1))  //[object Array]</span><br><span class="line"></span><br><span class="line">// typeof不能区分object和array</span><br><span class="line">console.log(&apos;arr&apos;,typeof arr1);  //arr object</span><br><span class="line">console.log(&apos;obj&apos;,typeof obj1); // obj object</span><br><span class="line"></span><br><span class="line">// Array.isArray()</span><br><span class="line">console.log(&apos;arry---&apos;,Array.isArray(arr1)); //arry--- true</span><br><span class="line">console.log(&apos;obj---&apos;,Array.isArray(obj1)); //obj--- false</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>typeof不能区分数组和对象，结合typeof和Array.isArray()可以区分。</li>
+</ul>
+<h5 id="问题二：深层及的数据导致爆栈"><a href="#问题二：深层及的数据导致爆栈" class="headerlink" title="问题二：深层及的数据导致爆栈"></a>问题二：深层及的数据导致爆栈</h5><ul>
+<li>当数据层级很深时会出现栈溢出的问题。</li>
+<li>JSON.parse(JSON.stringify())内部使用的也是递归。也会产生这种问题。</li>
+<li>破解递归爆栈：既然是递归引起的爆栈，那就不用递归，改用循环。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;手动实现深度克隆&lt;/title&gt;</span><br><span class="line">    &lt;style&gt;&lt;/style&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">   function cloneLoop(x) &#123;</span><br><span class="line">    const root = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    // 栈</span><br><span class="line">    const loopList = [</span><br><span class="line">        &#123;</span><br><span class="line">            parent: root,</span><br><span class="line">            key: undefined,</span><br><span class="line">            data: x,</span><br><span class="line">        &#125;</span><br><span class="line">    ];</span><br><span class="line"></span><br><span class="line">    console.log(&apos;loopList---&gt;&apos;,loopList,root)</span><br><span class="line"></span><br><span class="line">debugger</span><br><span class="line"></span><br><span class="line">    while(loopList.length) &#123;</span><br><span class="line">        // 深度优先</span><br><span class="line">        const node = loopList.pop();</span><br><span class="line">        console.log(&apos;node&apos;,node,root)</span><br><span class="line"></span><br><span class="line">        const parent = node.parent;</span><br><span class="line">        console.log(&quot;parent&quot;,parent,root)</span><br><span class="line"></span><br><span class="line">        const key = node.key;</span><br><span class="line">        console.log(&quot;key&quot;,key,root)</span><br><span class="line"></span><br><span class="line">        const data = node.data;</span><br><span class="line">        console.log(&quot;data&quot;,data,root);</span><br><span class="line"></span><br><span class="line">        // 初始化赋值目标，key为undefined则拷贝到父元素，否则拷贝到子元素</span><br><span class="line">        let res = parent;</span><br><span class="line">        if (typeof key !== &apos;undefined&apos;) &#123;</span><br><span class="line">            res = parent[key] = &#123;&#125;;</span><br><span class="line">        &#125;</span><br><span class="line">        console.log(&quot;res---&gt;&quot;,res,root)</span><br><span class="line">debugger</span><br><span class="line">        for(let k in data) &#123;</span><br><span class="line">            if (data.hasOwnProperty(k)) &#123;</span><br><span class="line">                if (typeof data[k] === &apos;object&apos;) &#123;</span><br><span class="line">                    // 下一次循环</span><br><span class="line">                    loopList.push(&#123;</span><br><span class="line">                        parent: res,</span><br><span class="line">                        key: k,</span><br><span class="line">                        data: data[k],</span><br><span class="line">                    &#125;);</span><br><span class="line">                    console.log(&quot;loopList-push---&gt;&quot;,loopList,root)</span><br><span class="line">debugger</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    res[k] = data[k];</span><br><span class="line">                    console.log(&apos;else--res---&gt;&apos;,res,root)</span><br><span class="line">debugger</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">    return root;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var a = &#123;</span><br><span class="line">    a1: 1,</span><br><span class="line">    a2: &#123;</span><br><span class="line">        b1: 1,</span><br><span class="line">        b2: &#123;</span><br><span class="line">            c1: 1</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var b = cloneLoop(a);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>原理图</li>
+</ul>
+<p><img src="https://s2.ax1x.com/2020/03/03/3hbFud.png" alt="image"></p>
+<p><img src="https://s2.ax1x.com/2020/03/03/3hOVER.png" alt="image"></p>
+<ul>
+<li>原理可总结为parent指向root,res指向parent从而向root添加数据位基本数据类型的属性。当数据为对象时，将res给parent从而使parent依旧指向root，然后将res指向parent[key]，即root[key]向子对象继续添加属性。 </li>
+</ul>
+<h5 id="问题三：循环引用"><a href="#问题三：循环引用" class="headerlink" title="问题三：循环引用"></a>问题三：循环引用</h5><ul>
+<li>手动克隆代码中已经指出循环引用导致栈满的问题：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var a = &#123;&#125;;</span><br><span class="line">a.a=a;</span><br><span class="line"></span><br><span class="line">var new_a = deepCopy(a);</span><br><span class="line">console.log(new_a);  //RangeError: Maximum call stack size exceeded</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>JSON.parse(JSON.stringify())的JSON.stringify()内部做了循环引用的检测，不会产生这种问题。</li>
+<li>上述代码中都会出现引用丢失问题，比如：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var b = 1;</span><br><span class="line">var a = &#123;a1: b, a2: b&#125;;</span><br><span class="line"></span><br><span class="line">a.a1 === a.a2 // true</span><br><span class="line"></span><br><span class="line">var c = clone(a);</span><br><span class="line">c.a1 === c.a2 // false</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>解决办法，与上边几乎一致，不一致部分已标出</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;解决深度克隆循环调用问题&lt;/title&gt;</span><br><span class="line">    &lt;style&gt;&lt;/style&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line"></span><br><span class="line">function cloneForce(x) &#123;</span><br><span class="line">    // =============</span><br><span class="line">    const uniqueList = []; // 用来去重</span><br><span class="line">    // =============</span><br><span class="line"></span><br><span class="line">    let root = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    // 循环数组</span><br><span class="line">    const loopList = [</span><br><span class="line">        &#123;</span><br><span class="line">            parent: root,</span><br><span class="line">            key: undefined,</span><br><span class="line">            data: x,</span><br><span class="line">        &#125;</span><br><span class="line">    ];</span><br><span class="line"></span><br><span class="line">    while(loopList.length) &#123;</span><br><span class="line">        // 深度优先</span><br><span class="line">        const node = loopList.pop();</span><br><span class="line">        const parent = node.parent;</span><br><span class="line">        const key = node.key;</span><br><span class="line">        const data = node.data;</span><br><span class="line"></span><br><span class="line">        // 初始化赋值目标，key为undefined则拷贝到父元素，否则拷贝到子元素</span><br><span class="line">        let res = parent;</span><br><span class="line">        if (typeof key !== &apos;undefined&apos;) &#123;</span><br><span class="line">            res = parent[key] = &#123;&#125;;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        // =============</span><br><span class="line">        // 数据已经存在</span><br><span class="line">        let uniqueData = find(uniqueList, data);</span><br><span class="line">        if (uniqueData) &#123;</span><br><span class="line">            parent[key] = uniqueData.target;</span><br><span class="line">            break; // 中断本次循环</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 数据不存在</span><br><span class="line">        // 保存源数据，在拷贝数据中对应的引用</span><br><span class="line">        uniqueList.push(&#123;</span><br><span class="line">            source: data,</span><br><span class="line">            target: res,</span><br><span class="line">        &#125;);</span><br><span class="line">        // =============</span><br><span class="line">    </span><br><span class="line">        for(let k in data) &#123;</span><br><span class="line">            if (data.hasOwnProperty(k)) &#123;</span><br><span class="line">                if (typeof data[k] === &apos;object&apos;) &#123;</span><br><span class="line">                    // 下一次循环</span><br><span class="line">                    loopList.push(&#123;</span><br><span class="line">                        parent: res,</span><br><span class="line">                        key: k,</span><br><span class="line">                        data: data[k],</span><br><span class="line">                    &#125;);</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    res[k] = data[k];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return root;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function find(arr, item) &#123;</span><br><span class="line">    for(let i = 0; i &lt; arr.length; i++) &#123;</span><br><span class="line">        if (arr[i].source === item) &#123;</span><br><span class="line">            return arr[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return null;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var a = &#123;</span><br><span class="line">    b:1</span><br><span class="line">&#125;;</span><br><span class="line">a.a = a;</span><br><span class="line"></span><br><span class="line">var b = cloneForce(a)</span><br><span class="line">console.log(a)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line"></span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>原理是复制之前，先看看有没有重复，如果没重复正常复制，如果重复，直接将该对象整个复制过去，然后中断循环，这样不会死循环。</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JS/" rel="tag"># JS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/26/JS之类的创建和继承/" rel="next" title="JS面试之类的创建和继承">
+                <i class="fa fa-chevron-left"></i> JS面试之类的创建和继承
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/05/JS执行机制/" rel="prev" title="JS执行机制">
+                JS执行机制 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Jerry">
+            
+              <p class="site-author-name" itemprop="name">Jerry</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">72</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是拷贝"><span class="nav-number">1.</span> <span class="nav-text">什么是拷贝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据类型比较"><span class="nav-number">2.</span> <span class="nav-text">数据类型比较</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#基本数据类型"><span class="nav-number">2.0.1.</span> <span class="nav-text">基本数据类型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#引用数据类型"><span class="nav-number">2.0.2.</span> <span class="nav-text">引用数据类型</span></a></li></ol></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#浅拷贝"><span class="nav-number">3.</span> <span class="nav-text">浅拷贝</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#自己实现拷贝"><span class="nav-number">3.0.1.</span> <span class="nav-text">自己实现拷贝</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Object-assign-target-source"><span class="nav-number">3.0.2.</span> <span class="nav-text">Object.assign(target,source)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#扩展运算符"><span class="nav-number">3.0.3.</span> <span class="nav-text">扩展运算符</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Array-prototype-slice"><span class="nav-number">3.0.4.</span> <span class="nav-text">Array.prototype.slice()</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Array-prototype-concat"><span class="nav-number">3.0.5.</span> <span class="nav-text">Array.prototype.concat()</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#深拷贝"><span class="nav-number">4.</span> <span class="nav-text">深拷贝</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#JSON-parse"><span class="nav-number">4.0.1.</span> <span class="nav-text">JSON.parse()</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#自己实现深度克隆"><span class="nav-number">4.0.2.</span> <span class="nav-text">自己实现深度克隆</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决上述手动深拷贝存在的问题"><span class="nav-number">5.</span> <span class="nav-text">解决上述手动深拷贝存在的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#问题一：对象判断不严谨"><span class="nav-number">5.0.1.</span> <span class="nav-text">问题一：对象判断不严谨</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#问题二：深层及的数据导致爆栈"><span class="nav-number">5.0.2.</span> <span class="nav-text">问题二：深层及的数据导致爆栈</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#问题三：循环引用"><span class="nav-number">5.0.3.</span> <span class="nav-text">问题三：循环引用</span></a></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jerry</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="webpack,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="提升webpack打包速度的方法1. 跟上技术迭代（Node，Npm，Yarn)每次技术的革新，内部必然会实现优化，及时更新webpack，node环境，安装新版本的npm或者yarn管理工具，打包速度都会有所提升。 2. 在尽可能少的模块上应用loader对于某种类型的文件，部分需要打包，部分不需要打包时使用比如js文件，业务代码是需要打包的，但是node_modules中的js就不需要再次打包">
+<meta name="keywords" content="webpack">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webpack-性能优化">
+<meta property="og:url" content="http://yoursite.com/2020/05/19/webpack-性能优化/index.html">
+<meta property="og:site_name" content="Jerry&#39;s Blog">
+<meta property="og:description" content="提升webpack打包速度的方法1. 跟上技术迭代（Node，Npm，Yarn)每次技术的革新，内部必然会实现优化，及时更新webpack，node环境，安装新版本的npm或者yarn管理工具，打包速度都会有所提升。 2. 在尽可能少的模块上应用loader对于某种类型的文件，部分需要打包，部分不需要打包时使用比如js文件，业务代码是需要打包的，但是node_modules中的js就不需要再次打包">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2022-05-08T07:31:54.725Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="webpack-性能优化">
+<meta name="twitter:description" content="提升webpack打包速度的方法1. 跟上技术迭代（Node，Npm，Yarn)每次技术的革新，内部必然会实现优化，及时更新webpack，node环境，安装新版本的npm或者yarn管理工具，打包速度都会有所提升。 2. 在尽可能少的模块上应用loader对于某种类型的文件，部分需要打包，部分不需要打包时使用比如js文件，业务代码是需要打包的，但是node_modules中的js就不需要再次打包">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/05/19/webpack-性能优化/">
+
+
+
+
+
+  <title>webpack-性能优化 | Jerry's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jerry's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/19/webpack-性能优化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerry">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerry's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">webpack-性能优化</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-19T14:11:42+08:00">
+                2020-05-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="提升webpack打包速度的方法"><a href="#提升webpack打包速度的方法" class="headerlink" title="提升webpack打包速度的方法"></a>提升webpack打包速度的方法</h3><h4 id="1-跟上技术迭代（Node，Npm，Yarn"><a href="#1-跟上技术迭代（Node，Npm，Yarn" class="headerlink" title="1. 跟上技术迭代（Node，Npm，Yarn)"></a>1. 跟上技术迭代（Node，Npm，Yarn)</h4><p>每次技术的革新，内部必然会实现优化，及时更新webpack，node环境，安装新版本的npm或者yarn管理工具，打包速度都会有所提升。</p>
+<h4 id="2-在尽可能少的模块上应用loader"><a href="#2-在尽可能少的模块上应用loader" class="headerlink" title="2. 在尽可能少的模块上应用loader"></a>2. 在尽可能少的模块上应用loader</h4><p>对于某种类型的文件，部分需要打包，部分不需要打包时使用比如js文件，业务代码是需要打包的，但是node_modules中的js就不需要再次打包了:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    test: /\.js$/,</span><br><span class="line">    exclude: /node_modules/,</span><br><span class="line">    loader:&quot;babel-loader&quot;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<p>上边的exclude就是性能优化的体现，我们没必要对node_modules中的js代码使用babel-loader实现转换。不仅可以配置exclude，还可以配置include：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">include:path.resolve(__dirname,&apos;../src&apos;)</span><br></pre></td></tr></table></figure>
+
+<p>即只对src目录下js文件应用 babel-loader。</p>
+<p>但是在对图片文件的处理中，所有的图片文件都需要loader打包之后才可以，所以就不必再设置include或者exclude。</p>
+<p>但是合理的使用include和exclude可以在尽可能少的模块上使用loader，从而提高打包速度。</p>
+<h4 id="3-Plugin尽可能精简并确保可靠"><a href="#3-Plugin尽可能精简并确保可靠" class="headerlink" title="3. Plugin尽可能精简并确保可靠"></a>3. Plugin尽可能精简并确保可靠</h4><p>在打包生成线上代码的时候，为了使代码尽可能的小，加载速度尽可能的快，需要使用optimize-css-assets-plugin对代码css代码进行压缩，但是在开发环境下并不需要对代码进行压缩，所以在开发环境下不使用这个插件，就节省了打包过程中对代码进行压缩的时间，加快打包速度。</p>
+<p>在使用插件的时候最好是使用官方推荐过的插件，使用第三方或者自己编写的插件时，可能解决了一些问题，但是没有通过官方验证，在性能上可能存在不足。</p>
+<h4 id="4-resolve参数的合理配置"><a href="#4-resolve参数的合理配置" class="headerlink" title="4. resolve参数的合理配置"></a>4. resolve参数的合理配置</h4><p>可以在webpack配置文件中配置resolve：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">resolve：&#123;</span><br><span class="line">    extensions:[&apos;js&apos;,&apos;jsx&apos;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上设置的含义是，当我们按照如下方式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import xxx from &apos;../index/index&apos;</span><br></pre></td></tr></table></figure>
+
+<p>引入index文件夹下的名称为index的文件时,会先去index文件夹下查找index.js，没有的话再去查找index.jsx，还没有的话报错。</p>
+<p>之所以说要合理配置resolve参数，是因为当resolve参数过多时，对每个文件的引入都要去查找一次，会延长打包时间，所以我们经常只对js这一类的业务路基文件配置resolve。</p>
+<p>按照以上方式配置好之后，我们引入child文件夹下index.js文件时直接写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import xxx from &apos;../child&apos;  //只写到文件夹</span><br></pre></td></tr></table></figure>
+
+<p>不会报错。但是引入child文件夹下的child.js文件时直接写到文件夹就会报错。</p>
+<p>我们可以在resolve中配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">resolve：&#123;</span><br><span class="line">    extensions:[&apos;js&apos;,&apos;jsx&apos;],</span><br><span class="line">    mainFiles:[&apos;index&apos;,&apos;child&apos;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>引入文件夹的时候，我们先去文件夹下查找index文件，没有的话再去查找child文件，但是这样确实会增加打包负担。每次引入一个文件要去查找可能不止一次。</p>
+<p>resolve还有其他设置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">resolve：&#123;</span><br><span class="line">    extensions:[&apos;js&apos;,&apos;jsx&apos;],</span><br><span class="line">    mainFiles:[&apos;index&apos;,&apos;child&apos;],</span><br><span class="line">    alias:&#123;</span><br><span class="line">        jerry:path.resolve(__dirname,&apos;../src/child&apos; //给src/child取别名为jerry)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样就可以：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 将</span><br><span class="line"></span><br><span class="line">import xxx from &apos;../src/child&apos;</span><br><span class="line"></span><br><span class="line">//改为</span><br><span class="line"></span><br><span class="line">import xxx from &apos;jerry&apos;</span><br></pre></td></tr></table></figure>
+
+<p>alias使用场景：文件向下嵌套很多层时，层层引入(‘../a/b/c/d/child’)很麻烦，可以用alias。</p>
+<h4 id="5-使用-DllPlugin-提高打包速度"><a href="#5-使用-DllPlugin-提高打包速度" class="headerlink" title="5. 使用 DllPlugin 提高打包速度"></a>5. 使用 DllPlugin 提高打包速度</h4><p>我们常常会引用很多第三方模块，每次打包的时候，都要从node_modules里面取出模块，然后在把这些模块打包到源代码之中。这个过程中，会消耗一定的打包时间。但是事实上，每次打包，这些第三方模块的内容并没有改变，每次打包实属浪费。因此，我们希望只打包一次，之后再次打包时，直接使用第一次打包好了大模块。</p>
+<p>为第三方模块单独创建一个配置文件，webpack.dll.js，配置如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">const path = require(&apos;path&apos;);</span><br><span class="line">const webapck = require(&apos;webpack&apos;);</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">    mode:&apos;production&apos;,</span><br><span class="line">    entry:&#123;</span><br><span class="line">        vendors:[&apos;react&apos;,&apos;react-dom&apos;,&apos;lodash&apos;]//对第三方文件打包</span><br><span class="line">    &#125;,</span><br><span class="line">    output:&#123;</span><br><span class="line">        filename:&apos;[name].dll.js&apos;,//打包后的文件放到vendors.dll.js文件中</span><br><span class="line">        path:path.resolve(__filename,&apos;../dll&apos;);//存放到dll目录下</span><br><span class="line">        library:&apos;[name]&apos;//将打包好的第三方模块以全局变量的形式暴露出去</span><br><span class="line">    &#125;,</span><br><span class="line">    plugins:[</span><br><span class="line">    //DllPlugin对暴露出去的全局变量中的全局代码进行分析，生成manifest.json映射文件</span><br><span class="line">        new webapck.DllPlugin(&#123;</span><br><span class="line">            name:&apos;[name]&apos;,</span><br><span class="line">            path:path.resolve(__dirname,&apos;../dll/[name].manifest.json&apos;)</span><br><span class="line">        &#125;)</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后在package.json中配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;build:dll&quot;: &quot;webpack --config ./build/webpack.dll.js&quot;</span><br></pre></td></tr></table></figure>
+
+<p>之后运行npm run build:dll就可以生成两个文件：vendors.dll.js和映射文件vendors.manifest.json</p>
+<p>但是我们打包线上代码和开发代码时会用不同的配置文件，但是他们存在公共的配置文件webpack.common.js,我们需要在其中配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">new AddAssetHtmlWbpackPludin(&#123;</span><br><span class="line">    manifest:path.resolve(__dirname,&apos;../dll/vendors.dll.js&apos;)</span><br><span class="line">&#125;)</span><br><span class="line">new webpack.DllReferencePlugin(&#123;</span><br><span class="line">    manifest:path.resolve(__dirname,&apos;../dll/vendors.manifest.json&apos;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>之后执行npm run dev 或者 npm run build时DllReferencePlugin会结合传入的映射文件，打包后的文件vendoe.dll.js和引入的第三方模块，分析模块是否在vendoe.dll.js中已经打包好，如果打包好了，就不在去node_modules中分析打包了。</p>
+<p>AddAssetHtmlWbpackPludin负责将打包后的vendors.dll.js文件放到HTML文件上去(挂载到页面上)，然后才会出现全局变量。</p>
+<p>如果我们想把每个模块单独打包一个js文件，那么我们就需要为每个文件配置插件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">new AddAssetHtmlWbpackPludin(&#123;</span><br><span class="line">    manifest:path.resolve(__dirname,&apos;../dll/vendors.dll.js&apos;)</span><br><span class="line">&#125;)</span><br><span class="line">new webpack.DllReferencePlugin(&#123;</span><br><span class="line">    manifest:path.resolve(__dirname,&apos;../dll/vendors.manifest.json&apos;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>每次引入插件都修改的话很麻烦，那么就需要用到node去分析dll文件夹下有几个js文件，有几个manifest.json文件，为我们动态的添加插件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">const fs = require(&apos;fs&apos;);//引入node的核心模块</span><br><span class="line"></span><br><span class="line">//都dll文件夹下的所有内容</span><br><span class="line">const files = fs.readdirSync(path.resolve(__dirnamem,&apos;../dll&apos;) );</span><br><span class="line">const plufins=[</span><br><span class="line">  //别的plugins</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line">files.forEach(file =&gt; &#123;</span><br><span class="line">    if(/.*\.dll.js/.test(file))&#123;</span><br><span class="line">        plugins.push(new    AddAssetHtmlWbpackPludin(&#123;</span><br><span class="line">          manifest:path.resolve(__dirname,&apos;../dll&apos;,flie)</span><br><span class="line">        &#125;))</span><br><span class="line">    &#125;</span><br><span class="line">    if(/.*\.manifest.json/.test(file) )&#123;</span><br><span class="line">        plugins.push(new webpack.DllReferencePlugin(&#123;</span><br><span class="line">            manifest:path.resolve(__dirname,&apos;../dll&apos;,file)</span><br><span class="line">        &#125;))</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">module.exports=&#123;</span><br><span class="line">    plugins,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="6-控制包文件的大小"><a href="#6-控制包文件的大小" class="headerlink" title="6. 控制包文件的大小"></a>6. 控制包文件的大小</h4><p>TreeShaking  和 SplitChunksPlugin </p>
+<h4 id="7-tread-loader-parallel-webpack-happypack多进程打包"><a href="#7-tread-loader-parallel-webpack-happypack多进程打包" class="headerlink" title="7. tread-loader ,parallel-webpack ,happypack多进程打包"></a>7. tread-loader ,parallel-webpack ,happypack多进程打包</h4><h4 id="8-合理使用sourceMap"><a href="#8-合理使用sourceMap" class="headerlink" title="8. 合理使用sourceMap"></a>8. 合理使用sourceMap</h4><p>sourceMap 越详细，打包越慢。合理配置。</p>
+<h4 id="9-结合stats分析打包结果"><a href="#9-结合stats分析打包结果" class="headerlink" title="9. 结合stats分析打包结果"></a>9. 结合stats分析打包结果</h4><h4 id="10-开发环境内存编译"><a href="#10-开发环境内存编译" class="headerlink" title="10. 开发环境内存编译"></a>10. 开发环境内存编译</h4><p>开发环境打包时使用的是devServer,不会生成dist文件，而是把编译之后生成的文件放到内存里边，内存的读取比硬盘的读取快得多，也会加快打包速度。</p>
+<h4 id="11-开发环境无用插件剔除"><a href="#11-开发环境无用插件剔除" class="headerlink" title="11. 开发环境无用插件剔除"></a>11. 开发环境无用插件剔除</h4><p>在开发环境呀，不必压缩，如果设置成mode=production,做不必要的压缩，也是在浪费时间。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/webpack/" rel="tag"># webpack</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/16/webpack-实战配置讲解/" rel="next" title="webpack-实战配置讲解">
+                <i class="fa fa-chevron-left"></i> webpack-实战配置讲解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/05/19/webpack-多页面打包配置/" rel="prev" title="webpack-多页面打包配置">
+                webpack-多页面打包配置 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Jerry">
+            
+              <p class="site-author-name" itemprop="name">Jerry</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">72</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#提升webpack打包速度的方法"><span class="nav-number">1.</span> <span class="nav-text">提升webpack打包速度的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-跟上技术迭代（Node，Npm，Yarn"><span class="nav-number">1.1.</span> <span class="nav-text">1. 跟上技术迭代（Node，Npm，Yarn)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-在尽可能少的模块上应用loader"><span class="nav-number">1.2.</span> <span class="nav-text">2. 在尽可能少的模块上应用loader</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-Plugin尽可能精简并确保可靠"><span class="nav-number">1.3.</span> <span class="nav-text">3. Plugin尽可能精简并确保可靠</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-resolve参数的合理配置"><span class="nav-number">1.4.</span> <span class="nav-text">4. resolve参数的合理配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-使用-DllPlugin-提高打包速度"><span class="nav-number">1.5.</span> <span class="nav-text">5. 使用 DllPlugin 提高打包速度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-控制包文件的大小"><span class="nav-number">1.6.</span> <span class="nav-text">6. 控制包文件的大小</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-tread-loader-parallel-webpack-happypack多进程打包"><span class="nav-number">1.7.</span> <span class="nav-text">7. tread-loader ,parallel-webpack ,happypack多进程打包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-合理使用sourceMap"><span class="nav-number">1.8.</span> <span class="nav-text">8. 合理使用sourceMap</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-结合stats分析打包结果"><span class="nav-number">1.9.</span> <span class="nav-text">9. 结合stats分析打包结果</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10-开发环境内存编译"><span class="nav-number">1.10.</span> <span class="nav-text">10. 开发环境内存编译</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#11-开发环境无用插件剔除"><span class="nav-number">1.11.</span> <span class="nav-text">11. 开发环境无用插件剔除</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jerry</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

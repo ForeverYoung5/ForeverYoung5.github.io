@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="JS,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="参考参考参考参考 浏览器渲染原理：  css不会阻塞DOM的解析，会阻塞页面渲染浏览器是解析DOM生成DOM Tree，结合CSS生成的CSS Tree，最终组成render tree，再渲染页面。由此可见，在此过程中CSS完全无法影响DOM Tree，因而无需阻塞DOM解析。然而，DOM Tree和CSS Tree会组合成render tree。所以也可以得到，css是会阻塞页面渲染的。 看接下">
+<meta name="keywords" content="JS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="js和css是怎样阻塞DOM解析和页面渲染的">
+<meta property="og:url" content="http://yoursite.com/2020/03/31/js和css是怎样阻塞DOM解析和页面渲染的/index.html">
+<meta property="og:site_name" content="Jerry&#39;s Blog">
+<meta property="og:description" content="参考参考参考参考 浏览器渲染原理：  css不会阻塞DOM的解析，会阻塞页面渲染浏览器是解析DOM生成DOM Tree，结合CSS生成的CSS Tree，最终组成render tree，再渲染页面。由此可见，在此过程中CSS完全无法影响DOM Tree，因而无需阻塞DOM解析。然而，DOM Tree和CSS Tree会组合成render tree。所以也可以得到，css是会阻塞页面渲染的。 看接下">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://s1.ax1x.com/2020/03/31/GQBACq.png">
+<meta property="og:updated_time" content="2022-05-08T07:31:54.725Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="js和css是怎样阻塞DOM解析和页面渲染的">
+<meta name="twitter:description" content="参考参考参考参考 浏览器渲染原理：  css不会阻塞DOM的解析，会阻塞页面渲染浏览器是解析DOM生成DOM Tree，结合CSS生成的CSS Tree，最终组成render tree，再渲染页面。由此可见，在此过程中CSS完全无法影响DOM Tree，因而无需阻塞DOM解析。然而，DOM Tree和CSS Tree会组合成render tree。所以也可以得到，css是会阻塞页面渲染的。 看接下">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/03/31/GQBACq.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/03/31/js和css是怎样阻塞DOM解析和页面渲染的/">
+
+
+
+
+
+  <title>js和css是怎样阻塞DOM解析和页面渲染的 | Jerry's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jerry's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/31/js和css是怎样阻塞DOM解析和页面渲染的/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerry">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerry's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">js和css是怎样阻塞DOM解析和页面渲染的</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-31T18:53:13+08:00">
+                2020-03-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://juejin.im/post/59c60691518825396f4f71a1#heading-1" target="_blank" rel="noopener">参考</a><a href="https://www.cnblogs.com/bibiafa/p/9364986.html" target="_blank" rel="noopener">参考</a><a href="https://www.cnblogs.com/hgonlywj/p/4857151.html" target="_blank" rel="noopener">参考</a><a href="https://www.nowcoder.com/questionTerminal/0a34e51cecc24826b839d95173d620dc" target="_blank" rel="noopener">参考</a></p>
+<p>浏览器渲染原理：</p>
+<p><img src="https://s1.ax1x.com/2020/03/31/GQBACq.png" alt="image"></p>
+<h3 id="css不会阻塞DOM的解析，会阻塞页面渲染"><a href="#css不会阻塞DOM的解析，会阻塞页面渲染" class="headerlink" title="css不会阻塞DOM的解析，会阻塞页面渲染"></a>css不会阻塞DOM的解析，会阻塞页面渲染</h3><p>浏览器是解析<code>DOM</code>生成<code>DOM Tree</code>，结合<code>CSS</code>生成的<code>CSS Tree</code>，最终组成<code>render tree</code>，再渲染页面。由此可见，在此过程中<code>CSS</code>完全无法影响<code>DOM Tree</code>，因而无需阻塞<code>DOM</code>解析。然而，<code>DOM Tree</code>和<code>CSS Tree</code>会组合成<code>render tree</code>。所以也可以得到，<code>css</code>是会阻塞页面渲染的。</p>
+<p>看接下来代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;header&gt;</span><br><span class="line">    &lt;link rel=&quot;stylesheet&quot; href=&quot;/css/sleep3000-common.css&quot;&gt;</span><br><span class="line">    &lt;script src=&quot;/js/logDiv.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;/header&gt;</span><br></pre></td></tr></table></figure>
+
+<p>答案是浏览器会转圈圈三秒，但此过程中不会打印任何东西，之后呈现出一个浅蓝色的<code>div(common.css)</code>，再打印出<code>null</code>。结果好像<code>CSS</code>不单阻塞了页面渲染，还阻塞了<code>DOM</code> 的解析。其实阻塞<code>DOM</code>解析的是<code>js</code>，如果<code>js</code>脚本中要获取元素的样式，宽高等<code>css</code>控制的属性，浏览器是需要计算的，也就是依赖于<code>css</code>的，只好等所有的样式加载完了之后再执行<code>js</code>。<code>&lt;script&gt;与&lt;link&gt;</code>同时在头部的话，<code>&lt;script&gt;</code>在上可能会更好，之所以是可能，是因为如果<code>&lt;link&gt;</code>的内容下载更快的话，是没影响的，但反过来的话，<code>JS</code>就要等待了，然而这些等待的时间是完全不必要的。</p>
+<h3 id="js阻塞DOM的解析和页面的渲染"><a href="#js阻塞DOM的解析和页面的渲染" class="headerlink" title="js阻塞DOM的解析和页面的渲染"></a>js阻塞DOM的解析和页面的渲染</h3><p>浏览器并不知道脚本的内容是什么，如果先行解析下面的<code>DOM</code>，万一脚本内全删了后面的<code>DOM</code>，浏览器就白干活了。更别谈丧心病狂的<code>document.write</code>。浏览器无法预估里面的内容，那就干脆全部停住，等脚本执行完再干活就好了。</p>
+<p>对此的优化其实也很显而易见，具体分为两类：</p>
+<ul>
+<li>如果JS文件体积太大，同时你确定没必要阻塞<code>DOM</code>解析的话，不妨按需要加上<code>defer</code>或者<code>async</code>属性，此时脚本下载的过程中是不会阻塞<code>DOM</code>解析的。</li>
+<li>如果是文件执行时间太长，不妨分拆一下代码，不用立即执行的代码，可以使用一下以前的黑科技：<code>setTimeout()</code>。当然，现代的浏览器很聪明，它会“偷看”之后的<code>DOM</code>内容，碰到如<code>&lt;link&gt;、&lt;script&gt;</code>和<code>&lt;img&gt;</code>等标签时，它会帮助我们先行下载里面的资源，不会傻等到解析到那里时才下载。</li>
+</ul>
+<h3 id="结论："><a href="#结论：" class="headerlink" title="结论："></a>结论：</h3><ul>
+<li><code>CSS</code> 不会阻塞 <code>DOM</code> 的解析，但会阻塞页面渲染。</li>
+<li><code>JS</code> 阻塞 <code>DOM</code> 解析，但浏览器会”偷看”<code>DOM</code>，预先下载相关资源。</li>
+<li>浏览器遇到 <code>&lt;script&gt;</code>且没有<code>defer</code>或<code>async</code>属性的 标签时，会触发页面渲染(浏览器不知道脚本的内容，因而碰到脚本时，只好先渲染页面，确保脚本能获取到最新的DOM元素信息，尽管脚本可能不需要这些信息)，因而如果前面<code>CSS</code>资源尚未加载完毕时，浏览器会等待它加载完毕在执行脚本。</li>
+<li><code>&lt;script&gt;</code>最好放底部，<code>&lt;link&gt;</code>最好放头部，如果头部同时有<code>&lt;script&gt;</code>与<code>&lt;link&gt;</code>的情况下，最好将<code>&lt;script&gt;</code>放在<code>&lt;link&gt;</code>上面</li>
+</ul>
+<h3 id="嵌入js和外部js的差别"><a href="#嵌入js和外部js的差别" class="headerlink" title="嵌入js和外部js的差别"></a>嵌入js和外部js的差别</h3><p>内部js会阻塞整个DOM的解析，外部js只会阻塞其后边js的解析：（由下向上依次看）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;Title&lt;/title&gt;</span><br><span class="line">    &lt;style&gt;</span><br><span class="line">        div &#123;</span><br><span class="line">            width: 100px;</span><br><span class="line">            height: 100px;</span><br><span class="line">            background: lightgreen;</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;/style&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;div&gt;div1&lt;/div&gt;</span><br><span class="line">    &lt;script src=&quot;./index.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;div&gt;div2&lt;/div&gt;</span><br><span class="line">    &lt;div&gt;div3&lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line"></span><br><span class="line">&lt;/html&gt;</span><br><span class="line">&lt;!-- 出现浅绿色div1，之后转圈，打印100000，出现浅绿色div1,div2 --&gt;</span><br><span class="line">&lt;!-- ------------------------------------------------------ --&gt;</span><br><span class="line"></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;Title&lt;/title&gt;</span><br><span class="line">    &lt;style&gt;</span><br><span class="line">        div &#123;</span><br><span class="line">            width: 100px;</span><br><span class="line">            height: 100px;</span><br><span class="line">            background: lightgreen;</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;/style&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;div&gt;div1&lt;/div&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        var count = 0;</span><br><span class="line">        for (var i = 0; i &lt; 100000; i++) &#123;</span><br><span class="line">            for (var j = 0; j &lt; 10000; j++) &#123;</span><br><span class="line">                count++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        console.log(count);</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">    &lt;div&gt;div2&lt;/div&gt;</span><br><span class="line">    &lt;div&gt;div3&lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line"></span><br><span class="line">&lt;/html&gt; </span><br><span class="line">&lt;!-- 转两圈之后,打印100000，出现浅绿色div1,div2,div3-----嵌入的js阻塞整个DOM解析 --&gt;</span><br><span class="line">&lt;!-- ------------------------------------------------------------------ --&gt;</span><br><span class="line"></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;Title&lt;/title&gt;</span><br><span class="line">    &lt;script defer src=&quot;./index.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;style&gt;</span><br><span class="line">        div &#123;</span><br><span class="line">            width: 100px;</span><br><span class="line">            height: 100px;</span><br><span class="line">            background: lightgreen;</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;/style&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;div&gt;div1&lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt; </span><br><span class="line">&lt;!-- 加了defer之后：先出现浅绿色div，在打印100000----defer将及时执行延时到了DOM加载完成时（并未延时下载） --&gt;</span><br><span class="line">&lt;!-- ---------------------------------------------------------------------- --&gt;</span><br><span class="line"></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;Title&lt;/title&gt;</span><br><span class="line">    &lt;script src=&quot;./index.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;style&gt;</span><br><span class="line">        div &#123;</span><br><span class="line">            width: 100px;</span><br><span class="line">            height: 100px;</span><br><span class="line">            background: lightgreen;</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;/style&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;div&gt;div1&lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br><span class="line">&lt;!-- 转两圈，打印100000，出现浅绿色div---js阻塞DOM解析和渲染 --&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--index.js--&gt;</span><br><span class="line">var count = 0;</span><br><span class="line">for (var i = 0; i &lt; 100000; i++) &#123;</span><br><span class="line">    for (var j = 0; j &lt; 10000; j++) &#123;</span><br><span class="line">        count++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">console.log(count);</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JS/" rel="tag"># JS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/31/script标签中的defer和async/" rel="next" title="script标签中的defer和async">
+                <i class="fa fa-chevron-left"></i> script标签中的defer和async
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/31/encodeURL和decodeURL/" rel="prev" title="encodeURL和decodeURL">
+                encodeURL和decodeURL <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Jerry">
+            
+              <p class="site-author-name" itemprop="name">Jerry</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">72</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#css不会阻塞DOM的解析，会阻塞页面渲染"><span class="nav-number">1.</span> <span class="nav-text">css不会阻塞DOM的解析，会阻塞页面渲染</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#js阻塞DOM的解析和页面的渲染"><span class="nav-number">2.</span> <span class="nav-text">js阻塞DOM的解析和页面的渲染</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结论："><span class="nav-number">3.</span> <span class="nav-text">结论：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#嵌入js和外部js的差别"><span class="nav-number">4.</span> <span class="nav-text">嵌入js和外部js的差别</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jerry</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

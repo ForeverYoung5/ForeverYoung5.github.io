@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="JS,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="什么是ProxyProxy 也就是代理，可以帮助我们完成很多事情，例如对数据的处理，对构造函数的处理，对数据的验证，说白了，就是在我们访问对象前添加了一层拦截，可以过滤很多操作，而这些过滤，由你来定义。 语法1let p = new Proxy(target , handler)  target ：需要使用Proxy包装的目标对象（可以是任何类型的对象，包括原生数组，函数，甚至另一个代理） han">
+<meta name="keywords" content="JS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Proxy">
+<meta property="og:url" content="http://yoursite.com/2020/03/27/Proxy/index.html">
+<meta property="og:site_name" content="Jerry&#39;s Blog">
+<meta property="og:description" content="什么是ProxyProxy 也就是代理，可以帮助我们完成很多事情，例如对数据的处理，对构造函数的处理，对数据的验证，说白了，就是在我们访问对象前添加了一层拦截，可以过滤很多操作，而这些过滤，由你来定义。 语法1let p = new Proxy(target , handler)  target ：需要使用Proxy包装的目标对象（可以是任何类型的对象，包括原生数组，函数，甚至另一个代理） han">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2022-05-08T07:31:54.710Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Proxy">
+<meta name="twitter:description" content="什么是ProxyProxy 也就是代理，可以帮助我们完成很多事情，例如对数据的处理，对构造函数的处理，对数据的验证，说白了，就是在我们访问对象前添加了一层拦截，可以过滤很多操作，而这些过滤，由你来定义。 语法1let p = new Proxy(target , handler)  target ：需要使用Proxy包装的目标对象（可以是任何类型的对象，包括原生数组，函数，甚至另一个代理） han">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/03/27/Proxy/">
+
+
+
+
+
+  <title>Proxy | Jerry's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jerry's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/27/Proxy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerry">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerry's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Proxy</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-27T19:59:15+08:00">
+                2020-03-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="什么是Proxy"><a href="#什么是Proxy" class="headerlink" title="什么是Proxy"></a>什么是Proxy</h3><p><code>Proxy</code> 也就是代理，可以帮助我们完成很多事情，例如对数据的处理，对构造函数的处理，对数据的验证，说白了，就是在我们访问对象前添加了一层拦截，可以过滤很多操作，而这些过滤，由你来定义。</p>
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let p = new Proxy(target , handler)</span><br></pre></td></tr></table></figure>
+
+<p><code>target</code> ：需要使用<code>Proxy</code>包装的目标对象（可以是任何类型的对象，包括原生数组，函数，甚至另一个代理）</p>
+<p><code>handler</code>: 一个对象，其属性是当执行一个操作时定义代理的行为的函数(可以理解为某种触发器)。</p>
+<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><h5 id="handler-get"><a href="#handler-get" class="headerlink" title="handler.get()"></a>handler.get()</h5><p><code>handler.get()</code> 方法用于拦截对象的读取属性操作。</p>
+<p>语法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var p = new Proxy(target, &#123;</span><br><span class="line">  get: function(target, property, receiver) &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>参数：</p>
+<ol>
+<li><code>target</code>：目标对象。</li>
+<li><code>property</code>：被获取的属性名。</li>
+<li><code>receiver</code>：<code>Proxy</code>或者继承<code>Proxy</code>的对象</li>
+</ol>
+<p>返回值：可以返回任意值</p>
+<p>约束：如果违背了以下的约束，<code>proxy</code>会抛出 <code>TypeError</code>:</p>
+<ol>
+<li>如果要访问的目标属性是不可写以及不可配置的，则返回的值必须与该目标属性的值相同。</li>
+<li>如果要访问的目标属性没有配置访问方法，即<code>get</code>方法是<code>undefined</code>的，则返回值必须为<code>undefined</code>。</li>
+</ol>
+<p>示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var p = new Proxy(&#123;&#125;, &#123;</span><br><span class="line">  get: function(target, prop, receiver) &#123;</span><br><span class="line">    console.log(&quot;called: &quot; + prop);</span><br><span class="line">    return 10;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">console.log(p.a); // &quot;called: a&quot;</span><br></pre></td></tr></table></figure>
+
+<p>违反约束情况：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">Object.defineProperty(obj, &quot;a&quot;, &#123; </span><br><span class="line">  configurable: false, </span><br><span class="line">  enumerable: false, </span><br><span class="line">  value: 10, </span><br><span class="line">  writable: false </span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">var p = new Proxy(obj, &#123;</span><br><span class="line">  get: function(target, prop) &#123;</span><br><span class="line">    return 20;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">p.a; //会抛出TypeError</span><br></pre></td></tr></table></figure>
+
+<h5 id="handler-set"><a href="#handler-set" class="headerlink" title="handler.set()"></a>handler.set()</h5><p><code>handler.set()</code> 方法用于拦截设置属性值的操作</p>
+<p>语法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var p = new Proxy(target, &#123;</span><br><span class="line">  set: function(target, property, value, receiver) &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>参数：</p>
+<ol>
+<li><code>target</code>：目标对象。</li>
+<li><code>property</code>：被设置的属性名。</li>
+<li><code>value</code>：被设置的新值。</li>
+<li><code>receiver</code>：最初被调用的对象。通常是<code>proxy</code>本身，但<code>handler</code>的<code>set</code>方法也有可能在原型链上或以其他方式被间接地调用（因此不一定是<code>proxy</code>本身）。比如，假设有一段代码执行 <code>obj.name =&quot;jen&quot;</code>，<code>obj</code>不是一个<code>proxy</code>且自身不含<code>name</code>属性，但它的原型链上有一个<code>proxy</code>，那么那个<code>proxy</code>的<code>set</code>拦截函数会被调用，此时<code>obj</code>会作为<code>receiver</code>参数传进来。</li>
+</ol>
+<p>返回值：</p>
+<p><code>set</code>方法应该返回一个布尔值，返回<code>true</code>代表此次设置属性成功了，如果返回<code>false</code>且设置属性操作发生在严格模式下，那么会抛出一个<code>TypeError</code>。</p>
+<p>约束：如果违背以下的约束条件，proxy会抛出一个TypeError:</p>
+<ol>
+<li>若目标属性是不可写及不可配置的，则不能改变它的值。</li>
+<li>如果目标属性没有配置存储方法，即set方法是undefined的，则不能设置它的值。</li>
+<li>在严格模式下，若set方法返回false，则会抛出一个 TypeError 异常。</li>
+</ol>
+<p>示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var p = new Proxy(&#123;&#125;, &#123;</span><br><span class="line">  set: function(target, prop, value, receiver) &#123;</span><br><span class="line">    target[prop] = value;</span><br><span class="line">    console.log(&apos;property set: &apos; + prop + &apos; = &apos; + value);</span><br><span class="line">    return true;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">console.log(&apos;a&apos; in p);  // false</span><br><span class="line"></span><br><span class="line">p.a = 10;               // &quot;property set: a = 10&quot;</span><br><span class="line">console.log(&apos;a&apos; in p);  // true</span><br><span class="line">console.log(p.a);       // 10</span><br></pre></td></tr></table></figure>
+
+<h3 id="基础事例"><a href="#基础事例" class="headerlink" title="基础事例"></a>基础事例</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var handler = &#123;</span><br><span class="line">    get:function(target,name)&#123;</span><br><span class="line">    return name in target ? target[name] : 37;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var p = new Proxy(&#123;&#125;,handler);</span><br><span class="line">p.a = 1;</span><br><span class="line">p.b = undefined;</span><br><span class="line">console.log(p.a,p.b); //1 undefined</span><br><span class="line">console.log(&apos;c&apos; in p, p.c); //false 37</span><br></pre></td></tr></table></figure>
+
+<h3 id="无操作转发代理"><a href="#无操作转发代理" class="headerlink" title="无操作转发代理"></a>无操作转发代理</h3><p>在以下例子中，我们使用了一个原生 <code>JavaScript</code>对象，代理会将所有应用到它的操作转发到这个对象上。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">let target = &#123;&#125;;</span><br><span class="line">let p = new Proxy(target, &#123;&#125;);</span><br><span class="line"></span><br><span class="line">p.a = 37;   // 操作转发到目标</span><br><span class="line"></span><br><span class="line">console.log(target.a);    // 37. 操作已经被正确地转发</span><br></pre></td></tr></table></figure>
+
+<p>代理<code>p</code>将所有应用于他的操作转发到<code>target</code></p>
+<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><p>通过代理，你可以轻松地验证向一个对象的传值。这个例子使用了<code>set</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">let handler = &#123;</span><br><span class="line">    set: function (obj, prop, value) &#123;</span><br><span class="line">        if (prop === &apos;age&apos;) &#123;</span><br><span class="line">            if (!Number.isInteger(value)) &#123;</span><br><span class="line">                throw new TypeError(&apos;The age is not an integer&apos;);</span><br><span class="line">            &#125;</span><br><span class="line">            if (value &gt; 200) &#123;</span><br><span class="line">                throw new RangeError(&apos;The age seems invalid&apos;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // The default behavior to store the value</span><br><span class="line">        obj[prop] = value;</span><br><span class="line"></span><br><span class="line">        // 表示成功</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">        let person = new Proxy(&#123;&#125;, handler);</span><br><span class="line"></span><br><span class="line">        person.age = 100;</span><br><span class="line"></span><br><span class="line">        console.log(person.age);</span><br><span class="line">        // 100</span><br><span class="line"></span><br><span class="line">        person.age = &apos;young&apos;;</span><br><span class="line">        // 抛出异常: Uncaught TypeError: The age is not an integer</span><br><span class="line"></span><br><span class="line">        person.age = 300;</span><br><span class="line">        // 抛出异常: Uncaught RangeError: The age seems invalid</span><br></pre></td></tr></table></figure>
+
+<p>上边示例相当于，每当向<code>person</code>里边添加属性时，会拦截操作，判断属性值是否满足要求，满足要求就存起来，否则就抛出异常。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JS/" rel="tag"># JS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/26/async-await和promise执行顺序/" rel="next" title="async/await和promise执行顺序">
+                <i class="fa fa-chevron-left"></i> async/await和promise执行顺序
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/28/0-1-0-2-0-3/" rel="prev" title="0.1+0.2!=0.3">
+                0.1+0.2!=0.3 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Jerry">
+            
+              <p class="site-author-name" itemprop="name">Jerry</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">72</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是Proxy"><span class="nav-number">1.</span> <span class="nav-text">什么是Proxy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#语法"><span class="nav-number">2.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法"><span class="nav-number">3.</span> <span class="nav-text">方法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#handler-get"><span class="nav-number">3.0.1.</span> <span class="nav-text">handler.get()</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#handler-set"><span class="nav-number">3.0.2.</span> <span class="nav-text">handler.set()</span></a></li></ol></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#基础事例"><span class="nav-number">4.</span> <span class="nav-text">基础事例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#无操作转发代理"><span class="nav-number">5.</span> <span class="nav-text">无操作转发代理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#验证"><span class="nav-number">6.</span> <span class="nav-text">验证</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jerry</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

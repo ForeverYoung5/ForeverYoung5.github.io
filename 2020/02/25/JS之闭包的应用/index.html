@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="JS,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="概念闭包是一种特殊的概念 它由两部分组成–执行上下文（代号A）以及在该执行上下文中创建的函数（代号B） 当B执行时，如果访问了A中变量对象（包括的内容参考上一章）的值，那么闭包就产生了。 许多书籍、文章中都以函数B的名字代指这里生成的闭包。而在Chrome中，则以执行上下文A的函数名代指闭包。 特点：  函数嵌套函数 在函数内部可以引用外部的参数和变量 参数和变量不会以垃圾回收机制回收  闭包与垃">
+<meta name="keywords" content="JS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS之闭包的应用">
+<meta property="og:url" content="http://yoursite.com/2020/02/25/JS之闭包的应用/index.html">
+<meta property="og:site_name" content="Jerry&#39;s Blog">
+<meta property="og:description" content="概念闭包是一种特殊的概念 它由两部分组成–执行上下文（代号A）以及在该执行上下文中创建的函数（代号B） 当B执行时，如果访问了A中变量对象（包括的内容参考上一章）的值，那么闭包就产生了。 许多书籍、文章中都以函数B的名字代指这里生成的闭包。而在Chrome中，则以执行上下文A的函数名代指闭包。 特点：  函数嵌套函数 在函数内部可以引用外部的参数和变量 参数和变量不会以垃圾回收机制回收  闭包与垃">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2022-05-08T07:31:54.710Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JS之闭包的应用">
+<meta name="twitter:description" content="概念闭包是一种特殊的概念 它由两部分组成–执行上下文（代号A）以及在该执行上下文中创建的函数（代号B） 当B执行时，如果访问了A中变量对象（包括的内容参考上一章）的值，那么闭包就产生了。 许多书籍、文章中都以函数B的名字代指这里生成的闭包。而在Chrome中，则以执行上下文A的函数名代指闭包。 特点：  函数嵌套函数 在函数内部可以引用外部的参数和变量 参数和变量不会以垃圾回收机制回收  闭包与垃">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/02/25/JS之闭包的应用/">
+
+
+
+
+
+  <title>JS之闭包的应用 | Jerry's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jerry's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/25/JS之闭包的应用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerry">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerry's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JS之闭包的应用</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-25T19:25:57+08:00">
+                2020-02-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>闭包是一种特殊的概念</p>
+<p>它由两部分组成–执行上下文（代号A）以及在该执行上下文中创建的函数（代号B）</p>
+<p>当B执行时，如果访问了A中<strong>变量对象</strong>（包括的内容参考上一章）的值，那么闭包就产生了。</p>
+<p>许多书籍、文章中都以函数B的名字代指这里生成的闭包。而在Chrome中，则以执行上下文A的函数名代指闭包。</p>
+<p>特点：</p>
+<ul>
+<li>函数嵌套函数</li>
+<li>在函数内部可以引用外部的参数和变量</li>
+<li>参数和变量不会以垃圾回收机制回收</li>
+</ul>
+<h3 id="闭包与垃圾回收机制"><a href="#闭包与垃圾回收机制" class="headerlink" title="闭包与垃圾回收机制"></a>闭包与垃圾回收机制</h3><p>垃圾回收机制，当一个值失去引用之后就会被标记，然后被垃圾回收机制回收并释放空间</p>
+<p>当一个函数的执行上下文运行完毕之后，内部的所有内容都会是去引用而被垃圾回收机制回收</p>
+<p>闭包的本质就是在函数外部保持了内部变量的引用，因此闭包会阻止垃圾回收机制进行回收</p>
+<h3 id="闭包与作用域链"><a href="#闭包与作用域链" class="headerlink" title="闭包与作用域链"></a>闭包与作用域链</h3><p>因为函数调用栈其实是在代码执行时才确定的，而作用域规则在代码编译阶段就已经确定，虽然作用域链是在代码执行时才生成的，但是它的规则并不会在执行时发生改变。</p>
+<p>所以，闭包的存在不会导致作用域链的变化。</p>
+<h3 id="闭包的用途"><a href="#闭包的用途" class="headerlink" title="闭包的用途"></a>闭包的用途</h3><ul>
+<li>读取函数内部变量。</li>
+<li>让局部变量值保存在内存中不被回收。</li>
+<li>方便调用上下文的局部变量，利于代码封装。</li>
+</ul>
+<h3 id="闭包应用之setTimeout"><a href="#闭包应用之setTimeout" class="headerlink" title="闭包应用之setTimeout"></a>闭包应用之setTimeout</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;闭包的应用&lt;/title&gt;</span><br><span class="line">    &lt;style&gt;&lt;/style&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;div id=&quot;content&quot;&gt;原始内容&lt;/div&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">// ********setTimeout()*******</span><br><span class="line"></span><br><span class="line">setTimeout(function(val)&#123;</span><br><span class="line">    alert(val)  //不能传入参数val</span><br><span class="line">&#125;,3000)</span><br><span class="line"></span><br><span class="line">function change(val)&#123;</span><br><span class="line">    document.getElementById(&apos;content&apos;).innerHTML= &apos;我是等待后改变的内容。&apos;</span><br><span class="line">    alert(val)</span><br><span class="line">&#125;</span><br><span class="line">setTimeout(&quot;change(3)&quot;,3000)  //可以传入参数</span><br><span class="line"></span><br><span class="line">// 通过闭包实现传参效果</span><br><span class="line">function func(param)&#123;</span><br><span class="line">    return function()&#123;</span><br><span class="line">        alert(param)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">fn = func(&apos;param&apos;);</span><br><span class="line">setTimeout(fn,3000)</span><br><span class="line"></span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>个人认为第二种传参方式比闭包更简单。</p>
+<h3 id="闭包应用场景之回调函数"><a href="#闭包应用场景之回调函数" class="headerlink" title="闭包应用场景之回调函数"></a>闭包应用场景之回调函数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;div id=&quot;content&quot;&gt;原始内容&lt;/div&gt;</span><br><span class="line">    &lt;div id=&quot;huidiao&quot; style=&quot;width: 200px;height: 200px;background-color: aqua;&quot;&gt;&lt;/div&gt;</span><br><span class="line">    &lt;div id=&quot;changeToGreen&quot;&gt;绿色&lt;/div&gt;</span><br><span class="line">    &lt;div id=&quot;changeToYellow&quot;&gt;黄色&lt;/div&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line"></span><br><span class="line">// **********回调*********</span><br><span class="line">function changeColor(color)&#123;</span><br><span class="line">        return function()&#123;</span><br><span class="line">            document.getElementById(&apos;huidiao&apos;).style.backgroundColor = color;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">document.getElementById(&apos;changeToYellow&apos;).onclick = changeColor(&quot;yellow&quot;);</span><br><span class="line">document.getElementById(&apos;changeToGreen&apos;).onclick = changeColor(&quot;green&quot;)</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>上述代码点击不同按钮调用同一函数更改背景颜色。代码简洁。</p>
+<h3 id="闭包应用场景之封装变量。"><a href="#闭包应用场景之封装变量。" class="headerlink" title="闭包应用场景之封装变量。"></a>闭包应用场景之封装变量。</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">var counter = (function()&#123;</span><br><span class="line">    var privateCounter = 0;//私有变量</span><br><span class="line">    function change(val)&#123;</span><br><span class="line">       return privateCounter += val;</span><br><span class="line">    &#125;</span><br><span class="line">    return &#123; //三个闭包共享一个词法环境</span><br><span class="line">        increment:function()&#123;</span><br><span class="line">           return change(1);</span><br><span class="line">        &#125;,</span><br><span class="line">        decrement:function()&#123;</span><br><span class="line">            change(-1);</span><br><span class="line">        &#125;,</span><br><span class="line">        value:function()&#123;</span><br><span class="line">            return privateCounter;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line">console.log(counter.value()) //0</span><br><span class="line">console.log(counter.increment());  //1</span><br><span class="line">console.log(counter.increment());  //2</span><br><span class="line">console.log(counter.value()) //2</span><br></pre></td></tr></table></figure>
+
+<p>共享的环境创建在一个匿名函数体内，环境中有一个局部变量一个局部函数，通过匿名函数返回的对象的三个公共函数访问。</p>
+<h5 id="匿名函数"><a href="#匿名函数" class="headerlink" title="匿名函数"></a>匿名函数</h5><ul>
+<li>顾名思义是没有名字的函数</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 声明普通函数</span><br><span class="line">function func()&#123;&#125;</span><br><span class="line"></span><br><span class="line">// 声明匿名函数</span><br><span class="line">function()&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但是像上边那样写由于不符合语法要求会报错，解决办法是加上一个括号即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(function()&#123;</span><br><span class="line">    console.log(&apos;匿名函数&apos;)</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
+
+<p>由于要执行匿名函数，所以要在后边加一个括号。</p>
+<h3 id="为节点循环绑定click事件"><a href="#为节点循环绑定click事件" class="headerlink" title="为节点循环绑定click事件"></a>为节点循环绑定click事件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;utf-8&quot;&gt;</span><br><span class="line">    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;</span><br><span class="line">    &lt;title&gt;&lt;/title&gt;</span><br><span class="line">    &lt;link rel=&quot;stylesheet&quot; href=&quot;&quot;&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line"></span><br><span class="line">    &lt;p id=&quot;info&quot;&gt;123&lt;/p&gt;</span><br><span class="line">    &lt;p&gt;E-mail: &lt;input type=&quot;text&quot; id=&quot;email&quot; name=&quot;email&quot;&gt;&lt;/p&gt;</span><br><span class="line">    &lt;p&gt;Name: &lt;input type=&quot;text&quot; id=&quot;name&quot; name=&quot;name&quot;&gt;&lt;/p&gt;</span><br><span class="line">    &lt;p&gt;Age: &lt;input type=&quot;text&quot; id=&quot;age&quot; name=&quot;age&quot;&gt;&lt;/p&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    function showContent(content)&#123;</span><br><span class="line">        document.getElementById(&apos;info&apos;).innerHTML = content;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    function setContent()&#123;</span><br><span class="line">        var infoArr = [</span><br><span class="line">            &#123;&apos;id&apos;:&apos;email&apos;,&apos;content&apos;:&apos;your email address&apos;&#125;,</span><br><span class="line">            &#123;&apos;id&apos;:&apos;name&apos;,&apos;content&apos;:&apos;your name&apos;&#125;,</span><br><span class="line">            &#123;&apos;id&apos;:&apos;age&apos;,&apos;content&apos;:&apos;your age&apos;&#125;</span><br><span class="line">        ];</span><br><span class="line">        for (var i = 0; i &lt; infoArr.length; i++) &#123;</span><br><span class="line">            var item = infoArr[i];</span><br><span class="line">            document.getElementById(item.id).onfocus = function()&#123;</span><br><span class="line">                showContent(item.content)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    setContent()</span><br><span class="line">    //循环中创建了三个闭包，他们使用了相同的词法环境item，item.content是变化的变量</span><br><span class="line">    //当onfocus执行时，item.content才确定，此时循环已经结束，三个闭包共享的item已经指向数组最后一项。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 解决方法1     通过函数工厂，则函数为每一个回调都创建一个新的词法环境</span><br><span class="line">     */</span><br><span class="line">    function showContent(content)&#123;</span><br><span class="line">        document.getElementById(&apos;info&apos;).innerHTML = content;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    function callBack(content)&#123;</span><br><span class="line">        return function()&#123;</span><br><span class="line">            showContent(content)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    function setContent()&#123;</span><br><span class="line">        var infoArr = [</span><br><span class="line">            &#123;&apos;id&apos;:&apos;email&apos;,&apos;content&apos;:&apos;your email address&apos;&#125;,</span><br><span class="line">            &#123;&apos;id&apos;:&apos;name&apos;,&apos;content&apos;:&apos;your name&apos;&#125;,</span><br><span class="line">            &#123;&apos;id&apos;:&apos;age&apos;,&apos;content&apos;:&apos;your age&apos;&#125;</span><br><span class="line">        ];</span><br><span class="line">        for (var i = 0; i &lt; infoArr.length; i++) &#123;</span><br><span class="line">            var item = infoArr[i];</span><br><span class="line">            document.getElementById(item.id).onfocus = callBack(item.content)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    setContent()</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 解决方法2        绑定事件放在立即执行函数中</span><br><span class="line">     */</span><br><span class="line">    function showContent(content)&#123;</span><br><span class="line">        document.getElementById(&apos;info&apos;).innerHTML = content;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    function setContent()&#123;</span><br><span class="line">        var infoArr = [</span><br><span class="line">            &#123;&apos;id&apos;:&apos;email&apos;,&apos;content&apos;:&apos;your email address&apos;&#125;,</span><br><span class="line">            &#123;&apos;id&apos;:&apos;name&apos;,&apos;content&apos;:&apos;your name&apos;&#125;,</span><br><span class="line">            &#123;&apos;id&apos;:&apos;age&apos;,&apos;content&apos;:&apos;your age&apos;&#125;</span><br><span class="line">        ];</span><br><span class="line">        for (var i = 0; i &lt; infoArr.length; i++) &#123;</span><br><span class="line">            (function()&#123;</span><br><span class="line">                var item = infoArr[i];</span><br><span class="line">                document.getElementById(item.id).onfocus = function()&#123;</span><br><span class="line">                    showContent(item.content)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)()//放立即执行函数，立即绑定，用每次的值绑定到事件上，而不是循环结束的值</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    setContent()</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 解决方案3        用ES6声明，避免声明提前，作用域只在当前块内</span><br><span class="line">     */</span><br><span class="line">    function showContent(content)&#123;</span><br><span class="line">        document.getElementById(&apos;info&apos;).innerHTML = content;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    function setContent()&#123;</span><br><span class="line">        var infoArr = [</span><br><span class="line">            &#123;&apos;id&apos;:&apos;email&apos;,&apos;content&apos;:&apos;your email address&apos;&#125;,</span><br><span class="line">            &#123;&apos;id&apos;:&apos;name&apos;,&apos;content&apos;:&apos;your name&apos;&#125;,</span><br><span class="line">            &#123;&apos;id&apos;:&apos;age&apos;,&apos;content&apos;:&apos;your age&apos;&#125;</span><br><span class="line">        ];</span><br><span class="line">        for (var i = 0; i &lt; infoArr.length; i++) &#123;</span><br><span class="line">            let item = infoArr[i];      //限制作用域只在当前块内</span><br><span class="line">            document.getElementById(item.id).onfocus = function()&#123;</span><br><span class="line">                showContent(item.content)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    setContent()</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JS/" rel="tag"># JS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/24/JS之闭包/" rel="next" title="JS之闭包">
+                <i class="fa fa-chevron-left"></i> JS之闭包
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/02/26/JS之类的创建和继承/" rel="prev" title="JS面试之类的创建和继承">
+                JS面试之类的创建和继承 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Jerry">
+            
+              <p class="site-author-name" itemprop="name">Jerry</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">72</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#概念"><span class="nav-number">1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包与垃圾回收机制"><span class="nav-number">2.</span> <span class="nav-text">闭包与垃圾回收机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包与作用域链"><span class="nav-number">3.</span> <span class="nav-text">闭包与作用域链</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包的用途"><span class="nav-number">4.</span> <span class="nav-text">闭包的用途</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包应用之setTimeout"><span class="nav-number">5.</span> <span class="nav-text">闭包应用之setTimeout</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包应用场景之回调函数"><span class="nav-number">6.</span> <span class="nav-text">闭包应用场景之回调函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包应用场景之封装变量。"><span class="nav-number">7.</span> <span class="nav-text">闭包应用场景之封装变量。</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#匿名函数"><span class="nav-number">7.0.1.</span> <span class="nav-text">匿名函数</span></a></li></ol></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#为节点循环绑定click事件"><span class="nav-number">8.</span> <span class="nav-text">为节点循环绑定click事件</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jerry</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="JS,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="对象的定义无序属性的集合，其属性可以包含基值、对象或者函数。 创建对象通过关键字new，也可以通过对象字面量 构造函数与原型某一类的特定属性，通常放在构造函数中 某一类公共的方法与属性，通常放在原型对象中 new关键字在创建实例时经历如下过程：  先创建一个新的、空的实例对象 将实例对象的原型指向构造函数的原型 将构造函数内部的this修改为指向实例 最后返回该实例对象  如果在构造函数中声明的私">
+<meta name="keywords" content="JS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面向对象">
+<meta property="og:url" content="http://yoursite.com/2020/04/28/面向对象/index.html">
+<meta property="og:site_name" content="Jerry&#39;s Blog">
+<meta property="og:description" content="对象的定义无序属性的集合，其属性可以包含基值、对象或者函数。 创建对象通过关键字new，也可以通过对象字面量 构造函数与原型某一类的特定属性，通常放在构造函数中 某一类公共的方法与属性，通常放在原型对象中 new关键字在创建实例时经历如下过程：  先创建一个新的、空的实例对象 将实例对象的原型指向构造函数的原型 将构造函数内部的this修改为指向实例 最后返回该实例对象  如果在构造函数中声明的私">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2022-05-08T07:31:54.869Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="面向对象">
+<meta name="twitter:description" content="对象的定义无序属性的集合，其属性可以包含基值、对象或者函数。 创建对象通过关键字new，也可以通过对象字面量 构造函数与原型某一类的特定属性，通常放在构造函数中 某一类公共的方法与属性，通常放在原型对象中 new关键字在创建实例时经历如下过程：  先创建一个新的、空的实例对象 将实例对象的原型指向构造函数的原型 将构造函数内部的this修改为指向实例 最后返回该实例对象  如果在构造函数中声明的私">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/04/28/面向对象/">
+
+
+
+
+
+  <title>面向对象 | Jerry's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jerry's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/28/面向对象/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerry">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerry's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">面向对象</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-28T14:39:14+08:00">
+                2020-04-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="对象的定义"><a href="#对象的定义" class="headerlink" title="对象的定义"></a>对象的定义</h3><p>无序属性的集合，其属性可以包含基值、对象或者函数。</p>
+<h3 id="创建对象"><a href="#创建对象" class="headerlink" title="创建对象"></a>创建对象</h3><p>通过关键字new，也可以通过对象字面量</p>
+<h3 id="构造函数与原型"><a href="#构造函数与原型" class="headerlink" title="构造函数与原型"></a>构造函数与原型</h3><p>某一类的特定属性，通常放在构造函数中</p>
+<p>某一类公共的方法与属性，通常放在原型对象中</p>
+<p>new关键字在创建实例时经历如下过程：</p>
+<ol>
+<li>先创建一个新的、空的实例对象</li>
+<li>将实例对象的原型指向构造函数的原型</li>
+<li>将构造函数内部的this修改为指向实例</li>
+<li>最后返回该实例对象</li>
+</ol>
+<p>如果在构造函数中声明的私有方法/属性与原型中的共有方法/属性重名，那么会优先访问私有方法/属性</p>
+<h3 id="更简单的原型写法"><a href="#更简单的原型写法" class="headerlink" title="更简单的原型写法"></a>更简单的原型写法</h3><p>可以使用对象字面量的写法来添加原型方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Person.prototype=&#123;</span><br><span class="line">    constructor:Person,</span><br><span class="line">    getName:function()&#123;&#125;,</span><br><span class="line">    getAge:function()&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用对象字面量能够简化写法，但同时有一个需要特别注意的地方。当我们使用 <code>Person.prototype={}</code>时，其实是将Person的原型指向了一个新的对象{}。如果不做特殊处理，那么将会导致原型对象丢失。因此在这个新的对象中，需要将它的 <code>constructor</code> 属性指向构造函数 <code>Person</code>。</p>
+<h3 id="原型链"><a href="#原型链" class="headerlink" title="原型链"></a>原型链</h3><p>几乎所有的对象都可以是原型对象，也可以是实例对象，还可以是构造函数，甚至可以身兼多职。</p>
+<p>当一个对象身兼多职时，它就可以被看做原型链中的一个节点。</p>
+<p>当一个对象A作为原型时，它有一个 <code>constructor</code>属性指向它的构造函数，即 <code>A.constructor</code>；</p>
+<p>当一个对象B作为构造函数时，它有一个 <code>prototype</code>属性指向它的原型，即 <code>B.prototype；</code></p>
+<p>当一个对象C作为实例时，它有一个 <code>_ _proto _ _</code>属性指向它的原型，即 <code>C._ _proto_ _</code>。</p>
+<h3 id="实例方法、原型方法、静态方法"><a href="#实例方法、原型方法、静态方法" class="headerlink" title="实例方法、原型方法、静态方法"></a>实例方法、原型方法、静态方法</h3><p>构造函数中的this指向的是新创建的实例。因此在往this上添加方法与属性时，其实是在往新创建的实例上添加属性与方法，所以构造函数中的方法可称之为 <strong>实例方法</strong></p>
+<p>通过 <code>prototype</code>添加的方法，将会挂载到原型对象上，因此称之为 <strong>原型方法</strong></p>
+<p>直接挂载在构造函数上的方法，称之为 <strong>静态方法</strong>（静态方法不能通过实例访问，只能通过构造函数访问）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function Foo()&#123;</span><br><span class="line">    this.bar=function()&#123;</span><br><span class="line">        return &apos;bar in Foo&apos; // 实例方法</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Foo.bar=function()&#123;</span><br><span class="line">    return &apos;bar in static&apos;  //静态方法</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Foo.prototype.bar=function()&#123;</span><br><span class="line">    return &apos;bar in prototype&apos; //原型方法</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h3><p>构造函数的继承（借助 call/apply实现）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var student=function(name,age,grade)&#123;</span><br><span class="line">    Student.call(Person,name,age);</span><br><span class="line">    this.grade=grade;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>原型的继承</p>
+<p>只需让子类对象的原型成为父类对象的一个实例，然后通过 <code>_ _proto_ _</code>访问父类对象的原型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Student.prototype=Object.create(Person.prototype,&#123;</span><br><span class="line">    //重新指定构造函数</span><br><span class="line">    constructor:&#123;</span><br><span class="line">        value:Student</span><br><span class="line">    &#125;,</span><br><span class="line">    getGrade:&#123;</span><br><span class="line">        value:function()&#123;</span><br><span class="line">            return this.grade</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="属性类型"><a href="#属性类型" class="headerlink" title="属性类型"></a>属性类型</h3><p>在ES5中，对每个属性都添加了几个属性类型，用来描述这些属性的特点，如下：</p>
+<ul>
+<li><code>configurable</code>：表示该属性是都能被 <code>delete</code>删除。当其值为 <code>false</code>时，其他的特性也不能被改变。默认值为 <code>true</code></li>
+<li><code>enumerable</code>：是否能枚举。即是都能被 <code>for-in</code>遍历。默认值为 <code>true</code></li>
+<li><code>writable</code>：是都能修改值。默认值为 <code>true</code></li>
+<li><code>value</code>：该属性的具体值是什么，默认为 <code>undefined</code></li>
+<li><code>get</code>：访问某个值。该方法可以自定义返回的具体值是什么，默认值为 <code>undefined</code></li>
+<li><code>set</code>：设置某个值。该方法可以自定义设置值的具体方式。默认值为 <code>undefined</code></li>
+</ul>
+<p>方法 <code>Object.defineProperty（对象名，属性名，{属性类型}）</code>，该方法只能设置一个属性的属性特性，当想要同时设置多个属性的特性时，需要使用 <code>Object.defineProperties</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">//Object.defineProperty</span><br><span class="line">Object.defineProperty(person,&apos;name&apos;,&#123;</span><br><span class="line">    value:&apos;Tom&apos;,</span><br><span class="line">    writable:false</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">//Object.defineProperties</span><br><span class="line">Object.defineProperties(person,&#123;</span><br><span class="line">    name:&#123;</span><br><span class="line">        value:&apos;Tom&apos;,</span><br><span class="line">        writable:false</span><br><span class="line">    &#125;,</span><br><span class="line">    age:&#123;</span><br><span class="line">        value:20</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="读取属性的特殊值"><a href="#读取属性的特殊值" class="headerlink" title="读取属性的特殊值"></a>读取属性的特殊值</h3><p>可以使用 <code>Object.getOwnPropertyDescriptor</code>方法读取某一个属性的特殊值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">var person=&#123;&#125;</span><br><span class="line"></span><br><span class="line">Object.defineProperty(person,&apos;name&apos;,&#123;</span><br><span class="line">    value:&apos;alex&apos;,</span><br><span class="line">    writable:false</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">var descripter=Object.getOwnPropertyDescriptor(person,&apos;name&apos;)</span><br><span class="line"></span><br><span class="line">console.log(descripter);</span><br><span class="line"></span><br><span class="line">descripter=&#123;</span><br><span class="line">    value:&apos;alex&apos;,</span><br><span class="line">    writable:false,</span><br><span class="line">    configurable:false,</span><br><span class="line">    enumerable:false</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JS/" rel="tag"># JS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/28/函数和函数式编程/" rel="next" title="函数和函数式编程">
+                <i class="fa fa-chevron-left"></i> 函数和函数式编程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/04/28/ES6/" rel="prev" title="ES6">
+                ES6 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Jerry">
+            
+              <p class="site-author-name" itemprop="name">Jerry</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">72</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#对象的定义"><span class="nav-number">1.</span> <span class="nav-text">对象的定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建对象"><span class="nav-number">2.</span> <span class="nav-text">创建对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造函数与原型"><span class="nav-number">3.</span> <span class="nav-text">构造函数与原型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更简单的原型写法"><span class="nav-number">4.</span> <span class="nav-text">更简单的原型写法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#原型链"><span class="nav-number">5.</span> <span class="nav-text">原型链</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实例方法、原型方法、静态方法"><span class="nav-number">6.</span> <span class="nav-text">实例方法、原型方法、静态方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#继承"><span class="nav-number">7.</span> <span class="nav-text">继承</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#属性类型"><span class="nav-number">8.</span> <span class="nav-text">属性类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#读取属性的特殊值"><span class="nav-number">9.</span> <span class="nav-text">读取属性的特殊值</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jerry</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="JS,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="同步VS异步同步，也就是你在执行代码时，他会等待代码返回结果，不管这代码执行多久，只有代码返回结果了然后再代码才会继续往下执行。而异步指的是：我要执行一段代码A，我不等待他出结果，我会为他设置一个处理代码，当A出结果时，直接去调用那个处理代码去处理他，而我本身就不会再去管代码A了，代码会继续往下执行，等到A出结果了，直接让他执行之前设置好的处理代码就行了。比如，前端的请求Ajax接口就是一个异步操">
+<meta name="keywords" content="JS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="异步编程">
+<meta property="og:url" content="http://yoursite.com/2020/04/03/异步编程/index.html">
+<meta property="og:site_name" content="Jerry&#39;s Blog">
+<meta property="og:description" content="同步VS异步同步，也就是你在执行代码时，他会等待代码返回结果，不管这代码执行多久，只有代码返回结果了然后再代码才会继续往下执行。而异步指的是：我要执行一段代码A，我不等待他出结果，我会为他设置一个处理代码，当A出结果时，直接去调用那个处理代码去处理他，而我本身就不会再去管代码A了，代码会继续往下执行，等到A出结果了，直接让他执行之前设置好的处理代码就行了。比如，前端的请求Ajax接口就是一个异步操">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2022-05-08T07:31:54.869Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="异步编程">
+<meta name="twitter:description" content="同步VS异步同步，也就是你在执行代码时，他会等待代码返回结果，不管这代码执行多久，只有代码返回结果了然后再代码才会继续往下执行。而异步指的是：我要执行一段代码A，我不等待他出结果，我会为他设置一个处理代码，当A出结果时，直接去调用那个处理代码去处理他，而我本身就不会再去管代码A了，代码会继续往下执行，等到A出结果了，直接让他执行之前设置好的处理代码就行了。比如，前端的请求Ajax接口就是一个异步操">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/04/03/异步编程/">
+
+
+
+
+
+  <title>异步编程 | Jerry's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jerry's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/03/异步编程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerry">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerry's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">异步编程</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-03T10:24:24+08:00">
+                2020-04-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="同步VS异步"><a href="#同步VS异步" class="headerlink" title="同步VS异步"></a>同步VS异步</h3><p>同步，也就是你在执行代码时，他会等待代码返回结果，不管这代码执行多久，只有代码返回结果了然后再代码才会继续往下执行。而异步指的是：我要执行一段代码A，我不等待他出结果，我会为他设置一个处理代码，当A出结果时，直接去调用那个处理代码去处理他，而我本身就不会再去管代码A了，代码会继续往下执行，等到A出结果了，直接让他执行之前设置好的处理代码就行了。比如，前端的请求Ajax接口就是一个异步操作。</p>
+<p>所以同步和异步的不同之处就在于处理问题时流程上的不同。同步比较符合人们的线性思维，代码一步一步往下走，不会乱。而异步需要就需要把思维转化为事件驱动的思路上：我要做一件事，只是告诉计算机开始做这件事就行了，然后我就继续去做别的事了，而不是傻傻等着计算机做完。只要让计算机做完了这件事后，告诉我这件事做完了。我才继续回来去处理结果就行了。</p>
+<p>所谓异步执行，不同于同步执行（程序的执行顺序与任务的排列顺序是一致的、同步的），每一个任务有一个或多个回调函数（callback），前一个任务结束后，不是执行后一个任务，而是执行回调函数，后一个任务则是不等前一个任务结束就执行，所以程序的执行顺序与任务的排列顺序是不一致的。</p>
+<p>所以我的理解就是，当一段代码很耗费时间时，后边代码不需要这段代码的返回结果，但是也要耗费时间等待这段代码的执行，所以将这段代码异步编程，向下执行别的代码，对这段代码结果设置处理的代码(<code>callback</code>)，等出来结果调用处理的代码(<code>callback</code>)就好了。</p>
+<h3 id="回调函数"><a href="#回调函数" class="headerlink" title="回调函数"></a>回调函数</h3><p>这是异步编程最基本的方法。</p>
+<p>假定有两个函数<code>f1</code>和<code>f2</code>，后者等待前者的执行结果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">f1();</span><br><span class="line">f2();</span><br><span class="line"></span><br><span class="line">//如果f1是一个很耗时的任务，可以考虑改写f1，把f2写成f1的回调函数。</span><br><span class="line">function f1(callback)&#123;</span><br><span class="line">    setTimeout(function () &#123;</span><br><span class="line">        // f1的任务代码</span><br><span class="line">        callback();</span><br><span class="line">    &#125;, 1000);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//执行代码就变成下面这样：</span><br><span class="line">f1(f2);</span><br></pre></td></tr></table></figure>
+
+<p>采用这种方式，我们把同步操作变成了异步操作，<code>f1</code>不会堵塞程序运行，相当于先执行程序的主要逻辑，将耗时的操作推迟执行。</p>
+<p>利用定时器的工作原理将<code>f1</code>放入事件队列中去执行，哪怕延时是0，也是如此，因此不堵塞程序运行。</p>
+<p>回调函数的优点是简单、容易理解和部署，缺点是不利于代码的阅读和维护，各个部分之间高度耦合（Coupling），流程会很混乱，而且每个任务只能指定一个回调函数。</p>
+<h5 id="回调和异步"><a href="#回调和异步" class="headerlink" title="回调和异步"></a>回调和异步</h5><p>注意区分回调函数和异步, 回调并不一定就是异步。他们自己并没有直接关系。 简单区分 同步回调 和 异步回调</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">// 同步回调</span><br><span class="line">function fn1(callback)&#123;</span><br><span class="line">    console.log(&apos;我是fn1，我开始执行了！&apos;);</span><br><span class="line">    callback();</span><br><span class="line">    console.log(&apos;我是fn1的小尾巴呀&apos;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function fn2()&#123;</span><br><span class="line">    console.log(&apos;2&apos;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">fn1(fn2);</span><br><span class="line">console.log(&apos;这是js尾巴呀！&apos;)</span><br><span class="line">/*</span><br><span class="line">我是fn1，我开始执行了！</span><br><span class="line">2</span><br><span class="line">我是fn1的小尾巴呀</span><br><span class="line">这是js尾巴呀！</span><br><span class="line">*/</span><br><span class="line"></span><br><span class="line">// 异步回调</span><br><span class="line"></span><br><span class="line">function fn1(callback)&#123;</span><br><span class="line">    setTimeout(function()&#123;</span><br><span class="line">        console.log(&apos;我是fn1，我开始执行了！&apos;);</span><br><span class="line">        console.log(&apos;我是fn1的小尾巴呀&apos;);</span><br><span class="line">        callback()</span><br><span class="line">    &#125;,0)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fn1(fn2)</span><br><span class="line">console.log(&apos;这是非异步的尾巴！&apos;)</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line">这是非异步的尾巴！</span><br><span class="line">我是fn1，我开始执行了！</span><br><span class="line">我是fn1的小尾巴呀</span><br><span class="line">2</span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
+
+<h3 id="事件监听"><a href="#事件监听" class="headerlink" title="事件监听"></a>事件监听</h3><p>另一种思路是采用事件驱动模式。任务的执行不取决于代码的顺序，而取决于某个事件是否发生。</p>
+<p>还是以<code>f1</code>和<code>f2</code>为例。首先，为<code>f1</code>绑定一个事件（这里采用的jQuery的写法）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">f1.on(&apos;done&apos;, f2);</span><br><span class="line">//上面这行代码的意思是，当f1发生done事件，就执行f2。然后，对f1进行改写：</span><br><span class="line"></span><br><span class="line">function f1()&#123;</span><br><span class="line">    setTimeout(function () &#123;</span><br><span class="line">        // f1的任务代码</span><br><span class="line">        f1.trigger(&apos;done&apos;); //执行完成后，立即触发done事件，从而开始执行f2。</span><br><span class="line">    &#125;, 1000);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实现原理也是利用定时器的原理去把f1放入事件队列里，等全部执行完毕之后，才会执行事件队列里的方法</p>
+<p>这种方法的优点是比较容易理解，可以绑定多个事件，每个事件可以指定多个回调函数，而且可以”去耦合”（Decoupling），有利于实现模块化。缺点是整个程序都要变成事件驱动型，运行流程会变得很不清晰。</p>
+<h3 id="发布-订阅"><a href="#发布-订阅" class="headerlink" title="发布/订阅"></a>发布/订阅</h3><p>上一节的”事件”，完全可以理解成”信号”。</p>
+<p>我们假定，存在一个”信号中心”，某个任务执行完成，就向信号中心”发布”（<code>publish</code>）一个信号，其他任务可以向信号中心”订阅”（<code>subscribe</code>）这个信号，从而知道什么时候自己可以开始执行。这就叫做”发布/订阅模式”（<code>publish-subscribe pattern</code>），又称”观察者模式”（<code>observer pattern</code>）。</p>
+<p>这个模式有多种实现，下面采用的是<code>Ben Alman</code>的<code>Tiny Pub/Sub</code>，这是<code>jQuery</code>的一个插件。</p>
+<p>首先，<code>f2</code>向”信号中心”<code>jQuery</code>订阅”<code>done</code>“信号。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">jQuery.subscribe(&quot;done&quot;, f2);</span><br><span class="line"></span><br><span class="line">// 然后，f1进行如下改写：</span><br><span class="line">function f1()&#123;</span><br><span class="line">　　setTimeout(function () &#123;</span><br><span class="line">　　　　// f1的任务代码</span><br><span class="line">　　　　jQuery.publish(&quot;done&quot;); //f1执行完成后，向&quot;信号中心&quot;jQuery发布&quot;done&quot;信号，从而引发f2的执行。</span><br><span class="line">　　&#125;, 1000);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此外，<code>f2</code>完成执行后，也可以取消订阅（<code>unsubscribe</code>）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jQuery.unsubscribe(&quot;done&quot;, f2)</span><br></pre></td></tr></table></figure>
+
+<p>这种方法的性质与”事件监听”类似，但是明显优于后者。因为我们可以通过查看”消息中心”，了解存在多少信号、每个信号有多少订阅者，从而监控程序的运行。</p>
+<h3 id="Promises对象"><a href="#Promises对象" class="headerlink" title="Promises对象"></a>Promises对象</h3><p><code>Promises</code>对象是<code>CommonJS</code>工作组提出的一种规范，目的是为异步编程提供统一接口。</p>
+<p>简单说，它的思想是，每一个异步任务返回一个<code>Promise</code>对象，该对象有一个<code>then</code>方法，允许指定回调函数。比如，<code>f1</code>的回调函数<code>f2</code>,可以写成：<code>f1().then(f2)</code>;</p>
+<p>f1要进行如下改写（这里使用的是jQuery的实现）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function f1()&#123;</span><br><span class="line">    var dfd = $.Deferred();</span><br><span class="line">    setTimeout(function () &#123;</span><br><span class="line">        // f1的任务代码</span><br><span class="line">        dfd.resolve();</span><br><span class="line">    &#125;, 500);</span><br><span class="line">    return dfd.promise;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样写的优点在于，回调函数变成了链式写法，程序的流程可以看得很清楚，而且有一整套的配套方法，可以实现许多强大的功能。</p>
+<p>比如，指定多个回调函数：<code>f1().then(f2).then(f3)</code>;</p>
+<p>再比如，指定发生错误时的回调函数：<code>f1().then(f2).fail(f3)</code>;</p>
+<p>　　而且，它还有一个前面三种方法都没有的好处：如果一个任务已经完成，再添加回调函数，该回调函数会立即执行。所以，你不用担心是否错过了某个事件或信号。这种方法的缺点就是编写和理解，都相对比较难。</p>
+<p><a href="https://www.runoob.com/jquery/jquery-tutorial.html" target="_blank" rel="noopener">jQuery</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JS/" rel="tag"># JS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/02/js中的内存泄漏/" rel="next" title="js中的内存泄漏">
+                <i class="fa fa-chevron-left"></i> js中的内存泄漏
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/04/14/同源策略/" rel="prev" title="同源策略">
+                同源策略 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Jerry">
+            
+              <p class="site-author-name" itemprop="name">Jerry</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">72</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#同步VS异步"><span class="nav-number">1.</span> <span class="nav-text">同步VS异步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#回调函数"><span class="nav-number">2.</span> <span class="nav-text">回调函数</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#回调和异步"><span class="nav-number">2.0.1.</span> <span class="nav-text">回调和异步</span></a></li></ol></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#事件监听"><span class="nav-number">3.</span> <span class="nav-text">事件监听</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#发布-订阅"><span class="nav-number">4.</span> <span class="nav-text">发布/订阅</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Promises对象"><span class="nav-number">5.</span> <span class="nav-text">Promises对象</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jerry</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

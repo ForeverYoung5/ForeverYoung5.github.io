@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="JS,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="比如在百度中，后台有一个非常庞大的数据库，里面存储了海量关键词，每个关键词对应很多网址，这些网址是百度程序（又称搜索引擎蜘蛛或者网络爬虫）从茫茫互联网上一点一点下载收集来的。这些蜘蛛每天在互联网上爬行，从一个连接到另一个链接，下载其内容，进行分析提炼，找到其关键词。如果蜘蛛认为关键词是对用户有用的而数据库中又没有就会存入到数据库中，反之就丢弃，继续爬行找到最新的、有用的信息保存起来供用户搜索。当用">
+<meta name="keywords" content="JS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SEO">
+<meta property="og:url" content="http://yoursite.com/2020/07/08/SEO/index.html">
+<meta property="og:site_name" content="Jerry&#39;s Blog">
+<meta property="og:description" content="比如在百度中，后台有一个非常庞大的数据库，里面存储了海量关键词，每个关键词对应很多网址，这些网址是百度程序（又称搜索引擎蜘蛛或者网络爬虫）从茫茫互联网上一点一点下载收集来的。这些蜘蛛每天在互联网上爬行，从一个连接到另一个链接，下载其内容，进行分析提炼，找到其关键词。如果蜘蛛认为关键词是对用户有用的而数据库中又没有就会存入到数据库中，反之就丢弃，继续爬行找到最新的、有用的信息保存起来供用户搜索。当用">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2022-05-08T07:31:54.710Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SEO">
+<meta name="twitter:description" content="比如在百度中，后台有一个非常庞大的数据库，里面存储了海量关键词，每个关键词对应很多网址，这些网址是百度程序（又称搜索引擎蜘蛛或者网络爬虫）从茫茫互联网上一点一点下载收集来的。这些蜘蛛每天在互联网上爬行，从一个连接到另一个链接，下载其内容，进行分析提炼，找到其关键词。如果蜘蛛认为关键词是对用户有用的而数据库中又没有就会存入到数据库中，反之就丢弃，继续爬行找到最新的、有用的信息保存起来供用户搜索。当用">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/07/08/SEO/">
+
+
+
+
+
+  <title>SEO | Jerry's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jerry's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/08/SEO/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerry">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerry's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SEO</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-08T09:05:24+08:00">
+                2020-07-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>比如在百度中，后台有一个非常庞大的数据库，里面存储了海量关键词，每个关键词对应很多网址，这些网址是百度程序（又称搜索引擎蜘蛛或者网络爬虫）从茫茫互联网上一点一点下载收集来的。这些蜘蛛每天在互联网上爬行，从一个连接到另一个链接，下载其内容，进行分析提炼，找到其关键词。如果蜘蛛认为关键词是对用户有用的而数据库中又没有就会存入到数据库中，反之就丢弃，继续爬行找到最新的、有用的信息保存起来供用户搜索。当用户搜索时就会检索到与关键词相关的网址显示给访客。</p>
+<p>一个关键词存在多个网址，那就回存在排名问题。当与关键词最吻合的网址就会排在前边。</p>
+<p>SEO 就是传说中的搜索引擎优化，是指为了增加网页在搜索引擎自然搜索结果中的收录数量以及提升排序位置而做的优化行为。</p>
+<p>SEO分为白帽SEO和黑帽SEO。白帽SEO，起到了改良和规范网站设计的作用，使网站对搜索引擎和用户更加友好，并且网站也能从搜索引擎中获取合理的流量，这是搜索引擎鼓励和支持的。黑帽SEO，利用和放大搜索引擎政策缺陷来获取更多用户的访问量，这类行为大多是欺骗搜索引擎，一般搜索引擎公司是不支持与鼓励的。</p>
+<h3 id="前端SEO"><a href="#前端SEO" class="headerlink" title="前端SEO"></a>前端SEO</h3><h4 id="网站结构布局优化：尽量简单，开门见山，提倡扁平化结构。"><a href="#网站结构布局优化：尽量简单，开门见山，提倡扁平化结构。" class="headerlink" title="网站结构布局优化：尽量简单，开门见山，提倡扁平化结构。"></a>网站结构布局优化：尽量简单，开门见山，提倡扁平化结构。</h4><p>一般而言，建立的网站<strong>结构层次</strong>越少，越容易被“蜘蛛”抓取，也就容易被收录。一般中小型网站目录结构超过三级，“蜘蛛”便不愿意往下爬，“万一天黑迷路了怎么办”。并且根据相关调查：访客如果经过跳转3次还没找到需要的信息，很可能离开。因此，三层目录结构也是体验的需要。为此我们需要做到：</p>
+<h5 id="1-控制首页链接数量"><a href="#1-控制首页链接数量" class="headerlink" title="1. 控制首页链接数量"></a>1. 控制首页链接数量</h5><p>　　网站首页是权重最高的地方，如果首页链接太少，没有“桥”，“蜘蛛”不能继续往下爬到内页，直接影响网站收录数量。但是首页链接也不能太多，一旦太多，没有实质性的链接，很容易影响用户体验，也会降低网站首页的权重，收录效果也不好。</p>
+<p>　　因此对于中小型企业网站，建议首页链接在100个以内，链接的性质可以包含页面导航、底部导航、锚文字链接等等，注意链接要建立在用户的良好体验和引导用户获取信息的基础之上。</p>
+<h5 id="2-扁平化的目录层次"><a href="#2-扁平化的目录层次" class="headerlink" title="2.扁平化的目录层次"></a>2.扁平化的目录层次</h5><p>尽量让“蜘蛛”只要跳转3次，就能到达网站内的任何一个内页。扁平化的目录结构，比如：“植物”–&gt; “水果” –&gt; “苹果”、“桔子”、“香蕉”，通过3级就能找到香蕉了。</p>
+<h5 id="3-导航优化"><a href="#3-导航优化" class="headerlink" title="3.导航优化"></a>3.导航优化</h5><p>　　导航应该尽量采用文字方式，也可以搭配图片导航，但是图片代码一定要进行优化，<strong>&lt; img &gt;标签</strong>必须添加“alt”和“title”属性，告诉搜索引擎导航的定位，做到即使图片未能正常显示时，用户也能看到提示文字。</p>
+<p>　　其次，在每一个网页上应该加上<strong>面包屑导航</strong>，好处：从用户体验方面来说，可以让用户了解当前所处的位置以及当前页面在整个网站中的位置，帮助用户很快了解网站组织形式，从而形成更好的位置感，同时提供了返回各个页面的接口，方便用户操作；对“蜘蛛”而言，能够清楚的了解网站结构，同时还增加了大量的内部链接，方便抓取，降低跳出率。</p>
+<h5 id="4-网站的结构布局–不可忽略的细节"><a href="#4-网站的结构布局–不可忽略的细节" class="headerlink" title="4. 网站的结构布局–不可忽略的细节"></a>4. 网站的结构布局–不可忽略的细节</h5><p>页面头部：logo及主导航，以及用户的信息。</p>
+<p>页面主体：左边正文，包括面包屑导航及正文；右边放<strong>热门文章</strong>及相关文章，好处：留住访客，让访客多停留，对“蜘蛛”而言，这些文章属于相关链接，增强了页面相关性，也能增强页面的权重。</p>
+<p>页面底部：版权信息和友情链接。</p>
+<p>特别注意：<strong>分页导航</strong>写法，推荐写法：“首页 1 2 3 4 5 6 7 8 9 下拉框”，这样“蜘蛛”能够根据相应页码直接跳转，下拉框直接选择页面跳转。而下面的写法是不推荐的，“首页 下一页 尾页”，特别是当分页数量特别多时，“蜘蛛”需要经过很多次往下爬，才能抓取，会很累、会容易放弃。</p>
+<h5 id="5-控制页面的大小，减少http请求，提高网站的加载速度。"><a href="#5-控制页面的大小，减少http请求，提高网站的加载速度。" class="headerlink" title="5.控制页面的大小，减少http请求，提高网站的加载速度。"></a>5.控制页面的大小，减少http请求，提高网站的加载速度。</h5><p>一个页面最好不要超过100k，太大，页面加载速度慢。当速度很慢时，用户体验不好，留不住访客，并且一旦超时，“蜘蛛”也会离开。</p>
+<h4 id="网页代码优化"><a href="#网页代码优化" class="headerlink" title="网页代码优化"></a>网页代码优化</h4><h5 id="1-lt-title-gt-标题"><a href="#1-lt-title-gt-标题" class="headerlink" title="1.&lt; title &gt;标题"></a>1.&lt; title &gt;标题</h5><p>只强调重点即可，尽量把重要的关键词放在前面，关键词不要重复出现，尽量做到每个页面的&lt; title &gt; 标题中不要设置相同的内容。</p>
+<h5 id="2-lt-meta-keywords-gt-标签"><a href="#2-lt-meta-keywords-gt-标签" class="headerlink" title="2.&lt; meta keywords &gt;标签"></a>2.&lt; meta keywords &gt;标签</h5><p>关键词，列举出几个页面的重要关键字即可，切记过分堆砌。</p>
+<h5 id="3-lt-meta-description-gt-标签"><a href="#3-lt-meta-description-gt-标签" class="headerlink" title="3.&lt; meta description &gt;标签"></a>3.&lt; meta description &gt;标签</h5><p>网页描述，需要高度概括网页内容，切记不能太长，过分堆砌关键词，每个页面也要有所不同。</p>
+<h5 id="4-lt-body-gt-中的标签"><a href="#4-lt-body-gt-中的标签" class="headerlink" title="4.&lt; body &gt;中的标签"></a>4.&lt; body &gt;中的标签</h5><p>尽量让代码<strong>语义化</strong>，在适当的位置使用适当的标签，用正确的标签做正确的事。让阅读源码者和“蜘蛛”都一目了然。比如：h1-h6 是用于标题类的，&lt; nav &gt;标签是用来设置页面主导航的等。</p>
+<h5 id="5-lt-a-gt-标签"><a href="#5-lt-a-gt-标签" class="headerlink" title="5.&lt; a &gt;标签"></a>5.&lt; a &gt;标签</h5><p>页内链接，<strong>要加 “title” 属性</strong>加以说明，让访客和 “蜘蛛” 知道。而外部链接，链接到其他网站的，则需要加上 el=”nofollow” 属性, 告诉 “蜘蛛” 不要爬，因为一旦“蜘蛛”爬了外部链接之后，就不会再回来了。</p>
+<h5 id="6-正文标题要用-lt-h1-gt-标签"><a href="#6-正文标题要用-lt-h1-gt-标签" class="headerlink" title="6.正文标题要用&lt; h1&gt;标签"></a>6.正文标题要用&lt; h1&gt;标签</h5><p>“蜘蛛” 认为它最重要，若不喜欢&lt; h1&gt;的默认样式可以通过CSS设置。尽量做到正文标题用&lt; h1&gt;标签，副标题用&lt; h2&gt;标签, 而其它地方不应该随便乱用标题标签。</p>
+<h5 id="7-重要内容不要用JS输出，因为“蜘蛛”不认识"><a href="#7-重要内容不要用JS输出，因为“蜘蛛”不认识" class="headerlink" title="7.重要内容不要用JS输出，因为“蜘蛛”不认识"></a>7.重要内容不要用JS输出，因为“蜘蛛”不认识</h5><h5 id="8-尽量少使用iframe框架-因为“蜘蛛”一般不会读取其中的内容"><a href="#8-尽量少使用iframe框架-因为“蜘蛛”一般不会读取其中的内容" class="headerlink" title="8. 尽量少使用iframe框架,因为“蜘蛛”一般不会读取其中的内容"></a>8. 尽量少使用iframe框架,因为“蜘蛛”一般不会读取其中的内容</h5><h5 id="9-js代码如果是操作DOM操作，应尽量放在body结束标签之前，html代码之后。"><a href="#9-js代码如果是操作DOM操作，应尽量放在body结束标签之前，html代码之后。" class="headerlink" title="9.js代码如果是操作DOM操作，应尽量放在body结束标签之前，html代码之后。"></a>9.js代码如果是操作DOM操作，应尽量放在body结束标签之前，html代码之后。</h5>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JS/" rel="tag"># JS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/07/vue组件通信/" rel="next" title="vue组件通信">
+                <i class="fa fa-chevron-left"></i> vue组件通信
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/07/08/栈和队列/" rel="prev" title="栈和队列">
+                栈和队列 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Jerry">
+            
+              <p class="site-author-name" itemprop="name">Jerry</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">72</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前端SEO"><span class="nav-number">1.</span> <span class="nav-text">前端SEO</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#网站结构布局优化：尽量简单，开门见山，提倡扁平化结构。"><span class="nav-number">1.1.</span> <span class="nav-text">网站结构布局优化：尽量简单，开门见山，提倡扁平化结构。</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-控制首页链接数量"><span class="nav-number">1.1.1.</span> <span class="nav-text">1. 控制首页链接数量</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-扁平化的目录层次"><span class="nav-number">1.1.2.</span> <span class="nav-text">2.扁平化的目录层次</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-导航优化"><span class="nav-number">1.1.3.</span> <span class="nav-text">3.导航优化</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-网站的结构布局–不可忽略的细节"><span class="nav-number">1.1.4.</span> <span class="nav-text">4. 网站的结构布局–不可忽略的细节</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-控制页面的大小，减少http请求，提高网站的加载速度。"><span class="nav-number">1.1.5.</span> <span class="nav-text">5.控制页面的大小，减少http请求，提高网站的加载速度。</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#网页代码优化"><span class="nav-number">1.2.</span> <span class="nav-text">网页代码优化</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-lt-title-gt-标题"><span class="nav-number">1.2.1.</span> <span class="nav-text">1.&lt; title &gt;标题</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-lt-meta-keywords-gt-标签"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.&lt; meta keywords &gt;标签</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-lt-meta-description-gt-标签"><span class="nav-number">1.2.3.</span> <span class="nav-text">3.&lt; meta description &gt;标签</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-lt-body-gt-中的标签"><span class="nav-number">1.2.4.</span> <span class="nav-text">4.&lt; body &gt;中的标签</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-lt-a-gt-标签"><span class="nav-number">1.2.5.</span> <span class="nav-text">5.&lt; a &gt;标签</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-正文标题要用-lt-h1-gt-标签"><span class="nav-number">1.2.6.</span> <span class="nav-text">6.正文标题要用&lt; h1&gt;标签</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-重要内容不要用JS输出，因为“蜘蛛”不认识"><span class="nav-number">1.2.7.</span> <span class="nav-text">7.重要内容不要用JS输出，因为“蜘蛛”不认识</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#8-尽量少使用iframe框架-因为“蜘蛛”一般不会读取其中的内容"><span class="nav-number">1.2.8.</span> <span class="nav-text">8. 尽量少使用iframe框架,因为“蜘蛛”一般不会读取其中的内容</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#9-js代码如果是操作DOM操作，应尽量放在body结束标签之前，html代码之后。"><span class="nav-number">1.2.9.</span> <span class="nav-text">9.js代码如果是操作DOM操作，应尽量放在body结束标签之前，html代码之后。</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jerry</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

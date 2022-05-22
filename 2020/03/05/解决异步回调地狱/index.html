@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="JS,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="如何解决 js是单线程语言，但是有时候需要等到某个时机才会执行某些操作，也就是异步操作。比如：  123456789101112console.log(&amp;apos;one&amp;apos;);setTimeout(() =&amp;gt; &amp;#123;    console.log(&amp;apos;two&amp;apos;);    setTimeout(() =&amp;gt; &amp;#123;        console.lo">
+<meta name="keywords" content="JS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="解决异步回调地狱">
+<meta property="og:url" content="http://yoursite.com/2020/03/05/解决异步回调地狱/index.html">
+<meta property="og:site_name" content="Jerry&#39;s Blog">
+<meta property="og:description" content="如何解决 js是单线程语言，但是有时候需要等到某个时机才会执行某些操作，也就是异步操作。比如：  123456789101112console.log(&amp;apos;one&amp;apos;);setTimeout(() =&amp;gt; &amp;#123;    console.log(&amp;apos;two&amp;apos;);    setTimeout(() =&amp;gt; &amp;#123;        console.lo">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2022-05-08T07:31:54.869Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="解决异步回调地狱">
+<meta name="twitter:description" content="如何解决 js是单线程语言，但是有时候需要等到某个时机才会执行某些操作，也就是异步操作。比如：  123456789101112console.log(&amp;apos;one&amp;apos;);setTimeout(() =&amp;gt; &amp;#123;    console.log(&amp;apos;two&amp;apos;);    setTimeout(() =&amp;gt; &amp;#123;        console.lo">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/03/05/解决异步回调地狱/">
+
+
+
+
+
+  <title>解决异步回调地狱 | Jerry's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jerry's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/05/解决异步回调地狱/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerry">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerry's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">解决异步回调地狱</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-05T13:51:20+08:00">
+                2020-03-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="如何解决"><a href="#如何解决" class="headerlink" title="如何解决"></a>如何解决</h3><ul>
+<li>js是单线程语言，但是有时候需要等到某个时机才会执行某些操作，也就是异步操作。比如：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">console.log(&apos;one&apos;);</span><br><span class="line">setTimeout(() =&gt; &#123;</span><br><span class="line">    console.log(&apos;two&apos;);</span><br><span class="line">    setTimeout(() =&gt; &#123;</span><br><span class="line">        console.log(&apos;three&apos;)</span><br><span class="line">    &#125;, 2000);</span><br><span class="line">&#125;, 2000);</span><br><span class="line">console.log(&apos;six&apos;)</span><br><span class="line">// one</span><br><span class="line">// six</span><br><span class="line">// two</span><br><span class="line">// three</span><br></pre></td></tr></table></figure>
+
+<p>如果不断需要延时回调，就会出现一列回调小火箭，我们称之为回调地狱。虽然功能上不存在问题，但是难以维护。</p>
+<h3 id="promise"><a href="#promise" class="headerlink" title="promise"></a>promise</h3><ul>
+<li>prmoise是一个对象，专门用于处理异步操作，该对象有三个状态：进行中（Pending）、已完成（Resolved）、已失败（Rejected），当前状态仅由异步操作的结果决定，不受任何其他操作控制，且一旦执行就无法取消。</li>
+<li>Promise 有两个：对象状态不受外界影响；一旦状态改变了就不会再变。也就是说，Promise任何时候都只有一种状态。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">function timeout(data)&#123;</span><br><span class="line">    return new Promise((resolve,reject) =&gt; &#123;</span><br><span class="line">        setTimeout(function() &#123;</span><br><span class="line">            if(data)&#123;</span><br><span class="line">                resolve(data)</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                reject(data)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, 2000);</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&lt;!--resolve函数执行后，--&gt;</span><br><span class="line">&lt;!--promise对象状态将会从“进行中”变为“已完成”，--&gt;</span><br><span class="line">&lt;!--reject则是变为“已失败”，--&gt;</span><br><span class="line">&lt;!--基于此我们可以使用then方法分别指定“成功”与“失败”状态的回调函数--&gt;</span><br><span class="line"></span><br><span class="line">timeout(&quot;hello&quot;).then(function()&#123;</span><br><span class="line">    console.log(&quot;resolve&quot;);</span><br><span class="line">&#125;,function()&#123;</span><br><span class="line">    console.log(&quot;reject&quot;)</span><br><span class="line">&#125;)</span><br><span class="line">// resolve</span><br><span class="line"></span><br><span class="line">timeout().then(function()&#123;</span><br><span class="line">    console.log(&quot;resolve&quot;);</span><br><span class="line">&#125;,function()&#123;</span><br><span class="line">    console.log(&quot;reject&quot;)</span><br><span class="line">&#125;)</span><br><span class="line">// reject</span><br></pre></td></tr></table></figure>
+
+<h2 id="Promise基本用法"><a href="#Promise基本用法" class="headerlink" title="Promise基本用法"></a>Promise基本用法</h2><p>可以通过Promise构造函数创建Promise对象，Promise构造函数接受两个参数：resolve和reject，由JS引擎提供。当Promise对象转移到成功的时候，调用resolve函数并将操作结果作为参数传递出去，当Promise对象状态变成失败时，reject函数将报出的错误作为参数传递出去。</p>
+<p>只有Promise对象中调用resolve和reject的时候，才会执行then里边的内容。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function greet() &#123;</span><br><span class="line">  var promise = new Promise(function (resolve, reject) &#123;</span><br><span class="line">    var greet = &quot;hello  world&quot;;</span><br><span class="line">    resolve(greet);</span><br><span class="line">  &#125;);</span><br><span class="line">  return promise;</span><br><span class="line">&#125;</span><br><span class="line">greet().then((v) =&gt; &#123;</span><br><span class="line">  console.log(&apos;resolve&apos;,v); </span><br><span class="line">&#125;,(s)=&gt;&#123;</span><br><span class="line">  console.log(&apos;reject&apos;,s)</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>注意：创建一个Promise对象会立即执行里边的代码，所以为了更好控制代码运行的时刻，可以将其包含在一个函数中，并将这个promise返回。</p>
+<p>Promise的then方法有三个参数：成功回调，失败回调，前进回调。一般情况下只实现第一个，后边的是可选的。</p>
+<h2 id="catch用法"><a href="#catch用法" class="headerlink" title="catch用法"></a>catch用法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">function greet() &#123;</span><br><span class="line">  var promise = new Promise(function (resolve, reject) &#123;</span><br><span class="line">    var greet = &quot;hello  world&quot;;</span><br><span class="line">    reject(greet);</span><br><span class="line">  &#125;);</span><br><span class="line">  return promise;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">greet()</span><br><span class="line">  .then((v) =&gt; &#123;</span><br><span class="line">    console.log(&quot;resolve&quot;, v);</span><br><span class="line">  &#125;)</span><br><span class="line">  .catch(function () &#123;</span><br><span class="line">    console.log(&quot;catch&quot;);</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>这个时候catch执行的是和reject一样的，也就是说如果Promise的状态变为reject时，会被catch捕捉到，不过需要特别注意的是如果前面设置了reject方法的回调函数，则catch不会捕捉到状态变为reject的情况。catch还有一点不同的是，如果在resolve或者reject发生错误的时候，会被catch捕捉到，这与java，c++的错误处理时一样的，这样就能避免程序卡死在回调函数中了。</p>
+<h3 id="async"><a href="#async" class="headerlink" title="async"></a>async</h3><ul>
+<li>promise对象的链式串联方式虽然解决了回调函数的层层嵌套问题，但是then操作过多过长时还是会出现冗余臃肿的情况，此时可以使用async函数。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">function timeout(data)&#123;</span><br><span class="line">    //async 和 promise 结合使用 </span><br><span class="line">    return new Promise((resolve,reject) =&gt; &#123; </span><br><span class="line">        setTimeout(function()&#123;</span><br><span class="line">            if(data)&#123;</span><br><span class="line">                resolve(data);</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                reject(data);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, 2000);</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">async function run()&#123;</span><br><span class="line">    console.log(&apos;aget run start&apos;);</span><br><span class="line">    await timeout(&apos;agent&apos;);</span><br><span class="line">    console.log(&apos;agent run end&apos;);</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">console.log(&apos;no_await&apos;);</span><br><span class="line"></span><br><span class="line">run();</span><br><span class="line"></span><br><span class="line">// no_await</span><br><span class="line">// aget run start</span><br><span class="line">// agent run end</span><br></pre></td></tr></table></figure>
+
+<p>async 函数是 Generator 函数的语法糖。使用 关键字 async 来表示，在函数内部使用 await来表示异步，await关键字只能用在async定义的函数内。async函数就是将 Generator 函数的星号（*）替换成async，将yield替换成await。比Generator更语义化。</p>
+<h2 id="相对于promise的优势"><a href="#相对于promise的优势" class="headerlink" title="相对于promise的优势"></a>相对于promise的优势</h2><ul>
+<li>语法简洁，同步代码执行异步操作。</li>
+<li>错误处理</li>
+</ul>
+<p>promise中，try/catch不能处理promise内部的错误，因为promise对象抛出的错误不会传递到外层。所以捕获异常需要使用.catch，这样错误处理代码非常冗余。并且，在我们的实际生产代码会更加复杂。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">//promise捕获错误</span><br><span class="line">const makeRequest = () =&gt; &#123;</span><br><span class="line">  try &#123;</span><br><span class="line">    getJSON()</span><br><span class="line">      .then(result =&gt; &#123;</span><br><span class="line">        // JSON.parse可能会出错</span><br><span class="line">        const data = JSON.parse(result)</span><br><span class="line">        console.log(data)</span><br><span class="line">      &#125;)</span><br><span class="line">      // 处理异步代码的错误</span><br><span class="line">      .catch((err) =&gt; &#123;</span><br><span class="line">        console.log(err)</span><br><span class="line">      &#125;)</span><br><span class="line">  &#125; catch (err) &#123; //此处catch无效</span><br><span class="line">    console.log(err)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">//async捕获错误</span><br><span class="line">const makeRequest = async () =&gt; &#123;</span><br><span class="line">  try &#123;</span><br><span class="line">    // this parse may fail</span><br><span class="line">    const data = JSON.parse(await getJSON())</span><br><span class="line">    console.log(data)</span><br><span class="line">  &#125; catch (err) &#123;</span><br><span class="line">    console.log(err)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里有一点需要注意，当 async 函数中只要一个 await 出现 reject 状态，则后面的 await 都不会被执行。所以要把第一个await放在try…catch结构里面，这样不管这个异步操作是否成功，第二个await都会执行。如果有多个await命令，可以统一放在try…catch结构中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">async function main() &#123;</span><br><span class="line">  try &#123;</span><br><span class="line">    const val1 = await fetchDataA();</span><br><span class="line">    const val2 = await fetchDataB();</span><br><span class="line">    const val3 = await fetchDataC();</span><br><span class="line">  &#125;</span><br><span class="line">  catch (err) &#123;</span><br><span class="line">    console.error(err);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="generator"><a href="#generator" class="headerlink" title="generator"></a>generator</h3><ul>
+<li>Generator 函数是 ES6 提供的一种异步编程解决方案，语法行为与传统函数完全不同</li>
+</ul>
+<ul>
+<li>特征：</li>
+</ul>
+<ol>
+<li>function 命令与函数名之间有一个星号</li>
+<li>函数体内部使用 yield 语句定义不同的内部状态</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">function *f()&#123;</span><br><span class="line">    yield &quot;hello&quot;;</span><br><span class="line">    yield &quot;world&quot;;</span><br><span class="line">    return &quot;!&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let fg=f();</span><br><span class="line"></span><br><span class="line">  // 调用遍历器对象的 next 方法，使得指针移向下一个状态，直到遇到下一条 yield 语句（或 return 语句）为止</span><br><span class="line">  // done 为 true 时遍历结束</span><br><span class="line"> </span><br><span class="line">console.log(fg.next());</span><br><span class="line">console.log(fg.next());</span><br><span class="line">console.log(fg.next());</span><br><span class="line">// &#123; value: &apos;hello&apos;, done: false &#125;</span><br><span class="line">// &#123; value: &apos;world&apos;, done: false &#125;</span><br><span class="line">// &#123; value: &apos;!&apos;, done: true &#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JS/" rel="tag"># JS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/05/JS执行机制/" rel="next" title="JS执行机制">
+                <i class="fa fa-chevron-left"></i> JS执行机制
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/25/模块化、防抖和节流/" rel="prev" title="模块化、防抖和节流">
+                模块化、防抖和节流 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Jerry">
+            
+              <p class="site-author-name" itemprop="name">Jerry</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">72</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何解决"><span class="nav-number">1.</span> <span class="nav-text">如何解决</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#promise"><span class="nav-number">2.</span> <span class="nav-text">promise</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#Promise基本用法"><span class="nav-number"></span> <span class="nav-text">Promise基本用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#catch用法"><span class="nav-number"></span> <span class="nav-text">catch用法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#async"><span class="nav-number">1.</span> <span class="nav-text">async</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相对于promise的优势"><span class="nav-number"></span> <span class="nav-text">相对于promise的优势</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#generator"><span class="nav-number">1.</span> <span class="nav-text">generator</span></a></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jerry</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

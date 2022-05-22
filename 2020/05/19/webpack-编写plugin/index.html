@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="webpack,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="plugin 是在某一时刻帮助我们做某些事。 plugin 是事件驱动或者说是发布订阅模式。 定义一个简单的插件plugins/copyright-webpack-plugin.js 12345678910class CopyrightWebpackPlugin&amp;#123;  constructor()&amp;#123;    console.log(&amp;apos;插件被使用了&amp;apos;)  &amp;#125">
+<meta name="keywords" content="webpack">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webpack-编写plugin">
+<meta property="og:url" content="http://yoursite.com/2020/05/19/webpack-编写plugin/index.html">
+<meta property="og:site_name" content="Jerry&#39;s Blog">
+<meta property="og:description" content="plugin 是在某一时刻帮助我们做某些事。 plugin 是事件驱动或者说是发布订阅模式。 定义一个简单的插件plugins/copyright-webpack-plugin.js 12345678910class CopyrightWebpackPlugin&amp;#123;  constructor()&amp;#123;    console.log(&amp;apos;插件被使用了&amp;apos;)  &amp;#125">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/19/YIKYZR.png">
+<meta property="og:updated_time" content="2022-05-08T07:31:54.725Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="webpack-编写plugin">
+<meta name="twitter:description" content="plugin 是在某一时刻帮助我们做某些事。 plugin 是事件驱动或者说是发布订阅模式。 定义一个简单的插件plugins/copyright-webpack-plugin.js 12345678910class CopyrightWebpackPlugin&amp;#123;  constructor()&amp;#123;    console.log(&amp;apos;插件被使用了&amp;apos;)  &amp;#125">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/05/19/YIKYZR.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/05/19/webpack-编写plugin/">
+
+
+
+
+
+  <title>webpack-编写plugin | Jerry's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jerry's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/19/webpack-编写plugin/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerry">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerry's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">webpack-编写plugin</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-19T19:19:43+08:00">
+                2020-05-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>plugin 是在某一时刻帮助我们做某些事。</p>
+<p>plugin 是事件驱动或者说是发布订阅模式。</p>
+<h3 id="定义一个简单的插件"><a href="#定义一个简单的插件" class="headerlink" title="定义一个简单的插件"></a>定义一个简单的插件</h3><p>plugins/copyright-webpack-plugin.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">class CopyrightWebpackPlugin&#123;</span><br><span class="line">  constructor()&#123;</span><br><span class="line">    console.log(&apos;插件被使用了&apos;)</span><br><span class="line">  &#125;;</span><br><span class="line">  apply(compiler)&#123;</span><br><span class="line"></span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module.exports = CopyrightWebpackPlugin;</span><br></pre></td></tr></table></figure>
+
+<p>由此可以看到，插件是一个类，所以我们使用插件的时候需要new plugin</p>
+<p>webpack.config.js：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">const path = require(&apos;path&apos;);</span><br><span class="line">const CopyrightWebpackPlugin = require(&apos;./plugins/copyright-webpack-plugin&apos;)</span><br><span class="line">module.exports = &#123;</span><br><span class="line">  mode:&apos;development&apos;,</span><br><span class="line">  entry:&#123;</span><br><span class="line">    main:&apos;./src/index.js&apos;,</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins:[</span><br><span class="line">    new CopyrightWebpackPlugin()</span><br><span class="line">  ],</span><br><span class="line">  output:&#123;</span><br><span class="line">    filename:&apos;[name].js&apos;,</span><br><span class="line">    path:path.resolve(__dirname,&apos;dist&apos;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>之后打包可以看到，我们”插件被使用了”打印出来。至此，编写插件的基本结构已经说明。</p>
+<h3 id="传参数"><a href="#传参数" class="headerlink" title="传参数"></a>传参数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">new CopyrightWebpackPlugin(&#123;</span><br><span class="line">  name:&apos;jerry&apos; //对象传参</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>获取参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">class CopyrightWebpackPlugin&#123;</span><br><span class="line">  constructor(options)&#123; //options获取参数</span><br><span class="line">    console.log(options)</span><br><span class="line">  &#125;;</span><br><span class="line">  apply(compiler)&#123;</span><br><span class="line"></span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module.exports = CopyrightWebpackPlugin;</span><br></pre></td></tr></table></figure>
+
+<h3 id="实现在打包完将文件放到dist之前，向dist中添加copyright-txt"><a href="#实现在打包完将文件放到dist之前，向dist中添加copyright-txt" class="headerlink" title="实现在打包完将文件放到dist之前，向dist中添加copyright.txt"></a>实现在打包完将文件放到dist之前，向dist中添加copyright.txt</h3><p>我们说plugin是在特定的时间帮我们做某些事，那么特定的时间都有哪些呢，官网上定义了<a href="https://www.webpackjs.com/api/compiler-hooks/" target="_blank" rel="noopener">compilee.hooks</a>。hooks就是“勾子”，Vue中生命周期函数就是勾子，指的是在某时刻自动执行的函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">class CopyrightWebpackPlugin &#123;</span><br><span class="line">  apply(compiler) &#123;</span><br><span class="line">    //compiler所有的源代码以及webpack.config.js中的内容</span><br><span class="line">    // emit 为异步的函数</span><br><span class="line">    compiler.hooks.emit.tapAsync(</span><br><span class="line">      &quot;CopyrightWebpackPlugin&quot;,</span><br><span class="line">      (compilation, cb) =&gt; &#123;</span><br><span class="line">        //compilation是与本次打包相关的内容</span><br><span class="line">        compilation.assets[&quot;copyright.txt&quot;] = &#123;</span><br><span class="line">          //compilation.assets ：打包后都有哪些文件</span><br><span class="line">          source: function () &#123; //内容</span><br><span class="line">            return &quot;copyright by jerry&quot;;</span><br><span class="line">          &#125;,</span><br><span class="line">          size:function()&#123; //长度</span><br><span class="line">            return 18; //文件大小18个字符长度 </span><br><span class="line">          &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        cb(); //异步的必须在最后调用回调函数</span><br><span class="line">      &#125;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module.exports = CopyrightWebpackPlugin;</span><br></pre></td></tr></table></figure>
+
+<p>compiler 中还有很多时刻，下面找一个同步（SyncHook）的时刻为例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">class CopyrightWebpackPlugin &#123;</span><br><span class="line">  apply(compiler) &#123;</span><br><span class="line">    //compiler所有的源代码以及webpack.config.js中的内容</span><br><span class="line">    </span><br><span class="line">    //compile为同步的</span><br><span class="line">    compiler.hooks.compile.tap(&apos;CopyrightWebpackPlugin&apos;,(compilation)=&gt;&#123;</span><br><span class="line">      console.log(&apos;同步，不需要callback，不需要tapAsync&apos;)</span><br><span class="line">    &#125;)</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    // emit 为异步的</span><br><span class="line">    compiler.hooks.emit.tapAsync(</span><br><span class="line">      &quot;CopyrightWebpackPlugin&quot;,</span><br><span class="line">      (compilation, cb) =&gt; &#123;</span><br><span class="line">        //compilation是与本次打包相关的内容</span><br><span class="line">        compilation.assets[&quot;copyright.txt&quot;] = &#123;</span><br><span class="line">          //compilation.assets ：打包后都有哪些文件</span><br><span class="line">          source: function () &#123; //内容</span><br><span class="line">            return &quot;copyright by jerry&quot;;</span><br><span class="line">          &#125;,</span><br><span class="line">          size:function()&#123; //长度</span><br><span class="line">            return 18; //文件大小18个字符长度 </span><br><span class="line">          &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        cb(); //异步的必须在最后调用回调函数</span><br><span class="line">      &#125;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module.exports = CopyrightWebpackPlugin;</span><br></pre></td></tr></table></figure>
+
+<h3 id="node调试工具查看传入参数compilation等里边的属性"><a href="#node调试工具查看传入参数compilation等里边的属性" class="headerlink" title="node调试工具查看传入参数compilation等里边的属性"></a>node调试工具查看传入参数compilation等里边的属性</h3><p>在package.json 中配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&quot;debug&quot;:&quot;node node_modules/webpack/bin/webpack.js&quot;  </span><br><span class="line">//等同于&quot;build&quot;: &quot;webpack&quot;,不同是现在可以传递参数</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">    &quot;debug&quot;:&quot;node --inspect --inspect-brk  node_modules/webpack/bin/webpack.js&quot;</span><br><span class="line">// inspect开启node调试工具，inspect-brk在webpack.js第一行打断点</span><br></pre></td></tr></table></figure>
+
+<p>之后：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">class CopyrightWebpackPlugin &#123;</span><br><span class="line">  apply(compiler) &#123;</span><br><span class="line">  </span><br><span class="line">    compiler.hooks.compile.tap(&apos;CopyrightWebpackPlugin&apos;,(compilation)=&gt;&#123;</span><br><span class="line">      console.log(&apos;同步，不需要callback，不需要tapAsync&apos;)</span><br><span class="line">    &#125;)</span><br><span class="line">    </span><br><span class="line">    compiler.hooks.emit.tapAsync(</span><br><span class="line">      &quot;CopyrightWebpackPlugin&quot;,</span><br><span class="line">      (compilation, cb) =&gt; &#123;</span><br><span class="line">        //打断点！！！！！！！！！</span><br><span class="line">        debugger;</span><br><span class="line">        compilation.assets[&quot;copyright.txt&quot;] = &#123;</span><br><span class="line">         source: function () &#123; </span><br><span class="line">            return &quot;copyright by jerry&quot;;</span><br><span class="line">          &#125;,</span><br><span class="line">          size:function()&#123; </span><br><span class="line">            return 18; </span><br><span class="line">          &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        cb(); //异步的必须在最后调用回调函数</span><br><span class="line">      &#125;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module.exports = CopyrightWebpackPlugin;</span><br></pre></td></tr></table></figure>
+
+<p>运行：</p>
+<blockquote>
+<p>npm run debug</p>
+</blockquote>
+<p>然后打开浏览器控制台（随便哪个网页），你会看到有一个node图标，点开后会发现在我们在webpack.js中第一行打的断点处，之后下一步，会看到停在业务逻辑中打的断点处，这时候你可以将鼠标直接放到compilation上，就会显示compilation的详细内容，或者你也可以在watch中添加compilation，之后也会显示详细内容：</p>
+<p><img src="https://s1.ax1x.com/2020/05/19/YIKYZR.png" alt="image"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/webpack/" rel="tag"># webpack</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/19/webpack-编写loader/" rel="next" title="webpack-编写loader">
+                <i class="fa fa-chevron-left"></i> webpack-编写loader
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/05/20/webpack-Bundler源码编写/" rel="prev" title="webpack-Bundler源码编写">
+                webpack-Bundler源码编写 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Jerry">
+            
+              <p class="site-author-name" itemprop="name">Jerry</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">72</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义一个简单的插件"><span class="nav-number">1.</span> <span class="nav-text">定义一个简单的插件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#传参数"><span class="nav-number">2.</span> <span class="nav-text">传参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现在打包完将文件放到dist之前，向dist中添加copyright-txt"><span class="nav-number">3.</span> <span class="nav-text">实现在打包完将文件放到dist之前，向dist中添加copyright.txt</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#node调试工具查看传入参数compilation等里边的属性"><span class="nav-number">4.</span> <span class="nav-text">node调试工具查看传入参数compilation等里边的属性</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jerry</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

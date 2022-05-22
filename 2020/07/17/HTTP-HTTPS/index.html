@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="HTTP/HTTPS,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="http://www.12306.cn 谷歌提示不安全。https://kyfw.12306.cn/otn/regist/init 谷歌浏览器提示安全。 2017年1月发布的Chrome 56浏览器开始把收集密码或者信用卡数据的http页面标记为不安全。 2017年12月发布的Chrome 62将所有带有数据输入和无痕模式浏览的http页面标记为不安全。 苹果公司要求所有的iOS APP在201">
+<meta name="keywords" content="HTTP&#x2F;HTTPS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTP&#x2F;HTTPS">
+<meta property="og:url" content="http://yoursite.com/2020/07/17/HTTP-HTTPS/index.html">
+<meta property="og:site_name" content="Jerry&#39;s Blog">
+<meta property="og:description" content="http://www.12306.cn 谷歌提示不安全。https://kyfw.12306.cn/otn/regist/init 谷歌浏览器提示安全。 2017年1月发布的Chrome 56浏览器开始把收集密码或者信用卡数据的http页面标记为不安全。 2017年12月发布的Chrome 62将所有带有数据输入和无痕模式浏览的http页面标记为不安全。 苹果公司要求所有的iOS APP在201">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://s2.ax1x.com/2019/11/12/M3WkzF.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/11/12/M3Woy4.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/11/12/M34gwd.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/11/12/M34bwj.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/11/12/M35Efx.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/11/12/M35Q7d.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/11/12/M35WB4.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/07/17/UyFMut.png">
+<meta property="og:updated_time" content="2022-05-08T07:31:54.710Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HTTP&#x2F;HTTPS">
+<meta name="twitter:description" content="http://www.12306.cn 谷歌提示不安全。https://kyfw.12306.cn/otn/regist/init 谷歌浏览器提示安全。 2017年1月发布的Chrome 56浏览器开始把收集密码或者信用卡数据的http页面标记为不安全。 2017年12月发布的Chrome 62将所有带有数据输入和无痕模式浏览的http页面标记为不安全。 苹果公司要求所有的iOS APP在201">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/11/12/M3WkzF.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/07/17/HTTP-HTTPS/">
+
+
+
+
+
+  <title>HTTP/HTTPS | Jerry's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jerry's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/17/HTTP-HTTPS/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerry">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerry's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">HTTP/HTTPS</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-17T13:47:16+08:00">
+                2020-07-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ul>
+<li><a href="http://www.12306.cn" target="_blank" rel="noopener">http://www.12306.cn</a> 谷歌提示不安全。<a href="https://kyfw.12306.cn/otn/regist/init" target="_blank" rel="noopener">https://kyfw.12306.cn/otn/regist/init</a> 谷歌浏览器提示安全。</li>
+<li>2017年1月发布的Chrome 56浏览器开始把收集密码或者信用卡数据的http页面标记为不安全。</li>
+<li>2017年12月发布的Chrome 62将所有带有数据输入和无痕模式浏览的http页面标记为不安全。</li>
+<li>苹果公司要求所有的iOS APP在20171月1日之前都要使用https加密。</li>
+</ul>
+<h3 id="HTTP和HTTPS发展历史"><a href="#HTTP和HTTPS发展历史" class="headerlink" title="HTTP和HTTPS发展历史"></a>HTTP和HTTPS发展历史</h3><h5 id="什么是HTTP"><a href="#什么是HTTP" class="headerlink" title="什么是HTTP"></a>什么是HTTP</h5><ul>
+<li>HTTP是超文本传输协议，基于请求与响应，无状态的，应用层的协议。常常基于TCP/IP协议传输数据，互联网应用最广的一种网络协议，所有的WWW文件都必须遵守这个标准。设计HTTP的初衷是为了提供一种发布和接收HTML页面的方法。</li>
+<li>发展历史</li>
+</ul>
+<p><img src="https://s2.ax1x.com/2019/11/12/M3WkzF.png" alt="image"></p>
+<ul>
+<li>多路复用：通过单一的HTTP/2连接请求发起多重的请求-响应消息，多个stream共享一个TCP连接，实现多路并行而不是建立多个TCP连接。</li>
+</ul>
+<p><img src="https://s2.ax1x.com/2019/11/12/M3Woy4.png" alt="image"></p>
+<h5 id="什么是HTTPS"><a href="#什么是HTTPS" class="headerlink" title="什么是HTTPS"></a>什么是HTTPS</h5><ul>
+<li>HTTPS是身披SSL外壳的HTTP。https是一种通过计算机网络进行安全通信的传输协议，经由HTTP进行通信，利用SSL/TLS建立安全信道，加密数据包。https使用的主要目的是提供对网站服务器的身份认证，同时保护交换数据的隐私与完整性。TLS是传输层加密协议，前身是SSL协议，有时候两者不区分。</li>
+</ul>
+<h3 id="HTTP-VS-HTTPS"><a href="#HTTP-VS-HTTPS" class="headerlink" title="HTTP VS HTTPS"></a>HTTP VS HTTPS</h3><h5 id="HTTP的特点"><a href="#HTTP的特点" class="headerlink" title="HTTP的特点"></a>HTTP的特点</h5><ul>
+<li>无状态：对客户状态没有存储，对事务处理没有记忆能力，比如访问一个网站要反复进行登陆操作。</li>
+<li>无连接：HTTP/1.1之前，由于无状态的特点，每次请求需要通过TCP三次握手四次挥手，和服务器重新建立连接。如客户在短时间内多次请求同一资源，服务器并不能区别是否已经响应过用户的请求，所以每次需要重新响应请求，耗费不必要的时间和流量。</li>
+<li>基于请求和响应：基本的特性，由服务端发起请求，服务端响应。</li>
+<li>简单快速、灵活。</li>
+<li>通信使用明文，请求和响应不会对通信方进行确认，无法保护数据的完整性。</li>
+</ul>
+<h5 id="HTTPS的特点"><a href="#HTTPS的特点" class="headerlink" title="HTTPS的特点"></a>HTTPS的特点</h5><ul>
+<li>基于HTTP协议，通过SSL或TLS提供加密处理数据、验证对方身份以及数据完整性保护。</li>
+<li>内容加密：采用混合加密技术，中间者不能直接查看明文内容。</li>
+<li>验证身份：通过证书认证客户端访问的是自己的服务器。</li>
+<li>保护数据完整性：防止传输内容被中间人冒充或者篡改。</li>
+<li>传输的不是明文。</li>
+</ul>
+<p><img src="https://s2.ax1x.com/2019/11/12/M34gwd.png" alt="image"></p>
+<ul>
+<li>混合加密：结合非对称加密和对称加密技术。客户端使用对称加密生成密钥对传输数据进行加密，然后使用非对称加密的公钥再对秘钥进行加密，所以网络上传输的数据是被秘钥加密的密文和用公钥加密后的秘密秘钥，因此即使被黑客截取，由于没有私钥，无法获取到加密明文的秘钥，便无法获取到明文数据。</li>
+</ul>
+<ul>
+<li>数字摘要：通过单向hash函数对原文进行哈希，将需加密的明文“摘要”成一串固定长度(如128bit)的密文，不同的明文摘要成的密文其结果总是不相同，同样的明文其摘要必定一致，并且即使知道了摘要也不能反推出明文。</li>
+</ul>
+<ul>
+<li>数字签名技术：数字签名建立在公钥加密体制基础上，是公钥加密技术的另一类应用。它把公钥加密技术和数字摘要结合起来，形成了实用的数字签名技术。</li>
+<li>收方能够证实发送方的真实身份；</li>
+<li>发送方事后不能否认所发送过的报文；</li>
+<li>收方或非法者不能伪造、篡改报文。</li>
+<li>非对称加密过程需要用到公钥进行加密，那么公钥从何而来？其实公钥就被包含在数字证书中，数字证书通常来说是由受信任的数字证书颁发机构CA，在验证服务器身份后颁发，证书中包含了一个密钥对（公钥和私钥）和所有者识别信息。数字证书被放到服务端，具有服务器身份验证和数据传输加密功能。</li>
+</ul>
+<h3 id="HTTP通信传输"><a href="#HTTP通信传输" class="headerlink" title="HTTP通信传输"></a>HTTP通信传输</h3><p><img src="https://s2.ax1x.com/2019/11/12/M34bwj.png" alt="image"></p>
+<ul>
+<li>客户端输入URL回车，DNS解析域名得到服务器的IP地址，服务器在80端口监听客户端请求，端口通过TCP/IP协议（可以通过Socket实现）建立连接。HTTP属于TCP/IP模型中的运用层协议，所以通信的过程其实是对应数据的入栈和出栈。</li>
+</ul>
+<p><img src="https://s2.ax1x.com/2019/11/12/M35Efx.png" alt="image"></p>
+<ul>
+<li>报文从运用层传送到运输层，运输层通过TCP三次握手和服务器建立连接，四次挥手释放连接。</li>
+</ul>
+<p><img src="https://s2.ax1x.com/2019/11/12/M35Q7d.png" alt="image"></p>
+<ul>
+<li>为什么要三次握手：为了防止已失效的连接请求报文段突然又传送到了服务端，因而产生错误。比如：client发出的第一个连接请求报文段并没有丢失，而是在某个网络结点长时间的滞留了，以致延误到连接释放以后的某个时间才到达server。本来这是一个早已失效的报文段，但是server收到此失效的连接请求报文段后，就误认为是client再次发出的一个新的连接请求，于是就向client发出确认报文段，同意建立连接。假设不采用“三次握手”，那么只要server发出确认，新的连接就建立了，由于client并没有发出建立连接的请求，因此不会理睬server的确认，也不会向server发送数据，但server却以为新的运输连接已经建立，并一直等待client发来数据。所以没有采用“三次握手”，这种情况下server的很多资源就白白浪费掉了。</li>
+</ul>
+<p><img src="https://s2.ax1x.com/2019/11/12/M35WB4.png" alt="image"></p>
+<ul>
+<li>为什么需要四次挥手呢？TCP是全双工模式，当client发出FIN报文段时，只是表示client已经没有数据要发送了，client告诉server，它的数据已经全部发送完毕了；但是，这个时候client还是可以接受来server的数据；当server返回ACK报文段时，表示它已经知道client没有数据发送了，但是server还是可以发送数据到client的；当server也发送了FIN报文段时，这个时候就表示server也没有数据要发送了，就会告诉client，我也没有数据要发送了，如果收到client确认报文段，之后彼此就会愉快的中断这次TCP连接。</li>
+</ul>
+<h3 id="HTTPS实现原理"><a href="#HTTPS实现原理" class="headerlink" title="HTTPS实现原理"></a>HTTPS实现原理</h3><p>SSL建立连接过程</p>
+<p><img src="https://s1.ax1x.com/2020/07/17/UyFMut.png" alt="image"></p>
+<ul>
+<li>Client发起一个HTTPS（https:/demo.linianhui.dev） 的请求，根据RFC2818的规定，Client知道需要连接Server的443（默认）端口。</li>
+<li>Server把事先配置好的公钥证书（public key certificate）返回给客户端。</li>
+<li>Client验证公钥证书：比如是否在有效期内，证书的用途是不是匹配Client请求的站点，是不是在CRL吊销列表里面，它的上一级证书是否有效，这是一个递归的过程，直到验证到根证书（操作系统内置的Root证书或者Client内置的Root证书）。如果验证通过则继续，不通过则显示警告信息。</li>
+<li>Client使用伪随机数生成器生成加密所使用的会话密钥，然后用证书的公钥加密这个会话密钥，发给Server。</li>
+<li>Server使用自己的私钥（private key）解密这个消息，得到会话密钥。至此，Client和Server双方都持有了相同的会话密钥。</li>
+<li>Server使用会话密钥加密“明文内容A”，发送给Client。</li>
+<li>Client使用会话密钥解密响应的密文，得到“明文内容A”。</li>
+<li>Client再次发起HTTPS的请求，使用会话密钥加密请求的“明文内容B”，然后Server使用会话密钥解密密文，得到“明文内容B”。</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/HTTP-HTTPS/" rel="tag"># HTTP/HTTPS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/16/动画/" rel="next" title="动画">
+                <i class="fa fa-chevron-left"></i> 动画
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/07/22/浏览器对象模型/" rel="prev" title="浏览器对象模型">
+                浏览器对象模型 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Jerry">
+            
+              <p class="site-author-name" itemprop="name">Jerry</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">72</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP和HTTPS发展历史"><span class="nav-number">1.</span> <span class="nav-text">HTTP和HTTPS发展历史</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#什么是HTTP"><span class="nav-number">1.0.1.</span> <span class="nav-text">什么是HTTP</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#什么是HTTPS"><span class="nav-number">1.0.2.</span> <span class="nav-text">什么是HTTPS</span></a></li></ol></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP-VS-HTTPS"><span class="nav-number">2.</span> <span class="nav-text">HTTP VS HTTPS</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#HTTP的特点"><span class="nav-number">2.0.1.</span> <span class="nav-text">HTTP的特点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#HTTPS的特点"><span class="nav-number">2.0.2.</span> <span class="nav-text">HTTPS的特点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP通信传输"><span class="nav-number">3.</span> <span class="nav-text">HTTP通信传输</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTPS实现原理"><span class="nav-number">4.</span> <span class="nav-text">HTTPS实现原理</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jerry</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="HTML&&CSS,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="CSS预处理器 CSS预处理器是一种专门的编程语言，用来为CSS增加一些编程特性（CSS本身不是编程语言） 不需要考虑浏览器兼容问题，因为CSS预处理器最终编译和输出的仍是标准的CSS样式。 可以在CSS预处理器中：使用变量、简单逻辑判断、函数等基本编程技巧。  CSS预处理器主要目的 CSS中无法定义变量以及没有合理的样式复用机制，导致整体CSS样式难以维护。  为了减少CSS代码冗余，为CSS">
+<meta name="keywords" content="HTML&amp;&amp;CSS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="css预处理器">
+<meta property="og:url" content="http://yoursite.com/2020/07/24/css预处理器/index.html">
+<meta property="og:site_name" content="Jerry&#39;s Blog">
+<meta property="og:description" content="CSS预处理器 CSS预处理器是一种专门的编程语言，用来为CSS增加一些编程特性（CSS本身不是编程语言） 不需要考虑浏览器兼容问题，因为CSS预处理器最终编译和输出的仍是标准的CSS样式。 可以在CSS预处理器中：使用变量、简单逻辑判断、函数等基本编程技巧。  CSS预处理器主要目的 CSS中无法定义变量以及没有合理的样式复用机制，导致整体CSS样式难以维护。  为了减少CSS代码冗余，为CSS">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2022-05-08T07:31:54.710Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="css预处理器">
+<meta name="twitter:description" content="CSS预处理器 CSS预处理器是一种专门的编程语言，用来为CSS增加一些编程特性（CSS本身不是编程语言） 不需要考虑浏览器兼容问题，因为CSS预处理器最终编译和输出的仍是标准的CSS样式。 可以在CSS预处理器中：使用变量、简单逻辑判断、函数等基本编程技巧。  CSS预处理器主要目的 CSS中无法定义变量以及没有合理的样式复用机制，导致整体CSS样式难以维护。  为了减少CSS代码冗余，为CSS">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/07/24/css预处理器/">
+
+
+
+
+
+  <title>css预处理器 | Jerry's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jerry's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/24/css预处理器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerry">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerry's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">css预处理器</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-24T20:28:36+08:00">
+                2020-07-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="CSS预处理器"><a href="#CSS预处理器" class="headerlink" title="CSS预处理器"></a>CSS预处理器</h3><ul>
+<li>CSS预处理器是一种专门的编程语言，用来为CSS增加一些编程特性（CSS本身不是编程语言）</li>
+<li>不需要考虑浏览器兼容问题，因为CSS预处理器最终编译和输出的仍是标准的CSS样式。</li>
+<li>可以在CSS预处理器中：使用变量、简单逻辑判断、函数等基本编程技巧。</li>
+</ul>
+<h3 id="CSS预处理器主要目的"><a href="#CSS预处理器主要目的" class="headerlink" title="CSS预处理器主要目的"></a>CSS预处理器主要目的</h3><ul>
+<li>CSS中无法定义变量以及没有合理的样式复用机制，导致整体CSS样式难以维护。 </li>
+<li>为了减少CSS代码冗余，为CSS提供样式复用机制，提高CSS代码的可维护性。</li>
+</ul>
+<h3 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h3><p>各种预处理器语法不一样，但最终工作流程是一样的，以Sass为例。</p>
+<ul>
+<li>以Sass提供的语法规则编写样式代码</li>
+<li>经过编译器把Sass编写的代码转换成标准的CSS代码</li>
+<li>浏览器加载解析转换后的CSS样式（浏览器只能解析标准的CSS代码，而不能是Sass等）</li>
+</ul>
+<h3 id="主流css预处理器"><a href="#主流css预处理器" class="headerlink" title="主流css预处理器"></a>主流css预处理器</h3><ul>
+<li>Sass，2007，最早最成熟的CSS预处理器，有两种语法，分别以 .sass 和 .scss 为扩展名。SCSS是Sass 3引入的新语法，完全兼容CSS3，并继承了Sass的强大功能，和CSS语法结构更接近</li>
+<li>Less，2009，受Sass影响大，以 .less 为扩展名</li>
+<li>Stylus，2010，来自Node.js社区，主要用来给Node项目进行CSS预处理支持，以 .styl 为扩展名</li>
+</ul>
+<h3 id="css预处理器的使用"><a href="#css预处理器的使用" class="headerlink" title="css预处理器的使用"></a>css预处理器的使用</h3><ul>
+<li>集成在前端开发工具中使用（插件），如 VS Code、WebStorm 等</li>
+<li>集成在项目构建工具中，在项目编译（打包）时进行自动转换，如 webpack、gulp等</li>
+</ul>
+<h3 id="Sass"><a href="#Sass" class="headerlink" title="Sass"></a>Sass</h3><p>Sass 是一个 CSS 预处理器。</p>
+<p>Sass 是 CSS 扩展语言，可以帮助我们减少 CSS 重复的代码，节省开发时间。</p>
+<p>Sass 完全兼容所有版本的 CSS。</p>
+<p>Sass 扩展了 CSS3，增加了规则、变量、混入、选择器、继承、内置函数等等特性。</p>
+<p>Sass 生成良好格式化的 CSS 代码，易于组织和维护。</p>
+<p>Sass 文件后缀为 .scss。</p>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><blockquote>
+<p>$ npm install -g sass</p>
+</blockquote>
+<p>.sass 转化为 .css</p>
+<blockquote>
+<p>$ sass xxx.sass</p>
+</blockquote>
+<p>规定将转化后sass代码存到的位置(bbb.css 文件中)</p>
+<blockquote>
+<p>$ sass xxx.sass bbb.css</p>
+</blockquote>
+<h4 id="变量-重复使用，便于管理"><a href="#变量-重复使用，便于管理" class="headerlink" title="变量-重复使用，便于管理"></a>变量-重复使用，便于管理</h4><p>语法：<code>$variablename: value;</code></p>
+<p>例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">// *******Sass代码*******</span><br><span class="line">$myFont: Helvetica, sans-serif;</span><br><span class="line">$myColor: red;</span><br><span class="line">$myFontSize: 18px;</span><br><span class="line">$myWidth: 680px;</span><br><span class="line"></span><br><span class="line">body &#123;</span><br><span class="line">  font-family: $myFont;</span><br><span class="line">  font-size: $myFontSize;</span><br><span class="line">  color: $myColor;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#container &#123;</span><br><span class="line">  width: $myWidth;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// ********对应的css代码********</span><br><span class="line">body &#123;</span><br><span class="line">  font-family: Helvetica, sans-serif;</span><br><span class="line">  font-size: 18px;</span><br><span class="line">  color: red;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#container &#123;</span><br><span class="line">  width: 680px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Sass变量作用域只能在当前层级上有效：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">// ******Sass 代码</span><br><span class="line">$myColor: red;</span><br><span class="line"></span><br><span class="line">h1 &#123;</span><br><span class="line">  $myColor: green;   // 只在 h1 里头有用，局部作用域</span><br><span class="line">  color: $myColor;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">p &#123;</span><br><span class="line">  color: $myColor;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// ******css 代码</span><br><span class="line"></span><br><span class="line">h1 &#123;</span><br><span class="line">  color: green;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">p &#123;</span><br><span class="line">  color: red; //不受影响</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当然 Sass 中我们可以使用 !global 关键词来设置变量是全局的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">//******Sass</span><br><span class="line">$myColor: red;</span><br><span class="line"></span><br><span class="line">h1 &#123;</span><br><span class="line">  $myColor: green !global;  // 全局作用域</span><br><span class="line">  color: $myColor;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">p &#123;</span><br><span class="line">  color: $myColor;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//******css</span><br><span class="line">h1 &#123;</span><br><span class="line">  color: green;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">p &#123;</span><br><span class="line">  color: green; //受到影响</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所有的全局变量我们一般定义在同一个文件，如：_globals.scss，然后我们使用 @include 来包含该文件。</p>
+<h4 id="嵌套规则与属性"><a href="#嵌套规则与属性" class="headerlink" title="嵌套规则与属性"></a>嵌套规则与属性</h4><p>嵌套</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">//******Sass</span><br><span class="line">nav &#123;</span><br><span class="line">  ul &#123;</span><br><span class="line">    margin: 0;</span><br><span class="line">    padding: 0;</span><br><span class="line">    list-style: none;</span><br><span class="line">  &#125;</span><br><span class="line">  li &#123;</span><br><span class="line">    display: inline-block;</span><br><span class="line">  &#125;</span><br><span class="line">  a &#123;</span><br><span class="line">    display: block;</span><br><span class="line">    padding: 6px 12px;</span><br><span class="line">    text-decoration: none;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//******css（后代选择器）</span><br><span class="line">nav ul &#123;</span><br><span class="line">  margin: 0;</span><br><span class="line">  padding: 0;</span><br><span class="line">  list-style: none;</span><br><span class="line">&#125;</span><br><span class="line">nav li &#123;</span><br><span class="line">  display: inline-block;</span><br><span class="line">&#125;</span><br><span class="line">nav a &#123;</span><br><span class="line">  display: block;</span><br><span class="line">  padding: 6px 12px;</span><br><span class="line">  text-decoration: none;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>嵌套属性</p>
+<p>很多 CSS 属性都有同样的前缀，例如：font-family, font-size 和 font-weight ， text-align, text-transform 和 text-overflow。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">// ******** Sass</span><br><span class="line">font: &#123;</span><br><span class="line">  family: Helvetica, sans-serif;</span><br><span class="line">  size: 18px;</span><br><span class="line">  weight: bold;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">text: &#123;</span><br><span class="line">  align: center;</span><br><span class="line">  transform: lowercase;</span><br><span class="line">  overflow: hidden;</span><br><span class="line">&#125;</span><br><span class="line">// ********css</span><br><span class="line">font-family: Helvetica, sans-serif;</span><br><span class="line">font-size: 18px;</span><br><span class="line">font-weight: bold;</span><br><span class="line"></span><br><span class="line">text-align: center;</span><br><span class="line">text-transform: lowercase;</span><br><span class="line">text-overflow: hidden;</span><br></pre></td></tr></table></figure>
+
+<h3 id="文件导入"><a href="#文件导入" class="headerlink" title="文件导入"></a>文件导入</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">// reset.scss</span><br><span class="line">html,</span><br><span class="line">body,</span><br><span class="line">ul,</span><br><span class="line">ol &#123;</span><br><span class="line">  margin: 0;</span><br><span class="line">  padding: 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// stand.scss</span><br><span class="line">@import &quot;reset&quot;;</span><br><span class="line"></span><br><span class="line">body &#123;</span><br><span class="line">  font-family: Helvetica, sans-serif;</span><br><span class="line">  font-size: 18px;</span><br><span class="line">  color: red;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// stand.scss转化后的css</span><br><span class="line">html, body, ul, ol &#123;</span><br><span class="line">  margin: 0;</span><br><span class="line">  padding: 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">body &#123;</span><br><span class="line">  font-family: Helvetica, sans-serif;</span><br><span class="line">  font-size: 18px;</span><br><span class="line">  color: red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果希望将一个 Sass 的代码文件编译到一个 CSS 文件，你可以在文件名的开头添加一个下划线。这将告诉 Sass 不要将其编译到 CSS 文件。</p>
+<p>在导入语句中我们不需要添加下划线。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// _colors.scss 文件代码</span><br><span class="line">$myPink: #EE82EE;</span><br><span class="line">$myBlue: #4169E1;</span><br><span class="line">$myGreen: #8FBC8F;</span><br><span class="line"></span><br><span class="line">// 别的sass中引用</span><br><span class="line"></span><br><span class="line">@import &quot;colors&quot;; // 不加下划线</span><br><span class="line"></span><br><span class="line">body &#123;</span><br><span class="line">  font-family: Helvetica, sans-serif;</span><br><span class="line">  font-size: 18px;</span><br><span class="line">  color: $myBlue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意 ：：不要将带下划线与不带下划线的同名文件放置在同一个目录下，比如，_colors.scss 和 colors.scss 不能同时存在于同一个目录下，否则带下划线的文件将会被忽略。</p>
+<h4 id="混入"><a href="#混入" class="headerlink" title="混入"></a>混入</h4><p>@mixin 指令允许我们定义一个可以在整个样式表中重复使用的样式。</p>
+<p>@include 指令可以将混入（mixin）引入到文档中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">// 定义一个混入</span><br><span class="line">@mixin important-text &#123;</span><br><span class="line">  color: red;</span><br><span class="line">  font-size: 25px;</span><br><span class="line">  font-weight: bold;</span><br><span class="line">  border: 1px solid blue;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//使用混入</span><br><span class="line">.danger &#123;</span><br><span class="line">  @include important-text;</span><br><span class="line">  background-color: green;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 对应css代码</span><br><span class="line">.danger &#123;</span><br><span class="line">  color: red;</span><br><span class="line">  font-size: 25px;</span><br><span class="line">  font-weight: bold;</span><br><span class="line">  border: 1px solid blue;</span><br><span class="line">  background-color: green;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>混入中可以包含混入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@mixin special-text &#123;</span><br><span class="line">  @include important-text;</span><br><span class="line">  @include link;</span><br><span class="line">  @include special-border;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>向混入传递变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">@mixin bordered($color, $width) &#123;</span><br><span class="line">  border: $width solid $color;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.myArticle &#123;</span><br><span class="line">  @include bordered(blue, 1px);  // 调用混入，并传递两个参数</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.myNotes &#123;</span><br><span class="line">  @include bordered(red, 2px); // 调用混入，并传递两个参数</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 对应css</span><br><span class="line">.myArticle &#123;</span><br><span class="line">  border: 1px solid blue;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.myNotes &#123;</span><br><span class="line">  border: 2px solid red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="extend继承"><a href="#extend继承" class="headerlink" title="@extend继承"></a>@extend继承</h4><p>@extend 指令告诉 Sass 一个选择器的样式从另一选择器继承。</p>
+<p>如果一个样式与另外一个样式几乎相同，只有少量的区别，则使用 @extend 就显得很有用。</p>
+<p>以下 Sass 实例中，我们创建了一个基本的按钮样式 .button-basic，接着我们定义了两个按钮样式 .button-report 与 .button-submit，它们都继承了 .button-basic ，它们主要区别在于背景颜色与字体颜色，其他的样式都是一样的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">.button-basic  &#123;</span><br><span class="line">  border: none;</span><br><span class="line">  padding: 15px 30px;</span><br><span class="line">  text-align: center;</span><br><span class="line">  font-size: 16px;</span><br><span class="line">  cursor: pointer;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.button-report  &#123;</span><br><span class="line">  @extend .button-basic;</span><br><span class="line">  background-color: red;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.button-submit  &#123;</span><br><span class="line">  @extend .button-basic;</span><br><span class="line">  background-color: green;</span><br><span class="line">  color: white;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//转成css</span><br><span class="line">.button-basic, .button-report, .button-submit &#123;</span><br><span class="line">  border: none;</span><br><span class="line">  padding: 15px 30px;</span><br><span class="line">  text-align: center;</span><br><span class="line">  font-size: 16px;</span><br><span class="line">  cursor: pointer;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.button-report  &#123;</span><br><span class="line">  background-color: red;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.button-submit  &#123;</span><br><span class="line">  background-color: green;</span><br><span class="line">  color: white;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用 @extend 后，我们在 HTML 按钮标签中就不需要指定多个类 class=”button-basic button-report” ，只需要设置 class=”button-report” 类就好了。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/HTML-CSS/" rel="tag"># HTML&&CSS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/22/浏览器对象模型/" rel="next" title="浏览器对象模型">
+                <i class="fa fa-chevron-left"></i> 浏览器对象模型
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/07/27/vue-router/" rel="prev" title="vue-router">
+                vue-router <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Jerry">
+            
+              <p class="site-author-name" itemprop="name">Jerry</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">72</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#CSS预处理器"><span class="nav-number">1.</span> <span class="nav-text">CSS预处理器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSS预处理器主要目的"><span class="nav-number">2.</span> <span class="nav-text">CSS预处理器主要目的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#工作流程"><span class="nav-number">3.</span> <span class="nav-text">工作流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主流css预处理器"><span class="nav-number">4.</span> <span class="nav-text">主流css预处理器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#css预处理器的使用"><span class="nav-number">5.</span> <span class="nav-text">css预处理器的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sass"><span class="nav-number">6.</span> <span class="nav-text">Sass</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装"><span class="nav-number">6.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#变量-重复使用，便于管理"><span class="nav-number">6.2.</span> <span class="nav-text">变量-重复使用，便于管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#嵌套规则与属性"><span class="nav-number">6.3.</span> <span class="nav-text">嵌套规则与属性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件导入"><span class="nav-number">7.</span> <span class="nav-text">文件导入</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#混入"><span class="nav-number">7.1.</span> <span class="nav-text">混入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#extend继承"><span class="nav-number">7.2.</span> <span class="nav-text">@extend继承</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jerry</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

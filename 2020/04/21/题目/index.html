@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="JS,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="快速排序参考 思路“快速排序”的思想很简单，整个排序过程只需要三步： （1）在数据集之中，选择一个元素作为”基准”（pivot）。 （2）所有小于”基准”的元素，都移到”基准”的左边；所有大于”基准”的元素，都移到”基准”的右边。 （3）对”基准”左边和右边的两个子集，不断重复第一步和第二步，直到所有子集只剩下一个元素为止。 js实现快速排序1234567891011121314151617181">
+<meta name="keywords" content="JS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="题目">
+<meta property="og:url" content="http://yoursite.com/2020/04/21/题目/index.html">
+<meta property="og:site_name" content="Jerry&#39;s Blog">
+<meta property="og:description" content="快速排序参考 思路“快速排序”的思想很简单，整个排序过程只需要三步： （1）在数据集之中，选择一个元素作为”基准”（pivot）。 （2）所有小于”基准”的元素，都移到”基准”的左边；所有大于”基准”的元素，都移到”基准”的右边。 （3）对”基准”左边和右边的两个子集，不断重复第一步和第二步，直到所有子集只剩下一个元素为止。 js实现快速排序1234567891011121314151617181">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2022-05-08T07:31:54.869Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="题目">
+<meta name="twitter:description" content="快速排序参考 思路“快速排序”的思想很简单，整个排序过程只需要三步： （1）在数据集之中，选择一个元素作为”基准”（pivot）。 （2）所有小于”基准”的元素，都移到”基准”的左边；所有大于”基准”的元素，都移到”基准”的右边。 （3）对”基准”左边和右边的两个子集，不断重复第一步和第二步，直到所有子集只剩下一个元素为止。 js实现快速排序1234567891011121314151617181">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/04/21/题目/">
+
+
+
+
+
+  <title>题目 | Jerry's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jerry's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/21/题目/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerry">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerry's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">题目</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-21T11:29:43+08:00">
+                2020-04-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h3><p><a href="http://www.ruanyifeng.com/blog/2011/04/quicksort_in_javascript.html" target="_blank" rel="noopener">参考</a></p>
+<h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><p>“快速排序”的思想很简单，整个排序过程只需要三步：</p>
+<p>（1）在数据集之中，选择一个元素作为”基准”（pivot）。</p>
+<p>（2）所有小于”基准”的元素，都移到”基准”的左边；所有大于”基准”的元素，都移到”基准”的右边。</p>
+<p>（3）对”基准”左边和右边的两个子集，不断重复第一步和第二步，直到所有子集只剩下一个元素为止。</p>
+<h5 id="js实现快速排序"><a href="#js实现快速排序" class="headerlink" title="js实现快速排序"></a>js实现快速排序</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">var quickSort = function(arr)&#123;</span><br><span class="line">    // 检查数组个数，小于等于1，直接返回</span><br><span class="line">    if(arr.length &lt;= 1)&#123;</span><br><span class="line">        return arr;</span><br><span class="line">    &#125;;</span><br><span class="line">    // 选择基准</span><br><span class="line">    var pivotIndex = Math.floor(arr.length/2);</span><br><span class="line">    console.log(&apos;pivotIndex---&gt;&apos;,pivotIndex);</span><br><span class="line">    var pivot = arr.splice(pivotIndex, 1)[0];</span><br><span class="line">    console.log(&apos;pivot---&gt;&apos;,pivot);</span><br><span class="line">    var left = [];</span><br><span class="line">    var right = [];</span><br><span class="line">    // 遍历数组，小于基准的放在左边的子集，大的放到右边的子集</span><br><span class="line">    for(var i = 0; i &lt; arr.length; i++)&#123;</span><br><span class="line">        if(arr[i] &lt; pivot)&#123;</span><br><span class="line">            left.push(arr[i]);</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            right.push(arr[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    // 不断重复这个过程，得到排序后的数组</span><br><span class="line">    return quickSort(left).concat([pivot], quickSort(right));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var arr = [85,24,63,45,14,31,96,50]</span><br><span class="line"></span><br><span class="line">console.log(quickSort(arr));</span><br><span class="line">// [ 14, 24, 31, 45, 50, 63, 85, 96 ]</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看字符串中各字母的次数"><a href="#查看字符串中各字母的次数" class="headerlink" title="查看字符串中各字母的次数"></a>查看字符串中各字母的次数</h3><h5 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h5><p>创建空对象，统计计数结果</p>
+<p>遍历每个字母的值，看结果对象中是否存在</p>
+<p>不存在则创建，存在则计数加一</p>
+<h5 id="js代码实现"><a href="#js代码实现" class="headerlink" title="js代码实现"></a>js代码实现</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">function searchWord(str)&#123;</span><br><span class="line">    let obj = &#123;&#125;;</span><br><span class="line">    for(let i = 0 ,len = str.length;i&lt;len;i++)&#123;</span><br><span class="line">        //str.charAt(index)返回str[index],&apos;acd&apos;.charAt(0)---&apos;a&apos;</span><br><span class="line">        let keyValue = str.charAt(i);</span><br><span class="line">        if(obj[keyValue] &amp;&amp; obj[keyValue].value === keyValue)&#123;</span><br><span class="line">            console.log(&apos;1&apos;)</span><br><span class="line">            obj[keyValue].count = obj[keyValue].count + 1;</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            console.log(&apos;2&apos;)</span><br><span class="line">            obj[keyValue] = &#123;&#125;;</span><br><span class="line">            obj[keyValue].count = 1;</span><br><span class="line">            obj[keyValue].value = keyValue;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return obj</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">console.log(searchWord(&apos;asaragavaf&apos;))</span><br><span class="line"></span><br><span class="line">// &#123; a: &#123; count: 5, value: &apos;a&apos; &#125;,</span><br><span class="line">//   s: &#123; count: 1, value: &apos;s&apos; &#125;,</span><br><span class="line">//   r: &#123; count: 1, value: &apos;r&apos; &#125;,</span><br><span class="line">//   g: &#123; count: 1, value: &apos;g&apos; &#125;,</span><br><span class="line">//   v: &#123; count: 1, value: &apos;v&apos; &#125;,</span><br><span class="line">//   f: &#123; count: 1, value: &apos;f&apos; &#125; &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="清除字符串前后空格"><a href="#清除字符串前后空格" class="headerlink" title="清除字符串前后空格"></a>清除字符串前后空格</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function trim(str)&#123;</span><br><span class="line">    if(str &amp;&amp; typeof str === &apos;string&apos;)&#123;</span><br><span class="line">        return str.replace(/^\s+|\s+$/g,&apos; &apos;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">var str1 = &apos;    asdas  &apos;</span><br><span class="line">console.log(trim(str1));</span><br><span class="line">console.log(str1)</span><br><span class="line">/*</span><br><span class="line"> asdas</span><br><span class="line">    asdas</span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
+
+<h3 id="实现数组合并，并且去重"><a href="#实现数组合并，并且去重" class="headerlink" title="实现数组合并，并且去重"></a>实现数组合并，并且去重</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">function defineConcat()&#123;</span><br><span class="line">    let res = [];</span><br><span class="line">    function concat(arrA,arrB)&#123;</span><br><span class="line">        arrB.forEach(e =&gt; &#123;</span><br><span class="line">            if(arrA.indexOf(e) === -1)&#123;</span><br><span class="line">                arrA.push(e);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;;</span><br><span class="line">    for(let i =0,len = arguments.length;i &lt; len;i++)&#123;</span><br><span class="line">        concat(res,arguments[i]);</span><br><span class="line">        console.log(arguments);</span><br><span class="line">    &#125;</span><br><span class="line">    return res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">console.log(&apos;合并数组&apos;,defineConcat([12,3],[5,4],[7,5]))</span><br><span class="line">// 合并数组 [ 12, 3, 5, 4, 7 ]</span><br></pre></td></tr></table></figure>
+
+<h3 id="typeof-bar-39-object-39-可以确定bar是不是对象的潜在陷阱，如何避免这个陷阱？"><a href="#typeof-bar-39-object-39-可以确定bar是不是对象的潜在陷阱，如何避免这个陷阱？" class="headerlink" title="typeof bar===&#39;object&#39;可以确定bar是不是对象的潜在陷阱，如何避免这个陷阱？"></a><code>typeof bar===&#39;object&#39;</code>可以确定bar是不是对象的潜在陷阱，如何避免这个陷阱？</h3><p>我们知道<code>typeof null</code>结果为<code>object</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var bar = null;</span><br><span class="line">console.log(typeof bar === &quot;object&quot;);  // logs true!</span><br></pre></td></tr></table></figure>
+
+<p>只要清楚这一点，同时检查<code>bar</code>是否为<code>null</code>，就可以很容易地避免问题：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">console.log((bar !== null) &amp;&amp; (typeof bar === &quot;object&quot;));  // logs false</span><br></pre></td></tr></table></figure>
+
+<h3 id="下面的代码将输出什么到控制台？为什么？"><a href="#下面的代码将输出什么到控制台？为什么？" class="headerlink" title="下面的代码将输出什么到控制台？为什么？"></a>下面的代码将输出什么到控制台？为什么？</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(function()&#123;</span><br><span class="line">    var a=b=3;</span><br><span class="line">&#125;)();</span><br><span class="line">console.log(&quot;a defined&quot;+(typeof a!==&apos;undefined&apos;))</span><br><span class="line">console.log(&quot;b defined&quot;+(typeof b!==&apos;undefined&apos;))</span><br></pre></td></tr></table></figure>
+
+<p>输出结果为下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a defined false</span><br><span class="line">b defined true</span><br></pre></td></tr></table></figure>
+
+<p>解释：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var a= b=3;</span><br><span class="line">//上面的声明为以下形式的简写</span><br><span class="line">b=3;</span><br><span class="line">var a=b;</span><br></pre></td></tr></table></figure>
+
+<p>在非严格模式下， <code>b=3</code>会成为全局变量，所以会生成上面的输出结果</p>
+<p>若在严格模式下：语句 <code>var a= b=3</code>将生成 <code>ReferenceError：b is not defined</code>的运行时错误，从而避免任何问题。</p>
+<h3 id="以下两个函数会返回相同的结果吗？"><a href="#以下两个函数会返回相同的结果吗？" class="headerlink" title="以下两个函数会返回相同的结果吗？"></a>以下两个函数会返回相同的结果吗？</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function foo1()&#123;</span><br><span class="line">    return &#123;</span><br><span class="line">        bar:&apos;Hello&apos;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;    //&#123;bar:&apos;Hello&apos;&#125;</span><br><span class="line"></span><br><span class="line">function foo2()&#123;</span><br><span class="line">    return </span><br><span class="line">    &#123;</span><br><span class="line">        bar:&apos;Hello&apos;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;    // undefined</span><br></pre></td></tr></table></figure>
+
+<p>当遇到 <code>return</code>语句行时（代码行上没有任何其他的代码），分号会立即插入返回语句之后，也不会抛出错误，因为代码的其余部分是完全有效的，即时它没有得到调用或做任何事情。</p>
+<p>即第二个函数相当于：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function foo2()&#123;</span><br><span class="line">    return ; // 执行到这已经结束了函数，后边代码没有执行</span><br><span class="line">    &#123;</span><br><span class="line">        bar:&apos;Hello&apos;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="写出函数-isInterger-x-的实现方法"><a href="#写出函数-isInterger-x-的实现方法" class="headerlink" title="写出函数 isInterger(x)的实现方法"></a>写出函数 <code>isInterger(x)</code>的实现方法</h3><p>ES6引入一个新的方法，即 <code>Number.isInterger(x)</code>，它可以用来判断一个数字x是否为整数。</p>
+<p>在ES的规格说明中，整数只是在概念上存在，即，数字值总是存储为浮点数值。</p>
+<p>实现方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//使用取余运算</span><br><span class="line">function isInterger(x)&#123;</span><br><span class="line">    return (typeof x===&apos;number&apos;)&amp;&amp;(x%1===0)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//使用Math.round,ceil,floor</span><br><span class="line">function isInterger(x)&#123;</span><br><span class="line">    return Math.floor(x)===x</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//Math.ceil() 函数返回大于或等于一个给定数字的最小整数。(向上取整)</span><br><span class="line">//Math.round() 函数返回一个数字四舍五入后最接近的整数</span><br><span class="line">//Math.floor() 返回小于或等于一个给定数字的最大整数。(向下取整)</span><br></pre></td></tr></table></figure>
+
+<h3 id="写一个简单函数，要求返回一个布尔值，判断字符串是否为回文字符串。"><a href="#写一个简单函数，要求返回一个布尔值，判断字符串是否为回文字符串。" class="headerlink" title="写一个简单函数，要求返回一个布尔值，判断字符串是否为回文字符串。"></a>写一个简单函数，要求返回一个布尔值，判断字符串是否为回文字符串。</h3><p>回文字符串：正读和反读都一样的字符串</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function isPalindrome(str)&#123;</span><br><span class="line">    str=str.replace(/\W/g,&apos;&apos;).toLowerCase()</span><br><span class="line">    return (str==str.split(&apos;&apos;).reverse().join(&apos;&apos;))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">console.log(isPalindrome(&quot;level&quot;));                   // logs &apos;true&apos;</span><br><span class="line">console.log(isPalindrome(&quot;levels&quot;));                  // logs &apos;false&apos;</span><br><span class="line">console.log(isPalindrome(&quot;A car, a man, a maraca&quot;));  // logs &apos;true&apos;</span><br></pre></td></tr></table></figure>
+
+<h3 id="写一个-sum方法，在使用下面任一语法调用时，都可以正常工作"><a href="#写一个-sum方法，在使用下面任一语法调用时，都可以正常工作" class="headerlink" title="写一个 sum方法，在使用下面任一语法调用时，都可以正常工作"></a>写一个 <code>sum</code>方法，在使用下面任一语法调用时，都可以正常工作</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">console.log(sum(2,3));   // Outputs 5</span><br><span class="line">console.log(sum(2)(3));  // Outputs 5</span><br></pre></td></tr></table></figure>
+
+<h5 id="方法一："><a href="#方法一：" class="headerlink" title="方法一："></a>方法一：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function sum(x) &#123;</span><br><span class="line">  if (arguments.length == 2) &#123;</span><br><span class="line">    return arguments[0] + arguments[1];</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    return function(y) &#123; return x + y; &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在JavaScript中，函数可以提供到 <code>arguments</code> 对象的访问，<code>arguments</code> 对象提供传递到函数的实际参数的访问。这使我们能够使用 <code>length</code> 属性来确定在运行时传递给函数的参数数量。</p>
+<p>如果传递两个参数，那么只需加在一起，并返回。</p>
+<p>否则，我们假设它被以 <code>sum(2)(3)</code>这样的形式调用，所以我们返回一个匿名函数，这个匿名函数合并了传递到 <code>sum()</code>的参数和传递给匿名函数的参数。</p>
+<h5 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function sum(x, y) &#123;</span><br><span class="line">  if (y !== undefined) &#123;</span><br><span class="line">    return x + y;</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    return function(y) &#123; return x + y; &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当调用一个函数的时候，JavaScript不要求参数的数目匹配函数定义中的参数数量。如果传递的参数数量大于函数定义中参数数量，那么多余参数将简单地被忽略。另一方面，如果传递的参数数量小于函数定义中的参数数量，那么缺少的参数在函数中被引用时将会给一个 <code>undefined</code>值。所以，在上面的例子中，简单地检查第2个参数是否未定义，就可以相应地确定函数被调用以及进行的方式。</p>
+<h3 id="分析下题输出结果"><a href="#分析下题输出结果" class="headerlink" title="分析下题输出结果"></a>分析下题输出结果</h3><h5 id="第一题"><a href="#第一题" class="headerlink" title="第一题"></a>第一题</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">var arr1 = &quot;john&quot;.split(&apos;&apos;);</span><br><span class="line">console.log(&apos;arr1&apos;,arr1);//arr1 [ &apos;j&apos;, &apos;o&apos;, &apos;h&apos;, &apos;n&apos; ]</span><br><span class="line">var arr2 = arr1.reverse();</span><br><span class="line">console.log(&apos;2arr1&apos;,arr1);//2arr1 [ &apos;n&apos;, &apos;h&apos;, &apos;o&apos;, &apos;j&apos; ]</span><br><span class="line">console.log(&apos;arr2&apos;,arr2);//arr2 [ &apos;n&apos;, &apos;h&apos;, &apos;o&apos;, &apos;j&apos; ]</span><br><span class="line">var arr3 = &quot;jones&quot;.split(&apos;&apos;);</span><br><span class="line">console.log(&apos;arr3&apos;,arr3);//arr3 [ &apos;j&apos;, &apos;o&apos;, &apos;n&apos;, &apos;e&apos;, &apos;s&apos; ]</span><br><span class="line">arr2.push(arr3);</span><br><span class="line">console.log(&apos;2arr2&apos;,arr2);//2arr2 [ &apos;n&apos;, &apos;h&apos;, &apos;o&apos;, &apos;j&apos;, [ &apos;j&apos;, &apos;o&apos;, &apos;n&apos;, &apos;e&apos;, &apos;s&apos; ] ]</span><br><span class="line"></span><br><span class="line">console.log(arr1,arr2)</span><br><span class="line">// [ &apos;n&apos;, &apos;h&apos;, &apos;o&apos;, &apos;j&apos;, [ &apos;j&apos;, &apos;o&apos;, &apos;n&apos;, &apos;e&apos;, &apos;s&apos; ] ] [ &apos;n&apos;, &apos;h&apos;, &apos;o&apos;, &apos;j&apos;, [ &apos;j&apos;, &apos;o&apos;, &apos;n&apos;, &apos;e&apos;, &apos;s&apos; ] ]</span><br><span class="line"></span><br><span class="line">console.log(&quot;array 1: length=&quot; + arr1.length + &quot; last=&quot; + arr1.slice(-1));</span><br><span class="line">console.log(&quot;array 2: length=&quot; + arr2.length + &quot; last=&quot; + arr2.slice(-1));</span><br><span class="line"></span><br><span class="line">//结果</span><br><span class="line"></span><br><span class="line">&quot;array 1: length=5 last=j,o,n,e,s&quot;</span><br><span class="line">&quot;array 2: length=5 last=j,o,n,e,s&quot;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>数组属于引用类型，直接赋值，赋的是引用</li>
+<li>split() 方法用于把一个字符串分割成字符串数组</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stringObject.split(separator,howmany)</span><br></pre></td></tr></table></figure>
+
+<p><code>separator</code>:必需。字符串或正则表达式，从该参数指定的地方分割 <code>stringObject</code>。</p>
+<p><code>howmany</code>:可选。该参数可指定返回的数组的最大长度。如果设置了该参数，返回的子串不会多于这个参数指定的数组。如果没有设置该参数，整个字符串都会被分割，不考虑它的长度。</p>
+<ul>
+<li>slice() 方法可从已有的数组中返回选定的元素。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arrayObject.slice(start,end)</span><br></pre></td></tr></table></figure>
+
+<p><code>start</code>:必需。规定从何处开始选取。如果是负数，那么它规定从数组尾部开始算起的位置。也就是说，-1指最后一个元素，-2指倒数第二个元素，以此类推。</p>
+<p><code>end</code>:可选。规定从何处结束选取。该参数是数组片断结束处的数组下标。如果没有指定该参数，那么切分的数组包含从<code>start</code>到数组结束的所有元素。如果这个参数是负数，那么它规定的是从数组尾部开始算起的元素。</p>
+<h5 id="第二题"><a href="#第二题" class="headerlink" title="第二题"></a>第二题</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">console.log(1 +  &quot;2&quot; + &quot;2&quot;);</span><br><span class="line">console.log(1 +  +&quot;2&quot; + &quot;2&quot;);</span><br><span class="line">console.log(1 +  -&quot;1&quot; + &quot;2&quot;);</span><br><span class="line">console.log(+&quot;1&quot; +  &quot;1&quot; + &quot;2&quot;);</span><br><span class="line">console.log( &quot;A&quot; - &quot;B&quot; + &quot;2&quot;);</span><br><span class="line">console.log( &quot;A&quot; - &quot;B&quot; + 2);</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码将输出以下内容到控制台：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&quot;122&quot;</span><br><span class="line">&quot;32&quot;</span><br><span class="line">&quot;02&quot;</span><br><span class="line">&quot;112&quot;</span><br><span class="line">&quot;NaN2&quot;</span><br><span class="line">NaN</span><br></pre></td></tr></table></figure>
+
+<p>这里的根本问题是，JavaScript（ECMAScript）是一种弱类型语言，它可对值进行自动类型转换，以适应正在执行的操作。让我们通过上面的例子来说明这是如何做到的。</p>
+<p>例1：<code>1 + &quot;2&quot; + &quot;2&quot;</code> 输出：<code>&quot;122&quot;</code> 说明： <code>1 + &quot;2&quot;</code> 是执行的第一个操作。由于其中一个运算对象（<code>&quot;2&quot;</code>）是字符串，JavaScript会假设它需要执行字符串连接，因此，会将 <code>1</code> 的类型转换为 <code>&quot;1&quot;</code>， <code>1 + &quot;2&quot;</code>结果就是 <code>&quot;12&quot;</code>。然后， <code>&quot;12&quot; + &quot;2&quot;</code> 就是 <code>&quot;122&quot;</code>。</p>
+<p>例2： <code>1 + +&quot;2&quot; + &quot;2&quot;</code> 输出： <code>&quot;32&quot;</code> 说明：根据运算的顺序，要执行的第一个运算是 <code>+&quot;2&quot;</code>（第一个 <code>&quot;2&quot;</code> 前面的额外 <code>+</code> 被视为一元运算符）。因此，JavaScript将 <code>&quot;2&quot;</code> 的类型转换为数字，然后应用一元 <code>+</code> 号（即，将其视为一个正数）。其结果是，接下来的运算就是 <code>1 + 2</code> ，这当然是 <code>3</code>。然后我们需要在一个数字和一个字符串之间进行运算（即， <code>3</code> 和 <code>&quot;2&quot;</code>），同样的，JavaScript会将数值类型转换为字符串，并执行字符串的连接，产生 <code>&quot;32&quot;</code>。</p>
+<p>例3： <code>1 + -&quot;1&quot; + &quot;2&quot;</code> 输出： <code>&quot;02&quot;</code>  说明：这里的解释和前一个例子相同，除了此处的一元运算符是 <code>-</code> 而不是 <code>+</code>。先是 <code>&quot;1&quot;</code> 变为 <code>1</code>，然后当应用 <code>-</code> 时又变为了 <code>-1</code> ，然后将其与 <code>1</code>相加，结果为 <code>0</code>，再将其转换为字符串，连接最后的 <code>&quot;2&quot;</code> 运算对象，得到 <code>&quot;02&quot;</code>。</p>
+<p>例4： <code>+&quot;1&quot; + &quot;1&quot; + &quot;2&quot;</code> 输出： <code>&quot;112&quot;</code> 说明：虽然第一个运算对象 <code>&quot;1&quot;</code>因为前缀的一元 <code>+</code> 运算符类型转换为数值，但又立即转换回字符串，当连接到第二个运算对象 <code>&quot;1&quot;</code> 的时候，然后又和最后的运算对象<code>&quot;2&quot;</code> 连接，产生了字符串 <code>&quot;112&quot;</code>。</p>
+<p>例5： <code>&quot;A&quot; - &quot;B&quot; + &quot;2&quot;</code> 输出： <code>&quot;NaN2&quot;</code> 说明：由于运算符 <code>-</code>  不能被应用于字符串，并且 <code>&quot;A&quot;</code> 和 <code>&quot;B&quot;</code> 都不能转换成数值，因此，<code>&quot;A&quot; - &quot;B&quot;</code>的结果是 <code>NaN</code>，然后再和字符串 <code>&quot;2&quot;</code> 连接，得到 <code>&quot;NaN2&quot;</code> 。</p>
+<p>例6： <code>&quot;A&quot; - &quot;B&quot; + 2</code> 输出： <code>NaN</code> 说明：参见前一个例子， <code>&quot;A&quot; - &quot;B&quot;</code> 结果为 <code>NaN</code>。但是，应用任何运算符到NaN与其他任何的数字运算对象，结果仍然是 <code>NaN</code>。</p>
+<h5 id="第三题"><a href="#第三题" class="headerlink" title="第三题"></a>第三题</h5><p>下面的递归代码在数组列表偏大的情况下会导致堆栈溢出。在保留递归模式的基础上，你怎么解决这个问题？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var list = readHugeList();</span><br><span class="line"> </span><br><span class="line">var nextListItem = function() &#123;</span><br><span class="line">    var item = list.pop();</span><br><span class="line"> </span><br><span class="line">    if (item) &#123;</span><br><span class="line">        // process the list item...</span><br><span class="line">        nextListItem();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>潜在的堆栈溢出可以通过修改<code>nextListItem</code> 函数避免：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var list = readHugeList();</span><br><span class="line"> </span><br><span class="line">var nextListItem = function() &#123;</span><br><span class="line">    var item = list.pop();</span><br><span class="line"> </span><br><span class="line">    if (item) &#123;</span><br><span class="line">        // process the list item...</span><br><span class="line">        setTimeout( nextListItem, 0);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>堆栈溢出之所以会被消除，是因为事件循环操纵了递归，而不是调用堆栈。当 <code>nextListItem</code> 运行时，如果 <code>item</code>不为空，timeout函数（<code>nextListItem</code>）就会被推到事件队列，该函数退出，因此就清空调用堆栈。当事件队列运行其timeout事件，且进行到下一个 <code>item</code> 时，定时器被设置为再次调用 <code>nextListItem</code>。因此，该方法从头到尾都没有直接的递归调用，所以无论迭代次数的多少，调用堆栈保持清空的状态。</p>
+<h5 id="第四题"><a href="#第四题" class="headerlink" title="第四题"></a>第四题</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">for (var i = 0; i &lt; 5; i++) &#123;</span><br><span class="line">  (function()&#123;  </span><br><span class="line">        setTimeout(function() &#123; console.log(i); &#125;, i * 1000 );</span><br><span class="line">   &#125;)()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码不会按预期显示值0，1，2，3，和4，而是会显示5，5，5，5，和5。</p>
+<p>原因是，在循环中执行的每个函数将整个循环完成之后被执行，因此，将会引用存储在 <code>i</code>中的最后一个值，那就是5。</p>
+<p>闭包可以通过为每次迭代创建一个唯一的范围，存储范围内变量的每个唯一的值，来防止这个问题，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">for (var i = 0; i &lt; 5; i++) &#123;</span><br><span class="line">	(function(x) &#123;</span><br><span class="line">    	setTimeout(function() &#123; console.log(x); &#125;, x * 1000 );</span><br><span class="line">    &#125;)(i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这就会按预期输出0，1，2，3，和4到控制台。</p>
+<h5 id="第五题"><a href="#第五题" class="headerlink" title="第五题"></a>第五题</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var a=&#123;&#125;,</span><br><span class="line">    b=&#123;key:&apos;b&apos;&#125;,</span><br><span class="line">    c=&#123;key:&apos;c&apos;&#125;;</span><br><span class="line"> </span><br><span class="line">a[b]=123;</span><br><span class="line">a[c]=456;</span><br><span class="line"> </span><br><span class="line">console.log(a[b]);</span><br></pre></td></tr></table></figure>
+
+<p>这段代码将输出 <code>456</code>（而不是 <code>123</code>）。</p>
+<p>原因为：当设置对象属性时，JavaScript会隐式的将[]内的变量转换成字符串。在这种情况下，由于 <code>b</code> 和 <code>c</code>都是对象，因此它们都将被转换为<code>&quot;[object Object]&quot;</code>。结果就是， <code>a[b]</code>和<code>a[c]</code>均相当于<code>a[&quot;[object Object]&quot;]</code> ，并可以互换使用。因此，设置或引用<code>a[c]</code>和设置或引用 <code>a[b]</code>完全相同。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JS/" rel="tag"># JS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/21/attribute和property/" rel="next" title="attribute和property">
+                <i class="fa fa-chevron-left"></i> attribute和property
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/04/21/js/" rel="prev" title="js">
+                js <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Jerry">
+            
+              <p class="site-author-name" itemprop="name">Jerry</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">72</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#快速排序"><span class="nav-number">1.</span> <span class="nav-text">快速排序</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#思路"><span class="nav-number">1.0.1.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#js实现快速排序"><span class="nav-number">1.0.2.</span> <span class="nav-text">js实现快速排序</span></a></li></ol></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#查看字符串中各字母的次数"><span class="nav-number">2.</span> <span class="nav-text">查看字符串中各字母的次数</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#思路-1"><span class="nav-number">2.0.1.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#js代码实现"><span class="nav-number">2.0.2.</span> <span class="nav-text">js代码实现</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#清除字符串前后空格"><span class="nav-number">3.</span> <span class="nav-text">清除字符串前后空格</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现数组合并，并且去重"><span class="nav-number">4.</span> <span class="nav-text">实现数组合并，并且去重</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#typeof-bar-39-object-39-可以确定bar是不是对象的潜在陷阱，如何避免这个陷阱？"><span class="nav-number">5.</span> <span class="nav-text">typeof bar===&#39;object&#39;可以确定bar是不是对象的潜在陷阱，如何避免这个陷阱？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下面的代码将输出什么到控制台？为什么？"><span class="nav-number">6.</span> <span class="nav-text">下面的代码将输出什么到控制台？为什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#以下两个函数会返回相同的结果吗？"><span class="nav-number">7.</span> <span class="nav-text">以下两个函数会返回相同的结果吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#写出函数-isInterger-x-的实现方法"><span class="nav-number">8.</span> <span class="nav-text">写出函数 isInterger(x)的实现方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#写一个简单函数，要求返回一个布尔值，判断字符串是否为回文字符串。"><span class="nav-number">9.</span> <span class="nav-text">写一个简单函数，要求返回一个布尔值，判断字符串是否为回文字符串。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#写一个-sum方法，在使用下面任一语法调用时，都可以正常工作"><span class="nav-number">10.</span> <span class="nav-text">写一个 sum方法，在使用下面任一语法调用时，都可以正常工作</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#方法一："><span class="nav-number">10.0.1.</span> <span class="nav-text">方法一：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#方法二"><span class="nav-number">10.0.2.</span> <span class="nav-text">方法二</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分析下题输出结果"><span class="nav-number">11.</span> <span class="nav-text">分析下题输出结果</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#第一题"><span class="nav-number">11.0.1.</span> <span class="nav-text">第一题</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#第二题"><span class="nav-number">11.0.2.</span> <span class="nav-text">第二题</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#第三题"><span class="nav-number">11.0.3.</span> <span class="nav-text">第三题</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#第四题"><span class="nav-number">11.0.4.</span> <span class="nav-text">第四题</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#第五题"><span class="nav-number">11.0.5.</span> <span class="nav-text">第五题</span></a></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jerry</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="难点记录,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Blob对象Blob对象自带属性  size 表示二进制对象的大小 type 表示二进制对象的类型 (如果是File对象分割的,会继承type属性) slice方法分割文件  File 对象File对象是特殊类型的 Blob，它继承了 Blob 对象，或者说是一种特殊的 Blob 对象，所有可以使用 Blob 对象的场合都可以使用它。 因此可以使用 Blob 的实例方法slice()。 spark">
+<meta name="keywords" content="难点记录">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大文件断点续传">
+<meta property="og:url" content="http://yoursite.com/2022/05/19/大文件断点续传/index.html">
+<meta property="og:site_name" content="Jerry&#39;s Blog">
+<meta property="og:description" content="Blob对象Blob对象自带属性  size 表示二进制对象的大小 type 表示二进制对象的类型 (如果是File对象分割的,会继承type属性) slice方法分割文件  File 对象File对象是特殊类型的 Blob，它继承了 Blob 对象，或者说是一种特殊的 Blob 对象，所有可以使用 Blob 对象的场合都可以使用它。 因此可以使用 Blob 的实例方法slice()。 spark">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2022-05-19T01:34:54.557Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="大文件断点续传">
+<meta name="twitter:description" content="Blob对象Blob对象自带属性  size 表示二进制对象的大小 type 表示二进制对象的类型 (如果是File对象分割的,会继承type属性) slice方法分割文件  File 对象File对象是特殊类型的 Blob，它继承了 Blob 对象，或者说是一种特殊的 Blob 对象，所有可以使用 Blob 对象的场合都可以使用它。 因此可以使用 Blob 的实例方法slice()。 spark">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2022/05/19/大文件断点续传/">
+
+
+
+
+
+  <title>大文件断点续传 | Jerry's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jerry's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/05/19/大文件断点续传/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerry">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerry's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">大文件断点续传</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-05-19T09:33:35+08:00">
+                2022-05-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="Blob对象"><a href="#Blob对象" class="headerlink" title="Blob对象"></a>Blob对象</h3><p>Blob对象自带属性</p>
+<ol>
+<li>size 表示二进制对象的大小</li>
+<li>type 表示二进制对象的类型 (如果是File对象分割的,会继承type属性)</li>
+<li>slice方法分割文件</li>
+</ol>
+<h3 id="File-对象"><a href="#File-对象" class="headerlink" title="File 对象"></a>File 对象</h3><p>File对象是特殊类型的 Blob，它继承了 Blob 对象，或者说是一种特殊的 Blob 对象，所有可以使用 Blob 对象的场合都可以使用它。</p>
+<p>因此可以使用 Blob 的实例方法<code>slice()</code>。</p>
+<h3 id="spark-md5"><a href="#spark-md5" class="headerlink" title="spark-md5"></a>spark-md5</h3><p><a href="https://github.com/satazor/js-spark-md5" target="_blank" rel="noopener">spark-md5.js</a>号称是最适合前端最快的算法，能快速计算文件的md5。</p>
+<p>spark-md5提供了两个计算md5的方法。一种是用<code>SparkMD5.hashBinary()</code> 直接将整个文件的二进制码传入，直接返回文件的md5。这种方法对于小文件会比较有优势——简单而且速度超快。</p>
+<p>另一种方法是利用js中File对象的<code>slice()</code>方法（<code>File.prototype.slice</code>）将文件分片后逐个传入<code>spark.appendBinary()</code>方法来计算、最后通过<code>spark.end()</code>方法输出md5。这种方法对于大文件和超大文件会非常有利，不容易出错，不占用大内存，并且能够提供计算的进度信息。</p>
+<p>以上两种方法在<a href="https://github.com/satazor/js-spark-md5" target="_blank" rel="noopener">spark-md5.js</a>项目主页都有实例代码</p>
+<p>MD5: 信息摘要算法（英语：MD5 Message-Digest Algorithm)，一种被广泛使用的密码散列函数，可以产生出一个128位（16字节）的散列值（hash value），用于确保信息传输完整一致</p>
+<p>MD5本身是一个算法函数，而输入<strong>由文件本身的内容决定</strong>的，即二进制流，与文件名、创建时间等等因素无关。</p>
+<h3 id="大文件断点续传流程"><a href="#大文件断点续传流程" class="headerlink" title="大文件断点续传流程"></a>大文件断点续传流程</h3><p>我们先来理理文件上传流程。</p>
+<ol>
+<li>点击上传按钮，选择要上传的文件。</li>
+<li>文件分片</li>
+<li>点击上传，计算文件hash值，避免文件名修改后上传，验证文件是否存在，过滤已存在的区块</li>
+<li>将分片一个个上传给后端</li>
+<li>全部分片上传完成后，前端告诉后端可以<strong>合并文件</strong>了。</li>
+<li>后端合并文件。</li>
+<li>完成上传。</li>
+</ol>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// upload.js 文件上传组件</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> React, &#123; useState, useEffect, useMemo &#125; <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"><span class="keyword">import</span> request <span class="keyword">from</span> <span class="string">"./utils/request"</span>;</span><br><span class="line"><span class="keyword">import</span> styled <span class="keyword">from</span> <span class="string">"styled-components"</span>;</span><br><span class="line"><span class="keyword">import</span> hashWorker <span class="keyword">from</span> <span class="string">"./utils/hash-worker"</span>;</span><br><span class="line"><span class="keyword">import</span> WorkerBuilder <span class="keyword">from</span> <span class="string">"./utils/worker-build"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> CHUNK_SIZE = <span class="number">500</span>; <span class="comment">// 用于设置分片大小</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> UpLoadFile = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [fileName, setFileName] = useState(<span class="string">""</span>);</span><br><span class="line">  <span class="keyword">const</span> [fileHash, setFileHash] = useState(<span class="string">""</span>)</span><br><span class="line">  <span class="keyword">const</span> [chunkList, setChunkList] = useState([])</span><br><span class="line">  <span class="keyword">const</span> [hashPercentage, setHashPercentage] = useState(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 获取文件后缀名</span></span><br><span class="line">  <span class="keyword">const</span> getFileSuffix = <span class="function">(<span class="params">fileName</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> arr = fileName.split(<span class="string">"."</span>);</span><br><span class="line">    <span class="keyword">if</span> (arr.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> arr[arr.length - <span class="number">1</span>]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">""</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 2.文件分片</span></span><br><span class="line">  <span class="keyword">const</span> splitFile = <span class="function">(<span class="params">file, size = CHUNK_SIZE</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> fileChunkList = [];</span><br><span class="line">    <span class="keyword">let</span> curChunkIndex = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (curChunkIndex &lt;= file.size) &#123;</span><br><span class="line">      <span class="keyword">const</span> chunk = file.slice(curChunkIndex, curChunkIndex + size);<span class="comment">//Blob.slice方法分割文件</span></span><br><span class="line">      fileChunkList.push(&#123; <span class="attr">chunk</span>: chunk, &#125;)</span><br><span class="line">      curChunkIndex += size;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> fileChunkList;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 1.选择文件</span></span><br><span class="line">  <span class="keyword">const</span> handleFileChange = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; files &#125; = e.target;</span><br><span class="line">    <span class="keyword">if</span> (files.length === <span class="number">0</span>) <span class="keyword">return</span>;</span><br><span class="line">    setFileName(files[<span class="number">0</span>].name);<span class="comment">// 保存文件名</span></span><br><span class="line">    <span class="keyword">const</span> chunkList = splitFile(files[<span class="number">0</span>])<span class="comment">// 文件分片</span></span><br><span class="line">    setChunkList(chunkList);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 5.发送合并请求</span></span><br><span class="line">  <span class="keyword">const</span> mergeRequest = <span class="function">(<span class="params">hash</span>) =&gt;</span> &#123;</span><br><span class="line">    request(&#123;</span><br><span class="line">      url: <span class="string">"http://localhost:3001/merge"</span>,</span><br><span class="line">      method: <span class="string">"post"</span>,</span><br><span class="line">      headers: &#123;</span><br><span class="line">        <span class="string">"content-type"</span>: <span class="string">"application/json"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      data: <span class="built_in">JSON</span>.stringify(&#123;</span><br><span class="line">        fileHash: hash,<span class="comment">// 服务器存储的文件名：hash+文件后缀名</span></span><br><span class="line">        suffix: getFileSuffix(fileName),</span><br><span class="line">        size: CHUNK_SIZE<span class="comment">// 用于服务器合并文件</span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 4.上传分片</span></span><br><span class="line">  <span class="keyword">const</span> uploadChunks = <span class="keyword">async</span> (chunksData, hash) =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> formDataList = chunksData.map(<span class="function">(<span class="params">&#123; chunk, hash &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> formData = <span class="keyword">new</span> FormData()</span><br><span class="line">      formData.append(<span class="string">"chunk"</span>, chunk);</span><br><span class="line">      formData.append(<span class="string">"hash"</span>, hash);</span><br><span class="line">      formData.append(<span class="string">"suffix"</span>, getFileSuffix(fileName));</span><br><span class="line">      <span class="keyword">return</span> &#123; formData &#125;;</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> requestList = formDataList.map(<span class="function">(<span class="params">&#123; formData &#125;, index</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> request(&#123;</span><br><span class="line">        url: <span class="string">"http://localhost:3001/upload"</span>,</span><br><span class="line">        data: formData,</span><br><span class="line">        onprogress: <span class="function"><span class="params">e</span> =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">let</span> list = [...chunksData];</span><br><span class="line">          list[index].progress = <span class="built_in">parseInt</span>(<span class="built_in">String</span>((e.loaded / e.total) * <span class="number">100</span>));</span><br><span class="line">          setChunkList(list)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">Promise</span>.all(requestList).then(<span class="function"><span class="params">()</span> =&gt;</span> &#123; <span class="comment">// 上传文件</span></span><br><span class="line">      </span><br><span class="line">      setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        mergeRequest(hash);<span class="comment">// 分片全部上传后发送合并请求</span></span><br><span class="line">      &#125;, <span class="number">1000</span>);</span><br><span class="line"></span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 计算文件hash</span></span><br><span class="line">  <span class="keyword">const</span> calculateHash = <span class="function">(<span class="params">chunkList</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> woker = <span class="keyword">new</span> WorkerBuilder(hashWorker)</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'主线程创建worker计算hash值'</span>,woker)</span><br><span class="line">      woker.postMessage(&#123; <span class="attr">chunkList</span>: chunkList &#125;)</span><br><span class="line">      woker.onmessage = <span class="function"><span class="params">e</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'主线程接收worker发来的信息 '</span>,e)</span><br><span class="line">        <span class="keyword">const</span> &#123; percentage, hash &#125; = e.data;</span><br><span class="line">        setHashPercentage(percentage);</span><br><span class="line">        <span class="keyword">if</span> (hash) &#123;</span><br><span class="line">          <span class="comment">// 当hash计算完成时，执行resolve</span></span><br><span class="line">          resolve(hash)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 3.上传文件</span></span><br><span class="line">  <span class="keyword">const</span> handleUpload = <span class="keyword">async</span> (e) =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (!fileName) &#123;</span><br><span class="line">      alert(<span class="string">"请先选择文件"</span>)</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (chunkList.length === <span class="number">0</span>) &#123;</span><br><span class="line">      alert(<span class="string">"文件拆分中，请稍后..."</span>)</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">const</span> hash = <span class="keyword">await</span> calculateHash(chunkList)<span class="comment">// 计算hash</span></span><br><span class="line">    setFileHash(hash)</span><br><span class="line">    <span class="keyword">const</span> &#123; shouldUpload, uploadedChunkList &#125; = <span class="keyword">await</span> verfileIsExist(hash, getFileSuffix(fileName));<span class="comment">//验证文件是否存在服务器</span></span><br><span class="line">    <span class="keyword">if</span> (!shouldUpload) &#123;</span><br><span class="line">      alert(<span class="string">"文件已存在，无需重复上传"</span>);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> uploadedChunkIndexList = [];</span><br><span class="line">    <span class="keyword">if</span> (uploadedChunkList &amp;&amp; uploadedChunkList.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">      uploadedChunkIndexList = uploadedChunkList.map(<span class="function"><span class="params">item</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> arr = item.split(<span class="string">"-"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">parseInt</span>(arr[arr.length - <span class="number">1</span>])</span><br><span class="line">      &#125;)</span><br><span class="line">      alert(<span class="string">"已上传的区块号："</span> + uploadedChunkIndexList.toString())</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> chunksData = chunkList.map(<span class="function">(<span class="params">&#123; chunk &#125;, index</span>) =&gt;</span> (&#123;</span><br><span class="line">      chunk: chunk,</span><br><span class="line">      hash: hash + <span class="string">"-"</span> + index,</span><br><span class="line">      progress: <span class="number">0</span></span><br><span class="line">    &#125;)).filter(<span class="function"><span class="params">item2</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> arr = item2.hash.split(<span class="string">"-"</span>)<span class="comment">// 过滤掉已上传的块</span></span><br><span class="line">      <span class="keyword">return</span> uploadedChunkIndexList.indexOf(<span class="built_in">parseInt</span>(arr[arr.length - <span class="number">1</span>])) === <span class="number">-1</span>;</span><br><span class="line">    &#125;)</span><br><span class="line">    </span><br><span class="line">    setChunkList(chunksData)<span class="comment">// 保存分片数据</span></span><br><span class="line">    </span><br><span class="line">    uploadChunks(chunksData, hash)<span class="comment">// 开始上传分片</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 验证文件是否存在服务器</span></span><br><span class="line">  <span class="keyword">const</span> verfileIsExist = <span class="keyword">async</span> (fileHash, suffix) =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; data &#125; = <span class="keyword">await</span> request(&#123;</span><br><span class="line">      url: <span class="string">"http://localhost:3001/verFileIsExist"</span>,</span><br><span class="line">      headers: &#123;</span><br><span class="line">        <span class="string">"content-type"</span>: <span class="string">"application/json"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      data: <span class="built_in">JSON</span>.stringify(&#123;</span><br><span class="line">        fileHash: fileHash,</span><br><span class="line">        suffix: suffix</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">JSON</span>.parse(data);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;input type=<span class="string">"file"</span> onChange=&#123;handleFileChange&#125; /&gt;&lt;br /&gt;</span><br><span class="line">      &lt;button onClick=&#123;handleUpload&#125;&gt;上传&lt;/button&gt;</span><br><span class="line">      &lt;ProgressBox chunkList=&#123;chunkList&#125; /&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br><span class="line">const BlockWraper = styled.div`</span><br><span class="line">  width: $&#123;(&#123; size &#125;) =&gt; size + "px"&#125;;</span><br><span class="line">  height: $&#123;(&#123; size &#125;) =&gt; size + "px"&#125;;</span><br><span class="line">  text-align: center;</span><br><span class="line">  font-size: 12px;</span><br><span class="line">  line-height: $&#123;(&#123; size &#125;) =&gt; size + "px"&#125;; </span><br><span class="line">  border: 1px solid #ccc;</span><br><span class="line">  position: relative;</span><br><span class="line">  float: left;</span><br><span class="line">  &amp;:before &#123;</span><br><span class="line">    content: "$&#123;(&#123; chunkIndex &#125;) =&gt; chunkIndex&#125;";</span><br><span class="line">    position: absolute;</span><br><span class="line">    width: 100%;</span><br><span class="line">    height: 10px;</span><br><span class="line">    left: 0;</span><br><span class="line">    top: 0;</span><br><span class="line">    font-size: 12px;</span><br><span class="line">    text-align: left;</span><br><span class="line">    line-height: initial;</span><br><span class="line">    color: #000</span><br><span class="line">  &#125;</span><br><span class="line">  &amp;:after &#123;</span><br><span class="line">    content: "";</span><br><span class="line">    position: absolute;</span><br><span class="line">    width: 100%;</span><br><span class="line">    height: $&#123;(&#123; progress &#125;) =&gt; progress + "%"&#125;;</span><br><span class="line">    background-color: pink;</span><br><span class="line">    left: 0;</span><br><span class="line">    top: 0;</span><br><span class="line">    z-index: -1;</span><br><span class="line">  &#125;</span><br><span class="line">`</span><br><span class="line">const ChunksProgress = styled.div`</span><br><span class="line">  *zoom: 1;</span><br><span class="line">  &amp;:after &#123;</span><br><span class="line">    content: "";</span><br><span class="line">    display: block;</span><br><span class="line">    clear: both;</span><br><span class="line">  &#125;</span><br><span class="line">`</span><br><span class="line">const Label = styled.h3``</span><br><span class="line">const ProgressWraper = styled.div``</span><br><span class="line">const Block = (&#123; progress, size, chunkIndex &#125;) =&gt; &#123;</span><br><span class="line">  return (&lt;BlockWraper size=&#123;size&#125; chunkIndex=&#123;chunkIndex&#125; progress=&#123;progress&#125;&gt;</span><br><span class="line">    &#123;progress&#125;%</span><br><span class="line">  &lt;/BlockWraper&gt;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const ProgressBox = (&#123; chunkList = [], size = 40 &#125;) =&gt; &#123;</span><br><span class="line">  const sumProgress = useMemo(() =&gt; &#123;</span><br><span class="line">    if (chunkList.length === 0) return 0</span><br><span class="line">    return chunkList.reduce((pre, cur, sum) =&gt; pre + cur.progress / 100, 0) * 100 / (chunkList.length)</span><br><span class="line">  &#125;, [chunkList])</span><br><span class="line"></span><br><span class="line">  return (</span><br><span class="line">    &lt;ProgressWraper&gt;</span><br><span class="line">      &lt;Label&gt;文件切分为&#123;chunkList.length&#125;段，每段上传进度如下：&lt;/Label&gt;</span><br><span class="line">      &lt;ChunksProgress&gt;</span><br><span class="line">        &#123;chunkList.map((&#123; progress &#125;, index) =&gt; (</span><br><span class="line">          &lt;Block key=&#123;index&#125; size=&#123;size&#125; chunkIndex=&#123;index&#125; progress=&#123;progress&#125; /&gt;</span><br><span class="line">        ))&#125;</span><br><span class="line">      &lt;/ChunksProgress&gt;</span><br><span class="line">      &lt;Label&gt;总进度:&#123;sumProgress.toFixed(2)&#125;%&lt;/Label&gt;</span><br><span class="line">    &lt;/ProgressWraper &gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default UpLoadFile;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// utils/hash-worker.js</span></span><br><span class="line"><span class="keyword">const</span> hashWorker = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  self.importScripts(<span class="string">"http://localhost:3000/spark-md5.min.js"</span>)</span><br><span class="line">  self.onmessage = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; chunkList &#125; = e.data;</span><br><span class="line">    <span class="keyword">const</span> spark = <span class="keyword">new</span> self.SparkMD5.ArrayBuffer();</span><br><span class="line">    <span class="keyword">let</span> percentage = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">let</span> count = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">const</span> loadNext = <span class="function"><span class="params">index</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> reader = <span class="keyword">new</span> FileReader();</span><br><span class="line">      reader.readAsArrayBuffer(chunkList[index].chunk);</span><br><span class="line">      reader.onload = <span class="function"><span class="params">event</span> =&gt;</span> &#123;</span><br><span class="line">        count++;</span><br><span class="line">        spark.append(event.target.result);</span><br><span class="line">        <span class="keyword">if</span> (count === chunkList.length) &#123;</span><br><span class="line">          self.postMessage(&#123;</span><br><span class="line">            percentage: <span class="number">100</span>,</span><br><span class="line">            hash: spark.end()</span><br><span class="line">          &#125;)</span><br><span class="line">          self.close();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          percentage += (<span class="number">100</span> / chunkList.length)</span><br><span class="line">          self.postMessage(&#123;</span><br><span class="line">            percentage</span><br><span class="line">          &#125;)</span><br><span class="line">          loadNext(count)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    loadNext(count)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> hashWorker</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// utils/worker-build.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">WorkerBuilder</span> <span class="keyword">extends</span> <span class="title">Worker</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(worker) &#123;</span><br><span class="line">      <span class="keyword">const</span> code = worker.toString();</span><br><span class="line">      <span class="keyword">const</span> blob = <span class="keyword">new</span> Blob([<span class="string">`(<span class="subst">$&#123;code&#125;</span>)()`</span>]);</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">new</span> Worker(URL.createObjectURL(blob));</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// utils/request.js</span></span><br><span class="line"><span class="keyword">const</span> request = (&#123;</span><br><span class="line">    url,</span><br><span class="line">    method = <span class="string">"post"</span>,</span><br><span class="line">    data,</span><br><span class="line">    headers = &#123;&#125;,</span><br><span class="line">    onprogress</span><br><span class="line">  &#125;) =&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> xhr = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line">      xhr.open(method, url);</span><br><span class="line">      <span class="built_in">Object</span>.keys(headers).forEach(<span class="function"><span class="params">key</span> =&gt;</span></span><br><span class="line">        xhr.setRequestHeader(key, headers[key])</span><br><span class="line">      );</span><br><span class="line">      xhr.upload.onprogress = onprogress</span><br><span class="line">      xhr.send(data);</span><br><span class="line">      xhr.onload = <span class="function"><span class="params">e</span> =&gt;</span> &#123;</span><br><span class="line">        resolve(&#123;</span><br><span class="line">          data: e.target.response</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">export</span> <span class="keyword">default</span> request;</span><br></pre></td></tr></table></figure>
+
+<p>express服务</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> multiparty = <span class="built_in">require</span>(<span class="string">"multiparty"</span>);</span><br><span class="line"><span class="keyword">const</span> bodyParser = <span class="built_in">require</span>(<span class="string">"body-parser"</span>);</span><br><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>)</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>)</span><br><span class="line"><span class="keyword">const</span> fse = <span class="built_in">require</span>(<span class="string">"fs-extra"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> app = express()</span><br><span class="line"><span class="keyword">const</span> DirName = path.resolve(path.dirname(<span class="string">''</span>));</span><br><span class="line"><span class="keyword">const</span> UPLOAD_FILES_DIR = path.resolve(DirName, <span class="string">"./filelist"</span>)</span><br><span class="line"><span class="comment">// 配置请求参数解析器</span></span><br><span class="line"><span class="keyword">const</span> jsonParser = bodyParser.json(&#123; <span class="attr">extended</span>: <span class="literal">false</span> &#125;);</span><br><span class="line"><span class="comment">// 配置跨域</span></span><br><span class="line">app.use(<span class="function"><span class="keyword">function</span> (<span class="params">req, res, next</span>) </span>&#123;</span><br><span class="line">  res.setHeader(<span class="string">"Access-Control-Allow-Origin"</span>, <span class="string">"*"</span>);</span><br><span class="line">  res.setHeader(<span class="string">"Access-Control-Allow-Headers"</span>, <span class="string">"*"</span>);</span><br><span class="line">  next()</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 获取已上传的文件列表</span></span><br><span class="line"><span class="keyword">const</span> getUploadedChunkList = <span class="keyword">async</span> (fileHash) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> isExist = fse.existsSync(path.resolve(UPLOAD_FILES_DIR, fileHash))</span><br><span class="line">  <span class="keyword">if</span> (isExist) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">await</span> fse.readdir(path.resolve(UPLOAD_FILES_DIR, fileHash))</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> []</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">app.post(<span class="string">'/verFileIsExist'</span>, jsonParser, <span class="keyword">async</span> (req, res) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; fileHash, suffix &#125; = req.body;</span><br><span class="line">  <span class="keyword">const</span> filePath = path.resolve(UPLOAD_FILES_DIR, fileHash + <span class="string">"."</span> + suffix);</span><br><span class="line">  <span class="keyword">if</span> (fse.existsSync(filePath)) &#123;</span><br><span class="line">    res.send(&#123;</span><br><span class="line">      code: <span class="number">200</span>,</span><br><span class="line">      shouldUpload: <span class="literal">false</span></span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> list = <span class="keyword">await</span> getUploadedChunkList(fileHash);</span><br><span class="line">  <span class="keyword">if</span> (list.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    res.send(&#123;</span><br><span class="line">      code: <span class="number">200</span>,</span><br><span class="line">      shouldUpload: <span class="literal">true</span>,</span><br><span class="line">      uploadedChunkList: list</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  res.send(&#123;</span><br><span class="line">    code: <span class="number">200</span>,</span><br><span class="line">    shouldUpload: <span class="literal">true</span>,</span><br><span class="line">    uploadedChunkList: []</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.post(<span class="string">'/upload'</span>, <span class="keyword">async</span> (req, res) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> multipart = <span class="keyword">new</span> multiparty.Form();</span><br><span class="line">  multipart.parse(req, <span class="keyword">async</span> (err, fields, files) =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (err) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">const</span> [chunk] = files.chunk;</span><br><span class="line">    <span class="keyword">const</span> [hash] = fields.hash;</span><br><span class="line">    <span class="keyword">const</span> [suffix] = fields.suffix;</span><br><span class="line">    <span class="comment">// 注意这里的hash包含文件的hash和块的索引，所以需要使用split切分</span></span><br><span class="line">    <span class="keyword">const</span> chunksDir = path.resolve(UPLOAD_FILES_DIR, hash.split(<span class="string">"-"</span>)[<span class="number">0</span>]);</span><br><span class="line">    <span class="keyword">if</span> (!fse.existsSync(chunksDir)) &#123;</span><br><span class="line">      <span class="keyword">await</span> fse.mkdirs(chunksDir);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">await</span> fse.move(chunk.path, chunksDir + <span class="string">"/"</span> + hash);</span><br><span class="line">  &#125;)</span><br><span class="line">  res.status(<span class="number">200</span>).send(<span class="string">"received file chunk"</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> pipeStream = <span class="function">(<span class="params">path, writeStream</span>) =&gt;</span></span><br><span class="line">  <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> readStream = fse.createReadStream(path);</span><br><span class="line">    readStream.on(<span class="string">"end"</span>, () =&gt; &#123;</span><br><span class="line">      fse.unlinkSync(path);</span><br><span class="line">      resolve();</span><br><span class="line">    &#125;);</span><br><span class="line">    readStream.pipe(writeStream);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 合并切片</span></span><br><span class="line"><span class="keyword">const</span> mergeFileChunk = <span class="keyword">async</span> (filePath, fileHash, size) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> chunksDir = path.resolve(UPLOAD_FILES_DIR, fileHash);</span><br><span class="line">  <span class="keyword">const</span> chunkPaths = <span class="keyword">await</span> fse.readdir(chunksDir);</span><br><span class="line">  chunkPaths.sort(<span class="function">(<span class="params">a, b</span>) =&gt;</span> a.split(<span class="string">"-"</span>)[<span class="number">1</span>] - b.split(<span class="string">"-"</span>)[<span class="number">1</span>]);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"指定位置创建可写流"</span>, filePath);</span><br><span class="line">  <span class="keyword">await</span> <span class="built_in">Promise</span>.all(</span><br><span class="line">    chunkPaths.map(<span class="function">(<span class="params">chunkPath, index</span>) =&gt;</span></span><br><span class="line">      pipeStream(</span><br><span class="line">        path.resolve(chunksDir, chunkPath),</span><br><span class="line">        <span class="comment">// 指定位置创建可写流</span></span><br><span class="line">        fse.createWriteStream(filePath, &#123;</span><br><span class="line">          start: index * size,</span><br><span class="line">          end: (index + <span class="number">1</span>) * size</span><br><span class="line">        &#125;)</span><br><span class="line">      )</span><br><span class="line">    )</span><br><span class="line">  );</span><br><span class="line">  <span class="comment">// 合并后删除保存切片的目录</span></span><br><span class="line">  fse.rmdirSync(chunksDir);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">app.post(<span class="string">'/merge'</span>, jsonParser, <span class="keyword">async</span> (req, res) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; fileHash, suffix, size &#125; = req.body;</span><br><span class="line">  <span class="keyword">const</span> filePath = path.resolve(UPLOAD_FILES_DIR, fileHash + <span class="string">"."</span> + suffix);</span><br><span class="line">  <span class="keyword">await</span> mergeFileChunk(filePath, fileHash, size);</span><br><span class="line">  res.send(&#123;</span><br><span class="line">    code: <span class="number">200</span>,</span><br><span class="line">    message: <span class="string">"success"</span></span><br><span class="line">  &#125;);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.listen(<span class="number">3001</span>, () =&gt; &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'listen:3001'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>源码地址</p>
+<p><a href="https://github.com/ForeverYoung5/bigFileUpload.git" target="_blank" rel="noopener">https://github.com/ForeverYoung5/bigFileUpload.git</a></p>
+<p>参考链接</p>
+<p><a href="https://www.helloweba.net/javascript/633.html：" target="_blank" rel="noopener">https://www.helloweba.net/javascript/633.html：</a></p>
+<p><a href="https://juejin.cn/post/7073319150948450334" target="_blank" rel="noopener">https://juejin.cn/post/7073319150948450334</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/难点记录/" rel="tag"># 难点记录</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/30/Vue响应式（双向绑定）/" rel="next" title="Vue响应式（双向绑定）">
+                <i class="fa fa-chevron-left"></i> Vue响应式（双向绑定）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Jerry">
+            
+              <p class="site-author-name" itemprop="name">Jerry</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">72</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Blob对象"><span class="nav-number">1.</span> <span class="nav-text">Blob对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#File-对象"><span class="nav-number">2.</span> <span class="nav-text">File 对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spark-md5"><span class="nav-number">3.</span> <span class="nav-text">spark-md5</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#大文件断点续传流程"><span class="nav-number">4.</span> <span class="nav-text">大文件断点续传流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码实现"><span class="nav-number">5.</span> <span class="nav-text">代码实现</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jerry</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

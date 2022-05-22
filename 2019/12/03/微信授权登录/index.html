@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="原生,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="整体登陆流程 前期准备注意事项 关于appid和appsecret  每个开发者都要去微信公众平台注册小程序账号（不同于公众号账号），注册成功后，会分配一个appid和appsecret（公众号也有，但是不一样）,记住自己的appid和appsecret,==之后新建项目时的appid一定要填自己的appid==，否则很多地方都会报错。 小程序获得code==code只存在五分钟，重复使用会报错，">
+<meta name="keywords" content="原生">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微信授权登录">
+<meta property="og:url" content="http://yoursite.com/2019/12/03/微信授权登录/index.html">
+<meta property="og:site_name" content="Jerry&#39;s Blog">
+<meta property="og:description" content="整体登陆流程 前期准备注意事项 关于appid和appsecret  每个开发者都要去微信公众平台注册小程序账号（不同于公众号账号），注册成功后，会分配一个appid和appsecret（公众号也有，但是不一样）,记住自己的appid和appsecret,==之后新建项目时的appid一定要填自己的appid==，否则很多地方都会报错。 小程序获得code==code只存在五分钟，重复使用会报错，">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://s2.ax1x.com/2019/09/29/u34wrR.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/09/29/u34qzQ.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/09/29/u3oXsH.png">
+<meta property="og:updated_time" content="2022-05-08T07:31:54.869Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="微信授权登录">
+<meta name="twitter:description" content="整体登陆流程 前期准备注意事项 关于appid和appsecret  每个开发者都要去微信公众平台注册小程序账号（不同于公众号账号），注册成功后，会分配一个appid和appsecret（公众号也有，但是不一样）,记住自己的appid和appsecret,==之后新建项目时的appid一定要填自己的appid==，否则很多地方都会报错。 小程序获得code==code只存在五分钟，重复使用会报错，">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/09/29/u34wrR.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/12/03/微信授权登录/">
+
+
+
+
+
+  <title>微信授权登录 | Jerry's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jerry's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/03/微信授权登录/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerry">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerry's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">微信授权登录</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-03T18:37:00+08:00">
+                2019-12-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/微信小程序/" itemprop="url" rel="index">
+                    <span itemprop="name">微信小程序</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="整体登陆流程"><a href="#整体登陆流程" class="headerlink" title="整体登陆流程"></a>整体登陆流程</h3><p><img src="https://s2.ax1x.com/2019/09/29/u34wrR.png" alt="image"></p>
+<h3 id="前期准备注意事项"><a href="#前期准备注意事项" class="headerlink" title="前期准备注意事项"></a>前期准备注意事项</h3><ul>
+<li>关于appid和appsecret</li>
+</ul>
+<p>每个开发者都要去<br><a href="https://mp.weixin.qq.com/" target="_blank" rel="noopener">微信公众平台</a><br>注册小程序账号（不同于公众号账号），注册成功后，会分配一个appid和appsecret（公众号也有，但是不一样）,记住自己的appid和appsecret,==之后新建项目时的appid一定要填自己的appid==，否则很多地方都会报错。</p>
+<h3 id="小程序获得code"><a href="#小程序获得code" class="headerlink" title="小程序获得code"></a>小程序获得code</h3><p>==code只存在五分钟，重复使用会报错，过期会报错==</p>
+<ul>
+<li>原生小程序目录结构</li>
+</ul>
+<p><img src="https://s2.ax1x.com/2019/09/29/u34qzQ.png" alt="image"></p>
+<p>小程序项目启动的时候首先执行app.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">//app.js</span><br><span class="line">App(&#123;</span><br><span class="line">  onLaunch: function () &#123;</span><br><span class="line">    // 展示本地存储能力</span><br><span class="line">    var logs = wx.getStorageSync(&apos;logs&apos;) || []</span><br><span class="line">    logs.unshift(Date.now())</span><br><span class="line">    wx.setStorageSync(&apos;logs&apos;, logs)</span><br><span class="line"></span><br><span class="line">    // 微信登录</span><br><span class="line">    wx.login(&#123;</span><br><span class="line">      success: res =&gt; &#123;</span><br><span class="line">        // 发送 res.code 到后台换取 openId, sessionKey, unionId</span><br><span class="line">        console.log(res.code);</span><br><span class="line">        wx.request(&#123;</span><br><span class="line">          url: &apos;http://127.0.0.1:7001/wechat_login&apos;,</span><br><span class="line">          method: &apos;POST&apos;,</span><br><span class="line">          data: &#123;</span><br><span class="line">            &quot;code&quot;: res.code</span><br><span class="line">          &#125;,</span><br><span class="line">          success: res =&gt; &#123;</span><br><span class="line">            console.log(res)</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    // 获取用户信息</span><br><span class="line">    wx.getSetting(&#123;</span><br><span class="line">      success: res =&gt; &#123;</span><br><span class="line">        if (res.authSetting[&apos;scope.userInfo&apos;]) &#123;</span><br><span class="line">          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框</span><br><span class="line">          wx.getUserInfo(&#123;</span><br><span class="line">            success: res =&gt; &#123;</span><br><span class="line">              // 可以将 res 发送给后台解码出 unionId</span><br><span class="line">              this.globalData.userInfo = res.userInfo</span><br><span class="line"></span><br><span class="line">              // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回</span><br><span class="line">              // 所以此处加入 callback 以防止这种情况</span><br><span class="line">              if (this.userInfoReadyCallback) &#123;</span><br><span class="line">                this.userInfoReadyCallback(res)</span><br><span class="line">              &#125;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;,</span><br><span class="line">  globalData: &#123;</span><br><span class="line">    userInfo: null</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="后端获得openid-egg"><a href="#后端获得openid-egg" class="headerlink" title="后端获得openid(egg)"></a>后端获得openid(egg)</h3><h4 id="初始化项目"><a href="#初始化项目" class="headerlink" title="初始化项目"></a>初始化项目</h4><ul>
+<li>安装nodejs环境</li>
+<li>创建egg环境（只需安装一次）</li>
+</ul>
+<blockquote>
+<p>$ npm i egg-init -g</p>
+</blockquote>
+<ul>
+<li>创建项目</li>
+</ul>
+<blockquote>
+<p>$ egg-init projecrName –type=simple</p>
+</blockquote>
+<p>进入项目文件夹，安装依赖</p>
+<blockquote>
+<p>$ npm install</p>
+</blockquote>
+<p>执行项目 </p>
+<blockquote>
+<p>$ npm run dev</p>
+</blockquote>
+<h4 id="写接口获得openid"><a href="#写接口获得openid" class="headerlink" title="写接口获得openid"></a>写接口获得openid</h4><ul>
+<li>初始化目录</li>
+</ul>
+<p><img src="https://s2.ax1x.com/2019/09/29/u3oXsH.png" alt="image"></p>
+<ul>
+<li>router.js</li>
+</ul>
+<p>此文件用来定义路由规则，前端调接口后，进入此文件，根据路由规则调用相应的controller。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">use strict&apos;;</span><br><span class="line"> </span><br><span class="line">/**</span><br><span class="line"> * @param &#123;Egg.Application&#125; app - egg application</span><br><span class="line"> */</span><br><span class="line">module.exports = app =&gt; &#123;</span><br><span class="line">  const &#123; router, controller &#125; = app;</span><br><span class="line">  </span><br><span class="line">  router.get(&apos;/&apos;, controller.home.index);</span><br><span class="line">  </span><br><span class="line">  // 微信登陆测试接口</span><br><span class="line">  </span><br><span class="line">  router.post(&apos;/wechat_login&apos;,controller.login.wechat.wechat_login);</span><br><span class="line">  </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>根据路由规则进入 controller，调用相应的方法。</li>
+</ul>
+<p>controller主要是对前端数据进行处理，将处理结果给到service之后由service返回给前端。当然也可以直接从controller返回，但是不建议这样做。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;!--controller/login/wechat.js--&gt;</span><br><span class="line"></span><br><span class="line">const Controller = require(&apos;egg&apos;).Controller;</span><br><span class="line"></span><br><span class="line">class UserController extends Controller &#123;</span><br><span class="line">	</span><br><span class="line">	async wechat_login()&#123;</span><br><span class="line">	</span><br><span class="line">		const code = ctx.request.body.code;</span><br><span class="line">		const APPID = &apos;wxfbec66754634f5bf&apos;;</span><br><span class="line">		const SECRET = &apos;394fb3d841fb78427fe0e5672c4fc58e&apos;;</span><br><span class="line">		console.log(&apos;前端传回code---&gt;&apos;,code);</span><br><span class="line">		console.log(&apos;appid---&gt;&apos;,APPID);</span><br><span class="line">		console.log(&apos;secret---&gt;&apos;,SECRET);</span><br><span class="line">		</span><br><span class="line">		&lt;!--获取openid--&gt;</span><br><span class="line">		const url = &apos;https://api.weixin.qq.com/sns/jscode2session?appid=&apos; + APPID + &apos;&amp;secret=&apos; + SECRET + &apos;&amp;js_code=&apos; + code + &apos;&amp;grant_type=authorization_code&apos;</span><br><span class="line">		&lt;!--// const result =await ctx.curl(&apos;https://api.weixin.qq.com/sns/jscode2session?appid=APPID&amp;secret=SECRET&amp;js_code=CODE&amp;grant_type=authorization_code&apos;)--&gt;</span><br><span class="line">		&lt;!--// 上述接口拼接方式错误，code等变量没有引进来--&gt;</span><br><span class="line"></span><br><span class="line">		&lt;!--要用await，因为返回的是promise--&gt;</span><br><span class="line">		const result = await ctx.curl(url,&#123;</span><br><span class="line">			// 定义返回数据的格式是json格式，不然返回的openid和session_key是16进制加密的</span><br><span class="line">			dataType:&apos;json&apos;</span><br><span class="line">		&#125;)</span><br><span class="line">		console.log(result)</span><br><span class="line">		</span><br><span class="line">		// 调用service，传递进去的参数应该是key-value形式</span><br><span class="line">		</span><br><span class="line">		const info = await ctx.service.login.wechat._wechat_login(result.data);</span><br><span class="line">		</span><br><span class="line">		// openid送到前端</span><br><span class="line">		</span><br><span class="line">		ctx.body = &#123;</span><br><span class="line">			</span><br><span class="line">			code:200,</span><br><span class="line">			</span><br><span class="line">			// 不经service直接返回			</span><br><span class="line">			// data:&#123;</span><br><span class="line">			// 	openid:openid</span><br><span class="line">			// &#125;</span><br><span class="line">			</span><br><span class="line">			// 经过service处理返回，之后返回到前端</span><br><span class="line">			data:info</span><br><span class="line">		&#125;	</span><br><span class="line">	&#125;	</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module.exports = UserController;</span><br></pre></td></tr></table></figure>
+
+<h5 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h5><p>1.完成以上步骤后直接运行，会报错 missing csrf token，csrf是为了防止进攻，要求发起请求前要在header里面添加token,对初学者，可以关掉csrf,打开/config/config.default.js添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">config.security = &#123;</span><br><span class="line"> csrf: &#123;</span><br><span class="line">  enable: false</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>之后就可以调通了。</p>
+<p>2.后端报错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">errcode: 40029, errmsg: &quot;invalid code, hints: [ req_id: HQd79a0747th31 ]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><a href="https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/login/auth.code2Session.html" target="_blank" rel="noopener">官方调取获得openid接口说明</a></li>
+<li>造成code无效的原因有三方面：</li>
+</ul>
+<p>【1】code连续调用两次，通过查看调接口详情可以看到是否调用了两次。</p>
+<p>【2】APPid和appsecret不符合，这就是为什么最开始要使用自己的appid和appsecret的原因。</p>
+<p>【3】URL拼接不对，去看看你是不是丢了‘&amp;’</p>
+<ul>
+<li>service</li>
+</ul>
+<p>service拿到controller的数据之后，根据条件执行对数据库或者其他的处理。最终将数据返回给controller，controller返回前端。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- service/login/wechat.js --&gt;</span><br><span class="line"></span><br><span class="line">&apos;use strict&apos;;</span><br><span class="line"></span><br><span class="line">const Service = require(&apos;egg&apos;).Service;</span><br><span class="line"></span><br><span class="line">class LoginService extends Service &#123;</span><br><span class="line"></span><br><span class="line">	async _wechat_login(options) &#123;</span><br><span class="line">		let result = &#123;</span><br><span class="line">			data:&#123;</span><br><span class="line">				openid:&apos;&apos;,</span><br><span class="line">				_id:&apos;&apos;,</span><br><span class="line">			&#125;,</span><br><span class="line">			msg:&apos;&apos;</span><br><span class="line">		&#125;</span><br><span class="line">		let m = await this.ctx.model.User.findOne(&#123;openid:options.openid&#125;)</span><br><span class="line">		console.log(&apos;m---&gt;&apos;,m);</span><br><span class="line">		if(m != null)&#123;			</span><br><span class="line">		 result = &#123;</span><br><span class="line">				data:&#123;</span><br><span class="line">					openid:m.openid,</span><br><span class="line">					_id:m._id</span><br><span class="line">				&#125;,</span><br><span class="line">				msg:&apos;find&apos;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;else&#123;</span><br><span class="line">			let res = await this.ctx.model.User.create(options)</span><br><span class="line">			console.log(&apos;res---&gt;&apos;,res)</span><br><span class="line">			result = &#123;</span><br><span class="line">				data:&#123;</span><br><span class="line">					openid:res.openid,</span><br><span class="line">					_id:res._id</span><br><span class="line">					&#125;,</span><br><span class="line">				msg: &apos;add&apos;</span><br><span class="line">			&#125;			</span><br><span class="line">		&#125;</span><br><span class="line">		return result;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module.exports = LoginService;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>model</li>
+</ul>
+<p><em>跨域设置</em></p>
+<p>安装egg-cors</p>
+<blockquote>
+<p>npm i egg-cors –save-dev</p>
+</blockquote>
+<p>在/config/plugin.js里面添加跨域插件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cors : &#123;</span><br><span class="line">    enable: true,</span><br><span class="line">    package: &apos;egg-cors&apos;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>在/config/config.default.js添加以下代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">config.cors = &#123;</span><br><span class="line">    origin: &apos;*&apos;, // 访问白名单,根据你自己的需要进行设置</span><br><span class="line">    allowMethods: &apos;GET,HEAD,PUT,POST,DELETE,PATCH&apos;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><em>配置mongoose</em></p>
+<p>安装</p>
+<blockquote>
+<p>npm install egg-mongoose –save</p>
+</blockquote>
+<p>配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// config/plugin.js</span><br><span class="line">exports.mongoose = &#123;</span><br><span class="line">    enable: true,</span><br><span class="line">    package: &apos;egg-mongoose&apos;,</span><br><span class="line">&#125;;</span><br><span class="line">// config/config.default.js</span><br><span class="line">config.mongoose = &#123;</span><br><span class="line">    url: &apos;mongodb://你的mongodb地址/apiExample&apos;,  //apiExample是你新建的数据库的名称</span><br><span class="line">    options: &#123;&#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>  model定义数据库字段</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--model/user.js--&gt;</span><br><span class="line"></span><br><span class="line">&apos;use strict&apos;;</span><br><span class="line"></span><br><span class="line">module.exports = app =&gt; &#123;</span><br><span class="line">  const mongoose = app.mongoose;</span><br><span class="line">  const Schema = mongoose.Schema;</span><br><span class="line"></span><br><span class="line">&lt;!--定义数据库字段--&gt;</span><br><span class="line">  const UserSchema = new Schema(&#123;</span><br><span class="line">    openid: &#123;</span><br><span class="line">      type: String,</span><br><span class="line">      unique: true,</span><br><span class="line">      required: true,</span><br><span class="line">    &#125;,</span><br><span class="line">	session_key: &#123;</span><br><span class="line">	  type: String,</span><br><span class="line">	  unique: true,</span><br><span class="line">	  required: true,</span><br><span class="line">	&#125;,</span><br><span class="line">  &#125;);</span><br><span class="line">  return mongoose.model(&apos;User&apos;, UserSchema);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/原生/" rel="tag"># 原生</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/03/跨页面传参/" rel="next" title="跨页面传参">
+                <i class="fa fa-chevron-left"></i> 跨页面传参
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/03/mongodb-1/" rel="prev" title="mongodb">
+                mongodb <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Jerry">
+            
+              <p class="site-author-name" itemprop="name">Jerry</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">72</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#整体登陆流程"><span class="nav-number">1.</span> <span class="nav-text">整体登陆流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#前期准备注意事项"><span class="nav-number">2.</span> <span class="nav-text">前期准备注意事项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小程序获得code"><span class="nav-number">3.</span> <span class="nav-text">小程序获得code</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后端获得openid-egg"><span class="nav-number">4.</span> <span class="nav-text">后端获得openid(egg)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#初始化项目"><span class="nav-number">4.1.</span> <span class="nav-text">初始化项目</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#写接口获得openid"><span class="nav-number">4.2.</span> <span class="nav-text">写接口获得openid</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#注意"><span class="nav-number">4.2.1.</span> <span class="nav-text">注意</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jerry</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
